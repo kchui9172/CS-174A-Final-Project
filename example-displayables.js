@@ -162,20 +162,20 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
         model_transform = mult( model_transform, translation( 0, 5, 0 ) );
         shapes_in_use.triangle       .draw( graphics_state, model_transform, purplePlastic );
 
-        model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        shapes_in_use.strip          .draw( graphics_state, model_transform, greyPlastic );
+        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
+        // shapes_in_use.strip          .draw( graphics_state, model_transform, greyPlastic );
 
-        model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        shapes_in_use.tetrahedron    .draw( graphics_state, model_transform, purplePlastic );
+        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
+        // shapes_in_use.tetrahedron    .draw( graphics_state, model_transform, purplePlastic );
 
-        model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        shapes_in_use.bad_tetrahedron.draw( graphics_state, model_transform, greyPlastic );
+        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
+        // shapes_in_use.bad_tetrahedron.draw( graphics_state, model_transform, greyPlastic );
 
-        model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        shapes_in_use.windmill       .draw( graphics_state, mult( model_transform, rotation( .7*graphics_state.animation_time, .1, .8, .1 ) ), purplePlastic );        
+        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
+        // shapes_in_use.windmill       .draw( graphics_state, mult( model_transform, rotation( .7*graphics_state.animation_time, .1, .8, .1 ) ), purplePlastic );        
         
-        shaders_in_use[ "Demo_Shader" ].activate();
-        model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        shapes_in_use.windmill       .draw( graphics_state, model_transform, placeHolder );
+        // shaders_in_use[ "Demo_Shader" ].activate();
+        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
+        // shapes_in_use.windmill       .draw( graphics_state, model_transform, placeHolder );
       }
   }, Animation );
