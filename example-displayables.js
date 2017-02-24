@@ -11,8 +11,8 @@ Declare_Any_Class( "Debug_Screen",  // Debug_Screen - An example of a displayabl
       },
     'init_keys': function( controls )
       { controls.add( "t",    this, function() { this.visible ^= 1;                                                                                                             } );
-        controls.add( "up",   this, function() { this.start_index = ( this.start_index + 1 ) % Object.keys( this.string_map ).length;                                           } );
-        controls.add( "down", this, function() { this.start_index = ( this.start_index - 1   + Object.keys( this.string_map ).length ) % Object.keys( this.string_map ).length; } );
+        //controls.add( "up",   this, function() { this.start_index = ( this.start_index + 1 ) % Object.keys( this.string_map ).length;                                           } );
+        //controls.add( "down", this, function() { this.start_index = ( this.start_index - 1   + Object.keys( this.string_map ).length ) % Object.keys( this.string_map ).length; } );
         this.controls = controls;
       },
     'update_strings': function( debug_screen_object )   // Strings that this displayable object (Debug_Screen) contributes to the UI:
@@ -51,17 +51,18 @@ Declare_Any_Class( "Debug_Screen",  // Debug_Screen - An example of a displayabl
 Declare_Any_Class( "Example_Camera",     // An example of a displayable object that our class Canvas_Manager can manage.  Adds both first-person and
   { 'construct': function( context )     // third-person style camera matrix controls to the canvas.
       { // 1st parameter below is our starting camera matrix.  2nd is the projection:  The matrix that determines how depth is treated.  It projects 3D points onto a plane.
-        context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0, -10), perspective(45, canvas.width/canvas.height, .1, 1000), 0 );
+        context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0, 0), perspective(45, canvas.width/canvas.height, .1, 1000), 0 );
         //context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0, 0), perspective(45, canvas.width/canvas.height, .1, 1000), 0 );
+        //this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 5, 0 ), looking: false } );
         this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 5, 0 ), looking: false } );
 
         // *** Mouse controls: ***
         this.mouse = { "from_center": vec2() };
-        var mouse_position = function( e ) { return vec2( e.clientX - canvas.width/2, e.clientY - canvas.height/2 ); };   // Measure mouse steering, for rotating the flyaround camera.
-        canvas.addEventListener( "mouseup",   ( function(self) { return function(e) { e = e || window.event;    self.mouse.anchor = undefined;              } } ) (this), false );
-        canvas.addEventListener( "mousedown", ( function(self) { return function(e) { e = e || window.event;    self.mouse.anchor = mouse_position(e);      } } ) (this), false );
-        canvas.addEventListener( "mousemove", ( function(self) { return function(e) { e = e || window.event;    self.mouse.from_center = mouse_position(e); } } ) (this), false );
-        canvas.addEventListener( "mouseout",  ( function(self) { return function(e) { self.mouse.from_center = vec2(); }; } ) (this), false );    // Stop steering if the mouse leaves the canvas.
+        // var mouse_position = function( e ) { return vec2( e.clientX - canvas.width/2, e.clientY - canvas.height/2 ); };   // Measure mouse steering, for rotating the flyaround camera.
+        // canvas.addEventListener( "mouseup",   ( function(self) { return function(e) { e = e || window.event;    self.mouse.anchor = undefined;              } } ) (this), false );
+        // canvas.addEventListener( "mousedown", ( function(self) { return function(e) { e = e || window.event;    self.mouse.anchor = mouse_position(e);      } } ) (this), false );
+        // canvas.addEventListener( "mousemove", ( function(self) { return function(e) { e = e || window.event;    self.mouse.from_center = mouse_position(e); } } ) (this), false );
+        // canvas.addEventListener( "mouseout",  ( function(self) { return function(e) { self.mouse.from_center = vec2(); }; } ) (this), false );    // Stop steering if the mouse leaves the canvas.
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       { controls.add( "Space", this, function() { this.thrust[1] = -1; } );     controls.add( "Space", this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
@@ -70,11 +71,15 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
         controls.add( "a",     this, function() { this.thrust[0] =  1; } );     controls.add( "a",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
         controls.add( "s",     this, function() { this.thrust[2] = -1; } );     controls.add( "s",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
         controls.add( "d",     this, function() { this.thrust[0] = -1; } );     controls.add( "d",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
-        controls.add( "f",     this, function() { this.looking  ^=  1; } );
         controls.add( ",",     this, function() { this.graphics_state.camera_transform = mult( rotation( 6, 0, 0,  1 ), this.graphics_state.camera_transform ); } );
         controls.add( ".",     this, function() { this.graphics_state.camera_transform = mult( rotation( 6, 0, 0, -1 ), this.graphics_state.camera_transform ); } );
-        controls.add( "o",     this, function() { this.origin = mult_vec( inverse( this.graphics_state.camera_transform ), vec4(0,0,0,1) ).slice(0,3)         ; } );
         controls.add( "r",     this, function() { this.graphics_state.camera_transform = mat4()                                                               ; } );
+
+        //Added control to rotate camera direction
+        controls.add( "left",     this, function() { console.log("left"); this.graphics_state.camera_transform = mult( rotation( 1, 0, -1, 0 ), this.graphics_state.camera_transform ); } );
+        controls.add( "right",     this, function() { console.log("right"); this.graphics_state.camera_transform = mult( rotation( 1, 0, 1, 0 ), this.graphics_state.camera_transform ); } );
+        controls.add( "up",     this, function() { console.log("up"); this.graphics_state.camera_transform = mult( rotation( 1, -1, 0, 0 ), this.graphics_state.camera_transform ); } );
+        controls.add( "down",     this, function() { console.log("down"); this.graphics_state.camera_transform = mult( rotation( 1, 1, 0, 0 ), this.graphics_state.camera_transform ); } );
       },
     'update_strings': function( user_interface_string_manager )       // Strings that this displayable object (Animation) contributes to the UI:
       { var C_inv = inverse( this.graphics_state.camera_transform ), pos = mult_vec( C_inv, vec4( 0, 0, 0, 1 ) ),
@@ -84,7 +89,8 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
         user_interface_string_manager.string_map["facing" ] = "Facing: "       + ( ( z_axis[0] > 0 ? "West " : "East ") + ( z_axis[1] > 0 ? "Down " : "Up " ) + ( z_axis[2] > 0 ? "North" : "South" ) );
       },
     'display': function( time )
-      { var leeway = 70,  degrees_per_frame = .0004 * this.graphics_state.animation_delta_time,
+      { 
+        var leeway = 70,  degrees_per_frame = .0004 * this.graphics_state.animation_delta_time,
                           meters_per_frame  =   .01 * this.graphics_state.animation_delta_time;
         // Third-person camera mode: Is a mouse drag occurring?
         if( this.mouse.anchor )

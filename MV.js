@@ -301,9 +301,11 @@ function rotation( angle, axis )
 {
     if ( !Array.isArray(axis) ) {
         axis = [ arguments[1], arguments[2], arguments[3] ];
+        //console.log("what: ",axis);
     }
 
     var v = normalize( axis.slice() );
+    //console.log(v);
 
     var x = v[0];
     var y = v[1];
@@ -312,6 +314,8 @@ function rotation( angle, axis )
     var c = Math.cos( radians(angle) );
     var omc = 1.0 - c;
     var s = Math.sin( radians(angle) );
+
+    //console.log("c: ", c, "s:", s);
 
     var result = mat4(
         vec4( x*x*omc + c,   x*y*omc - z*s, x*z*omc + y*s, 0.0 ),

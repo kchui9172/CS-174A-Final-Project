@@ -12,7 +12,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         this.graphics_state.lights = [ new Light( vec4( 0 % 7 - 3, 0 % 6 - 3, 0 % 5 - 3, 1 ), Color( 1, 0, 0, 1 ), 100000000 ),
                                          new Light( vec4( 0 % 6 - 3, 0 % 5 - 3, 0 % 7 - 3, 1 ), Color( 0, 1, 0, 1 ), 100000000 ) ];
 
-        var faceTextures = ["negy.jpg","posy.jpg","negx.jpg","posx.jpg","posz.jpg","negz.jpg"];
+        var faceTextures = ["negy.jpg","posy.jpg","posx.jpg","negx.jpg","posz.jpg","negz.jpg"];
         
         var random_material = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures[0]);
 
