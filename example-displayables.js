@@ -51,7 +51,8 @@ Declare_Any_Class( "Debug_Screen",  // Debug_Screen - An example of a displayabl
 Declare_Any_Class( "Example_Camera",     // An example of a displayable object that our class Canvas_Manager can manage.  Adds both first-person and
   { 'construct': function( context )     // third-person style camera matrix controls to the canvas.
       { // 1st parameter below is our starting camera matrix.  2nd is the projection:  The matrix that determines how depth is treated.  It projects 3D points onto a plane.
-        context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0,-25), perspective(45, canvas.width/canvas.height, .1, 1000), 0 );
+        context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0,-75), perspective(45, canvas.width/canvas.height, .1, 1000), 0 );
+        //context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0, 0), perspective(45, canvas.width/canvas.height, .1, 1000), 0 );
         this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 5, 0 ), looking: false } );
 
         // *** Mouse controls: ***
@@ -157,7 +158,7 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
 
         /**********************************
         Start coding down here!!!!
-        **********************************/                                     // From here on down it's just some example shapes drawn for you -- replace them with your own!
+        **********************************/                                     
 
         model_transform = mult( model_transform, translation( 0, 5, 0 ) );
         shapes_in_use.triangle       .draw( graphics_state, model_transform, purplePlastic );

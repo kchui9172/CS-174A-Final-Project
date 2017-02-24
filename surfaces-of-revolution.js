@@ -83,8 +83,8 @@ Declare_Any_Class( "Cube",    // A cube inserts six square strips into its lists
   { populate: function()  
       { for( var i = 0; i < 3; i++ )                    
           for( var j = 0; j < 2; j++ )
-          { var square_transform = mult( rotation( i == 0 ? 90 : 0, vec3( 1, 0, 0 ) ), rotation( 180 * j - ( i == 1 ? 90 : 0 ), vec3( 0, 1, 0 ) ) );
-                square_transform = mult( square_transform, translation(0, 0, 1) );
+          { var square_transform = mult( rotation( i == 0 ? 90 : 0, vec3( 10, 0, 0 ) ), rotation( 180 * j - ( i == 1 ? 90 : 0 ), vec3( 0, 10, 0 ) ) );
+                square_transform = mult( square_transform, translation(0, 0, 10) );
             Square.prototype.insert_transformed_copy_into( this, [], square_transform );             
           } 
       } }, Shape )
