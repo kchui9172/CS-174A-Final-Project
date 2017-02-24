@@ -12,6 +12,7 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="subdivision-sphere.js"    ></script>
   <script type="text/javascript" src="surfaces-tester.js"       ></script>
   <script type="text/javascript" src="bee-scene.js"             ></script>
+  <script type="text/javascript" src="environment_mapping.js"             ></script>
   <script type="text/javascript"> "use strict"  
     window.onload = function init()           // ********************* OUR WHOLE PROGRAM'S ENTRY POINT ********************* 
       {	
@@ -22,7 +23,18 @@ index.html - The web page document containing the canvas (drawing surface), that
         shaders_in_use[ "Demo_Shader" ] = new Funny_Shader           ( g_state );
                                                                                   // IMPORTANT: -- You have to include all your new images in here:
         texture_filenames_to_load.push( "text.png" );                             // Put all our texture images in the GPU.
-        for( var i = 0; i < texture_filenames_to_load.length; i++ ) textures_in_use[ texture_filenames_to_load[i] ] = ( new Texture( texture_filenames_to_load[i], false ) );
+
+
+        //PUSH ENVIRONMENT MAPPING TEXTURES
+        texture_filenames_to_load.push("negx.jpg");
+        texture_filenames_to_load.push("negy.jpg");
+        texture_filenames_to_load.push("negz.jpg");
+        texture_filenames_to_load.push("posx.jpg");
+        texture_filenames_to_load.push("posy.jpg");
+        texture_filenames_to_load.push("posz.jpg");
+
+        for( var i = 0; i < texture_filenames_to_load.length; i++ ) 
+          textures_in_use[ texture_filenames_to_load[i] ] = ( new Texture( texture_filenames_to_load[i], false ) );
         
         main_canvas.register_display_object( new Debug_Screen     ( main_canvas ) );  // We instantiate some of our custom "Animation" subclasses and register these displayable
         //main_canvas.register_display_object( new Example_Animation( main_canvas ) );  // objects to their master "Canvas_Manager" object -- which OpenGL calls upon every time a
@@ -30,8 +42,9 @@ index.html - The web page document containing the canvas (drawing surface), that
 
 
         /*TO TEST NEW DEMO CODE*/
-        main_canvas.register_display_object( new Surfaces_Tester  ( main_canvas ) );
-        // main_canvas.register_display_object( new Bee_Scene        ( main_canvas ) );
+        //main_canvas.register_display_object( new Surfaces_Tester  ( main_canvas ) );
+        //main_canvas.register_display_object( new Bee_Scene        ( main_canvas ) );
+        main_canvas.register_display_object( new Environment_Mapping        ( main_canvas ) );
         main_canvas.render();
       }
 

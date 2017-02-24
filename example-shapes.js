@@ -33,7 +33,9 @@ Declare_Any_Class( "Square",    // A square, demonstrating shared vertices.  On 
   { 'populate': function()      // In these cases there's no reason not to re-use values of the common vertices between triangles.  This makes all the
       {                         // vertex arrays (position, normals, etc) smaller and more cache friendly.
          this.positions     .push( vec3(-10,-10,0), vec3(10,-10,0), vec3(-10,10,0), vec3(10,10,0) ); // Specify the 4 vertices -- the point cloud that our Square needs.
-         this.normals       .push( vec3(0,0,10), vec3(0,0,10), vec3(0,0,10), vec3(0,0,10) );     // ...
+         //this.positions     .push( vec3(-1,-1,0), vec3(1,-1,0), vec3(-1,1,0), vec3(1,1,0) );
+         this.normals       .push( vec3(0,0,-10), vec3(0,0,-10), vec3(0,0,-10), vec3(0,0,-10) );     // ...
+         //this.normals       .push( vec3(0,0,1), vec3(0,0,1), vec3(0,0,1), vec3(0,0,1) ); 
          this.texture_coords.push( vec2(0,0),   vec2(1,0),   vec2(0,1),   vec2(1,1)   );     // ...
          this.indices       .push( 0, 1, 2,     1, 3, 2 );                                   // Two triangles this time, indexing into four distinct vertices.
       }
