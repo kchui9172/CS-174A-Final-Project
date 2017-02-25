@@ -2,6 +2,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
   { 'construct': function( context )
       { this.graphics_state  = context.shared_scratchpad.graphics_state;
         shapes_in_use["face"] = new Square();
+        shapes_in_use["x"] = new Tetrahedron(true);
       },
 
     'display': function(time)
@@ -14,17 +15,21 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
 
         var faceTextures = ["negy.jpg","posy.jpg","posx.jpg","negx.jpg","posz.jpg","negz.jpg"];
         
-        var random_material = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures[0]);
+        var purplePlastic = new Material( Color( .9,.5,.9,1 ), .4, .4, .8, 40 );
 
 
         for (var i = 0; i < 3; i++){
           for (var j = 0; j < 2; j++){
             var faceImage = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures[(i*2)+j]);              
-            var square_transform = mult( rotation( i == 0 ? 90 : 0, vec3( 1, 0, 0 ) ), rotation( 180 * j - ( i == 1 ? 90 : 0 ), vec3( 0, 1, 0 ) ) );
+            var square_transform = mult( rotation( i == 0 ? 90 : 0, vec3( 10, 0, 0 ) ), rotation( 180 * j - ( i == 1 ? 90 : 0 ), vec3( 0, 10, 0 ) ) );
             square_transform = mult( square_transform, translation(0, 0, 100) );
             shapes_in_use.face.draw(this.graphics_state, square_transform, faceImage); 
           }
         }
- 
+        
+        model_transform = mult(model_transform, translation(0,-10,0));
+        shapes_in_use.x.draw(this.graphics_state, model_transform, purplePlastic);
+
+
       }
   }, Animation );

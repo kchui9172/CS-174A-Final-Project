@@ -289,7 +289,10 @@ Declare_Any_Class( "Texture",                                                   
                 { gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); gl.generateMipmap(gl.TEXTURE_2D); }
               else
                   gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+                  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
               texture.loaded = true;
+
             }
           } ) ( this, bool_mipMap, bool_will_copy_to_GPU );
         if( bool_will_copy_to_GPU ) this.image.src = this.filename;
