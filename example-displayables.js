@@ -54,7 +54,7 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
         context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0, 0), perspective(45, canvas.width/canvas.height, .1, 1000), 0 );
         //context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0, 0), perspective(45, canvas.width/canvas.height, .1, 1000), 0 );
         //this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 5, 0 ), looking: false } );
-        this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 5, 0 ), looking: false } );
+        this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 0, 0 ), looking: false } );
 
         // *** Mouse controls: ***
         this.mouse = { "from_center": vec2() };
@@ -67,13 +67,73 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       { controls.add( "Space", this, function() { this.thrust[1] = -1; } );     controls.add( "Space", this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
         controls.add( "z",     this, function() { this.thrust[1] =  1; } );     controls.add( "z",     this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
-        controls.add( "w",     this, function() { this.thrust[2] =  1; } );     controls.add( "w",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
-        controls.add( "a",     this, function() { this.thrust[0] =  1; } );     controls.add( "a",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
-        controls.add( "s",     this, function() { this.thrust[2] = -1; } );     controls.add( "s",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
-        controls.add( "d",     this, function() { this.thrust[0] = -1; } );     controls.add( "d",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
+        //controls.add( "w",     this, function() { this.thrust[2] =  1; } );     controls.add( "w",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
+        //controls.add( "a",     this, function() { this.thrust[0] =  1; } );     controls.add( "a",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
+        //controls.add( "s",     this, function() { this.thrust[2] = -1; } );     controls.add( "s",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
+        //controls.add( "d",     this, function() { this.thrust[0] = -1; } );     controls.add( "d",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
         controls.add( ",",     this, function() { this.graphics_state.camera_transform = mult( rotation( 6, 0, 0,  1 ), this.graphics_state.camera_transform ); } );
         controls.add( ".",     this, function() { this.graphics_state.camera_transform = mult( rotation( 6, 0, 0, -1 ), this.graphics_state.camera_transform ); } );
         controls.add( "r",     this, function() { this.graphics_state.camera_transform = mat4()                                                               ; } );
+
+        controls.add( "w",     this, 
+          function() { 
+            var C_inv = inverse(this.graphics_state.camera_transform);
+            var pos = mult_vec(C_inv, vec4(0,0,0,1));
+            console.log("posw:",pos);
+            if (pos[2] <= -90){
+              console.log("can't leave cube");
+              this.thrust[2] =  0;
+            }else{
+                this.thrust[2] =  1; 
+            }
+          } );     
+        controls.add( "w",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
+
+        controls.add( "a",     this, 
+          function() { 
+            var C_inv = inverse(this.graphics_state.camera_transform);
+            var pos = mult_vec(C_inv, vec4(0,0,0,1));
+            console.log("posa:",pos);
+            if (pos[0] <= -80){
+              console.log("can't leave cube");
+              this.thrust[0] =  0;
+            }else{
+                this.thrust[0] =  1; 
+            }
+          } );     
+
+        controls.add( "a",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
+
+        controls.add( "s",     this, 
+          function() { 
+            var C_inv = inverse(this.graphics_state.camera_transform);
+            var pos = mult_vec(C_inv, vec4(0,0,0,1));
+            console.log("poss:",pos);
+            if (pos[2] >= 90){
+              console.log("can't leave cube");
+              this.thrust[2] = 0;
+            }else{
+                this.thrust[2] = -1;  
+            }
+          } );    
+        controls.add( "s",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
+
+        controls.add( "d",     this, 
+          function() {
+            var C_inv = inverse(this.graphics_state.camera_transform);
+            var pos = mult_vec(C_inv, vec4(0,0,0,1));
+            console.log("posd:",pos);
+            if (pos[0] >= 80){
+              console.log("can't leave cube");
+              this.thrust[0] =  0;
+            }else{
+              this.thrust[0] = -1; 
+            } 
+          } );     
+
+        controls.add( "d",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
+
+
 
         //Added control to rotate camera direction
         controls.add( "left",     this, function() { console.log("left"); this.graphics_state.camera_transform = mult( rotation( 1, 0, -1, 0 ), this.graphics_state.camera_transform ); } );

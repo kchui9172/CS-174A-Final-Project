@@ -21,13 +21,14 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         for (var i = 0; i < 3; i++){
           for (var j = 0; j < 2; j++){
             var faceImage = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures[(i*2)+j]);              
-            var square_transform = mult( rotation( i == 0 ? 90 : 0, vec3( 10, 0, 0 ) ), rotation( 180 * j - ( i == 1 ? 90 : 0 ), vec3( 0, 10, 0 ) ) );
+            var square_transform = mult( rotation( i == 0 ? 90 : 0, vec3( 100, 0, 0 ) ), rotation( 180 * j - ( i == 1 ? 90 : 0 ), vec3( 0, 100, 0 ) ) );
             square_transform = mult( square_transform, translation(0, 0, 100) );
+            //square_transform = mult( square_transform, translation(0, 0, 1) );
             shapes_in_use.face.draw(this.graphics_state, square_transform, faceImage); 
           }
         }
         
-        model_transform = mult(model_transform, translation(0,-10,0));
+        model_transform = mult(model_transform, translation(0,0,-99));
         shapes_in_use.x.draw(this.graphics_state, model_transform, purplePlastic);
 
 
