@@ -77,15 +77,6 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
             gl_Position = projection_camera_model_transform * object_space_pos;
             fTexCoord = vTexCoord;
 
-            if( COLOR_NORMALS || COLOR_VERTICES )   // Bypass phong lighting if we're lighting up vertices some other way
-            {
-              VERTEX_COLOR   = COLOR_NORMALS ? ( vec4( N[0] > 0.0 ? N[0] : sin( animation_time * 3.0   ) * -N[0],             // In normals mode, rgb color = xyz quantity.  Flash if it's negative.
-                                                       N[1] > 0.0 ? N[1] : sin( animation_time * 15.0  ) * -N[1],
-                                                       N[2] > 0.0 ? N[2] : sin( animation_time * 45.0  ) * -N[2] , 1.0 ) ) : vColor;
-              VERTEX_COLOR.a = VERTEX_COLOR.w;
-              return;
-            }
-
             pos = ( camera_model_transform * object_space_pos ).xyz;
             E = normalize( -pos );
 
@@ -97,14 +88,24 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
               dist[i]  = lightPosition[i].w > 0.0 ? distance((camera_transform * lightPosition[i]).xyz, pos) : distance( attenuation_factor[i] * -lightPosition[i].xyz, object_space_pos.xyz );
             }
 
+            if( COLOR_NORMALS || COLOR_VERTICES )   // Bypass phong lighting if we're lighting up vertices some other way
+            {
+              VERTEX_COLOR   = COLOR_NORMALS ? ( vec4( N[0] > 0.0 ? N[0] : sin( animation_time * 3.0   ) * -N[0],             // In normals mode, rgb color = xyz quantity.  Flash if it's negative.
+                                                       N[1] > 0.0 ? N[1] : sin( animation_time * 15.0  ) * -N[1],
+                                                       N[2] > 0.0 ? N[2] : sin( animation_time * 45.0  ) * -N[2] , 1.0 ) ) : vColor;
+              VERTEX_COLOR.a = VERTEX_COLOR.w;
+              return;
+            }
+
+
             if( GOURAUD )         // Gouraud mode?  If so, finalize the whole color calculation here in the vertex shader, one per vertex, before we even break it down to pixels in the fragment shader.
             {
               VERTEX_COLOR = vec4( shapeColor.xyz * ambient, shapeColor.w);
               for(int i = 0; i < N_LIGHTS; i++)
               {
                 float attenuation_multiplier = 1.0 / (1.0 + attenuation_factor[i] * (dist[i] * dist[i]));
-                float diffuse  = 0.0;                                                                                 // TODO
-                float specular = 0.0;                                                                                 // TODO
+                float diffuse  = max(dot(L[i], N), 0.0);
+                float specular = pow(max(dot(H[i], N), 0.0), smoothness);
 
                 VERTEX_COLOR.xyz += attenuation_multiplier * ( shapeColor.xyz * diffusivity * diffuse + lightColor[i].xyz * shininess * specular );
               }
@@ -145,47 +146,19 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
             }
 
             vec4 tex_color = texture2D( texture, fTexCoord );
-            if( USE_TEXTURE || COLOR_VERTICES ) {
-              gl_FragColor = vec4( tex_color.xyz * ( USE_TEXTURE ? ambient : 0.0 ) + VERTEX_COLOR.xyz * ( COLOR_VERTICES ? ambient : 0.0 ), shapeColor.w );
-            } else {
-              gl_FragColor = vec4( shapeColor.xyz * ambient,  shapeColor.w ) ;
-            }
+            vec4 base_color = COLOR_VERTICES ? VERTEX_COLOR : shapeColor;
+            gl_FragColor = tex_color * ( USE_TEXTURE ? ambient : 0.0 ) + vec4( base_color.xyz * ambient, USE_TEXTURE ? base_color.w * tex_color.w : base_color.w ) ;
 
             for( int i = 0; i < N_LIGHTS; i++ )
             {
               float attenuation_multiplier = 1.0 / (1.0 + attenuation_factor[i] * (dist[i] * dist[i]));
-              float diffuse  = 0.0;                                                                                 // TODO
-              float specular = 0.0;                                                                                 // TODO
+              float diffuse  = max(dot(normalize(L[i]), normalize(N)), 0.0);
+              float specular = pow(max(dot(normalize(H[i]), normalize(N)), 0.0), smoothness);
 
-              gl_FragColor.xyz += attenuation_multiplier * (shapeColor.xyz * diffusivity * diffuse  + lightColor[i].xyz * shininess * specular );
+              gl_FragColor.xyz += attenuation_multiplier * (base_color.xyz * diffusivity * diffuse  + lightColor[i].xyz * shininess * specular );
             }
             gl_FragColor.a = gl_FragColor.w;
           }`;
       }
   }, Shader );
 
-Declare_Any_Class( "Funny_Shader",                    // This one borrows almost everything from Phong_or_Gouraud_Shader.
-  { 'fragment_glsl_code_string': function()           // ********* FRAGMENT SHADER *********
-      { return `
-          // An alternate fragment shader to the above that's a procedural function of time.
-          precision mediump float;
-
-          uniform float animation_time;
-          uniform bool USE_TEXTURE;
-          varying vec2 fTexCoord;   // per-fragment interpolated values from the vertex shader
-
-          void main()
-          {
-            if( !USE_TEXTURE ) return;    // USE_TEXTURE must be enabled for any shape using this shader; otherwise texture_coords lookup will fail.
-
-            float a = animation_time, u = fTexCoord.x, v = fTexCoord.y;
-
-            gl_FragColor = vec4(
-              2.0 * u * sin(17.0 * u ) + 3.0 * v * sin(11.0 * v ) + 1.0 * sin(13.0 * a),
-              3.0 * u * sin(18.0 * u ) + 4.0 * v * sin(12.0 * v ) + 2.0 * sin(14.0 * a),
-              4.0 * u * sin(19.0 * u ) + 5.0 * v * sin(13.0 * v ) + 3.0 * sin(15.0 * a),
-              5.0 * u * sin(20.0 * u ) + 6.0 * v * sin(14.0 * v ) + 4.0 * sin(16.0 * a));
-            gl_FragColor.a = gl_FragColor.w;
-          }`;
-      }
-  }, Phong_or_Gouraud_Shader );

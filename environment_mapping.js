@@ -5,6 +5,8 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         shapes_in_use["face"] = new Square();
         shapes_in_use.model_fox       = new ModelFox();
         shapes_in_use.model_bear       = new ModelBear();
+        this.graphics_state.lights = [ new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000 ),
+                                       new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000 ) ];
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
@@ -22,9 +24,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         var model_transform = mat4(); 
         shaders_in_use[ "Default" ].activate();
 
-        this.graphics_state.lights = [ new Light( vec4( 0 % 7 - 3, 0 % 6 - 3, 0 % 5 - 3, 1 ), Color( 1, 0, 0, 1 ), 100000000 ),
-                                         new Light( vec4( 0 % 6 - 3, 0 % 5 - 3, 0 % 7 - 3, 1 ), Color( 0, 1, 0, 1 ), 100000000 ) ];
-
         var faceTextures = ["negy.jpg","posy.jpg","posx.jpg","negx.jpg","posz.jpg","negz.jpg"];
         
         var purplePlastic = new Material( Color( .9,.5,.9,1 ), .9, .4, .8, 40 );
@@ -36,7 +35,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
             square_transform = mult( square_transform, translation(0, 0, 100) );
             //square_transform = mult( square_transform, translation(0, 0, 1) );
             shapes_in_use.face.draw(this.graphics_state, square_transform, faceImage);               
-
           }
         }
         var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t) ];
