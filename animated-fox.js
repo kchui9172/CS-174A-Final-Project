@@ -5,7 +5,7 @@ Declare_Any_Class( "ModelFox", {
     var vil3 = vil * 3;
     var morph = model.morphTargets.length;
 
-    var model_loaded = load_rome_model(model, vil, morph);
+    var model_loaded = load_rome_model(model, vil, morph, -200);
     var p1 = model_loaded.p1;
     var norms = model_loaded.norm;
     var cols = model_loaded.col1;
@@ -17,7 +17,7 @@ Declare_Any_Class( "ModelFox", {
         this.positions2.push(vec3(p1[i+1][j], p1[i+1][j+1], p1[i+1][j+2]));
         this.normals.push(vec3(norms[i][j], norms[i][j+1], norms[i][j+2]));
         this.normals2.push(vec3(norms[i+1][j], norms[i+1][j+1], norms[i+1][j+2]));
-        this.colors.push(vec3(cols[i][j], cols[i][j+1], cols[i][j+2]));
+        this.colors.push(vec4(cols[j], cols[j+1], cols[j+2], 1));
       }
     }
     for (var j = 0; j < vil * 3; j+=3) {
@@ -25,7 +25,7 @@ Declare_Any_Class( "ModelFox", {
       this.positions2.push(vec3(p1[0][j], p1[0][j+1], p1[0][j+2]));
       this.normals.push(vec3(norms[morph - 1][j], norms[morph - 1][j+1], norms[morph - 1][j+2]));
       this.normals2.push(vec3(norms[0][j], norms[0][j+1], norms[0][j+2]));
-      this.colors.push(vec3(cols[morph - 1][j], cols[morph - 1][j+1], cols[morph - 1][j+2]));
+      this.colors.push(vec4(cols[j], cols[j+1], cols[j+2], 1));
     }
     this.all_indices = [];
     for (var i = 0; i < morph; i++) {
@@ -36,6 +36,7 @@ Declare_Any_Class( "ModelFox", {
       this.all_indices.push(ind);
     }
     this.indices = this.all_indices[0];
+    this.color_vertices = true;
     this.animated = true;
     this.set_interval(10);
   },

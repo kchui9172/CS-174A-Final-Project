@@ -145,7 +145,12 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
             }
 
             vec4 tex_color = texture2D( texture, fTexCoord );
-            gl_FragColor = tex_color * ( USE_TEXTURE ? ambient : 0.0 ) + vec4( shapeColor.xyz * ambient, USE_TEXTURE ? shapeColor.w * tex_color.w : shapeColor.w ) ;
+            if( USE_TEXTURE || COLOR_VERTICES ) {
+              gl_FragColor = vec4( tex_color.xyz * ( USE_TEXTURE ? ambient : 0.0 ) + VERTEX_COLOR.xyz * ( COLOR_VERTICES ? ambient : 0.0 ), shapeColor.w );
+            } else {
+              gl_FragColor = vec4( shapeColor.xyz * ambient,  shapeColor.w ) ;
+            }
+
             for( int i = 0; i < N_LIGHTS; i++ )
             {
               float attenuation_multiplier = 1.0 / (1.0 + attenuation_factor[i] * (dist[i] * dist[i]));

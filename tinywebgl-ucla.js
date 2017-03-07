@@ -23,7 +23,7 @@ function Declare_Any_Class( name, methods, superclass = Object, scope = window )
 Declare_Any_Class( "Shape",
   {
     'construct': function( args )
-      { this.define_data_members( { positions: [], normals: [], texture_coords: [], colors: [], indices: [], indexed: true, sent_to_GPU: false, animated: false, animatefactor: -1, positions2: [], normals2: []} );
+      { this.define_data_members( { positions: [], normals: [], texture_coords: [], color_vertices : false, colors: [], indices: [], indexed: true, sent_to_GPU: false, animated: false, animatefactor: -1, positions2: [], normals2: []} );
         this.populate.apply( this, arguments ); // Immediately fill in appropriate vertices via polymorphism, calling whichever sub-class's populate().
       },
     'insert_transformed_copy_into': function( recipient, args, points_transform = mat4() )
@@ -86,6 +86,14 @@ Declare_Any_Class( "Shape",
           g_addrs.shader_attributes[4].enabled = false;
           g_addrs.shader_attributes[5].enabled = false;
           gl.uniform1f ( g_addrs.animatefactor_loc, -1 );
+        }
+
+        if( this.color_vertices ) {
+          g_addrs.shader_attributes[3].enabled = true;
+          gl.uniform1i ( g_addrs.COLOR_VERTICES_loc, 1 );
+        } else {
+          g_addrs.shader_attributes[3].enabled = false;
+          gl.uniform1i ( g_addrs.COLOR_VERTICES_loc, 0 );
         }
 
         for( var i = 0, it = g_addrs.shader_attributes[0]; i < g_addrs.shader_attributes.length, it = g_addrs.shader_attributes[i]; i++ )
@@ -222,7 +230,7 @@ Declare_Any_Class( "Graphics_Addresses",  // Find out the memory addresses inter
         this.shader_attributes = [ new Shader_Attribute( gl.getAttribLocation( program, "vPosition" ), 3, gl.FLOAT, true,  false, 0, 0 ),  // Pointers to all shader
                                    new Shader_Attribute( gl.getAttribLocation( program, "vNormal"   ), 3, gl.FLOAT, true,  false, 0, 0 ),  // attribute variables
                                    new Shader_Attribute( gl.getAttribLocation( program, "vTexCoord" ), 2, gl.FLOAT, false, false, 0, 0 ),
-                                   new Shader_Attribute( gl.getAttribLocation( program, "vColor"    ), 3, gl.FLOAT, false, false, 0, 0 ),
+                                   new Shader_Attribute( gl.getAttribLocation( program, "vColor"    ), 4, gl.FLOAT, false, false, 0, 0 ),
                                    new Shader_Attribute( gl.getAttribLocation( program, "vPosition2"), 3, gl.FLOAT, false, false, 0, 0 ),
                                    new Shader_Attribute( gl.getAttribLocation( program, "vNormal2"  ), 3, gl.FLOAT, false, false, 0, 0 ) ];
 
