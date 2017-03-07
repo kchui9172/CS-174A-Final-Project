@@ -185,6 +185,7 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
         shapes_in_use.tetrahedron     = new Tetrahedron( true );      // it many times per call to display to get multiple cubes in the scene.
         shapes_in_use.windmill        = new Windmill( 10 );
         shapes_in_use.model_fox       = new ModelFox();
+        shapes_in_use.model_bear       = new ModelBear();
         
         shapes_in_use.triangle_flat        = Triangle.prototype.auto_flat_shaded_version();
         shapes_in_use.strip_flat           = Square.prototype.auto_flat_shaded_version();
@@ -219,7 +220,7 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
 
         // *** Materials: *** Declare new ones as temps when needed; they're just cheap wrappers for some numbers.
         // 1st parameter:  Color (4 floats in RGBA format), 2nd: Ambient light, 3rd: Diffuse reflectivity, 4th: Specular reflectivity, 5th: Smoothness exponent, 6th: Texture image.
-        var purplePlastic = new Material( Color( .9,.5,.9,1 ), .4, .4, .8, 40 ), // Omit the final (string) parameter if you want no texture
+        var purplePlastic = new Material( Color( .9,.5,.9,1 ), .8, .4, .8, 40 ), // Omit the final (string) parameter if you want no texture
               greyPlastic = new Material( Color( .5,.5,.5,1 ), .4, .8, .4, 20 ),
               placeHolder = new Material( Color(0,0,0,0), 0,0,0,0, "Blank" );
 
@@ -233,6 +234,11 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
         model_transform = mult( mult( model_transform, translation( 0, 0, 0 ) ), scale(1/40, 1/40, 1/40));
         shapes_in_use.model_fox.set_step( t );
         shapes_in_use.model_fox       .draw( graphics_state, model_transform, purplePlastic );
+
+        model_transform = mat4();
+        model_transform = mult( mult( model_transform, translation( 15, 0, 0 ) ), scale(1/80, 1/80, 1/80));
+        shapes_in_use.model_bear.set_step( t );
+        shapes_in_use.model_bear       .draw( graphics_state, model_transform, purplePlastic );
 
         // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
         // shapes_in_use.strip          .draw( graphics_state, model_transform, greyPlastic );

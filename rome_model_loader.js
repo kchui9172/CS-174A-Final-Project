@@ -1,6 +1,6 @@
 //  Loop subdivision splines for animated Rome project models   8.04.2013
 
-function load_rome_model(model, vil, morph,  complexity) {
+function load_rome_model(model, vil, morph, z_offset = 0, complexity = 1) {
   var faces = [], ce = [];  // Control Edges
   var lastP, vi = [], ei0 = [], ei = [], fi0 = [], fi = [];
   var n = 1, vil, fil, cpl, cpl3, cel2;
@@ -217,7 +217,7 @@ function load_rome_model(model, vil, morph,  complexity) {
     p[i] = new Float32Array(3*vil);
     p1[i] = new Float32Array(3*vil);
     norm[i] = new Float32Array(3*vil);
-    for (var k = 1; k < cpl3; k += 3) model.morphTargets[i][k] -= 200;
+    for (var k = 1; k < cpl3; k += 3) model.morphTargets[i][k] += z_offset;
   }
   Loop()
   return {
