@@ -36,6 +36,22 @@ Declare_Any_Class( "ModelFox", {
       this.all_indices.push(ind);
     }
     this.indices = this.all_indices[0];
+    this.animated = true;
+    this.set_interval(10);
+  },
+  'set_interval': function( interval ) {
+    this.interval = interval;
+    this.step_per_frame = interval / this.all_indices.length;
+  },
+  'set_step': function( step ) {
+    var current_frame = Math.floor(step / this.step_per_frame) % this.all_indices.length;
+    if (current_frame != this.current_frame) {
+      this.current_frame = current_frame;
+      this.indices = this.all_indices[this.current_frame];
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.index_buffer);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(this.indices), gl.STATIC_DRAW);
+    }
+    this.animatefactor = ( step % this.step_per_frame )/ this.step_per_frame;
   },
   'draw': function( graphics_state, model_transform, material ) {
     Shape.prototype.draw.call(this, graphics_state, model_transform, material);

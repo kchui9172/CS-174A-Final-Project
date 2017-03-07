@@ -164,6 +164,7 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
         // shapes_in_use.triangle       .draw( graphics_state, model_transform, purplePlastic );
 
         model_transform = mult( mult( model_transform, translation( 0, 0, 0 ) ), scale(1/40, 1/40, 1/40));
+        shapes_in_use.model_fox.set_step( t );
         shapes_in_use.model_fox       .draw( graphics_state, model_transform, purplePlastic );
 
         // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
