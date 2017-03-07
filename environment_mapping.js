@@ -1,11 +1,22 @@
 Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object that our class Canvas_Manager can manage.  This one draws the scene's 3D shapes.
   { 'construct': function( context )
       { this.graphics_state  = context.shared_scratchpad.graphics_state;
+        this.shared_scratchpad    = context.shared_scratchpad;
         shapes_in_use["face"] = new Square();
-        shapes_in_use["x"] = new Tetrahedron(true);
-        shapes_in_use["t"] = new Teapot();
+        shapes_in_use.model_fox       = new ModelFox();
+        shapes_in_use.model_bear       = new ModelBear();
       },
-
+    'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
+      {
+        controls.add( "ALT+g", this, function() { this.shared_scratchpad.graphics_state.gouraud       ^= 1; } );   // Make the keyboard toggle some
+        controls.add( "ALT+n", this, function() { this.shared_scratchpad.graphics_state.color_normals ^= 1; } );   // GPU flags on and off.
+        controls.add( "ALT+a", this, function() { this.shared_scratchpad.animate                      ^= 1; } );
+      },
+    'update_strings': function( user_interface_string_manager )       // Strings that this displayable object (Animation) contributes to the UI:
+      {
+        user_interface_string_manager.string_map["time"]    = "Animation Time: " + Math.round( this.shared_scratchpad.graphics_state.animation_time )/1000 + "s";
+        user_interface_string_manager.string_map["animate"] = "Animation " + (this.shared_scratchpad.animate ? "on" : "off") ;
+      },
     'display': function(time)
       {
         var model_transform = mat4(); 
@@ -16,8 +27,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
 
         var faceTextures = ["negy.jpg","posy.jpg","posx.jpg","negx.jpg","posz.jpg","negz.jpg"];
         
-        var purplePlastic = new Material( Color( .9,.5,.9,1 ), .4, .4, .8, 40 );
-
+        var purplePlastic = new Material( Color( .9,.5,.9,1 ), .9, .4, .8, 40 );
 
         for (var i = 0; i < 3; i++){
           for (var j = 0; j < 2; j++){
@@ -29,13 +39,16 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
 
           }
         }
-        
-        model_transform = mult(model_transform, translation(0,0,-90));
-        model_transform = mult(model_transform, scale(.1,.1,.1));
-        shapes_in_use.t.draw(this.graphics_state, model_transform, purplePlastic);
+        var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t) ];
 
+        model_transform = mult( mult( model_transform, translation( 10, 0, -30 ) ), scale(1/40, 1/40, 1/40));
+        shapes_in_use.model_fox.set_step( t * 8 );
+        shapes_in_use.model_fox       .draw( this.graphics_state, model_transform, purplePlastic );
 
-
+        model_transform = mat4();
+        model_transform = mult( mult( model_transform, translation( -10, 0, -30 ) ), scale(1/80, 1/80, 1/80));
+        shapes_in_use.model_bear.set_step( t * 2 );
+        shapes_in_use.model_bear       .draw( this.graphics_state, model_transform, purplePlastic );
 
       }
   }, Animation );
