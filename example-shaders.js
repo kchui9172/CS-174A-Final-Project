@@ -47,12 +47,12 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
           const int N_LIGHTS = 2;               // Be sure to keep this line up to date as you add more lights
 
           attribute vec4 vColor;
-          attribute vec3 vPosition, vNormal;
+          attribute vec3 vPosition, vNormal, vPosition2, vNormal2;
           attribute vec2 vTexCoord;
           varying vec2 fTexCoord;
           varying vec3 N, E, pos;
 
-          uniform float ambient, diffusivity, shininess, smoothness, animation_time, attenuation_factor[N_LIGHTS];
+          uniform float ambient, diffusivity, shininess, smoothness, animation_time, attenuation_factor[N_LIGHTS], animatefactor;
           uniform bool GOURAUD, COLOR_NORMALS, COLOR_VERTICES;    // Flags for alternate shading methods
 
           uniform vec4 lightPosition[N_LIGHTS], lightColor[N_LIGHTS], shapeColor;
@@ -65,9 +65,15 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
 
           void main()
           {
-            N = normalize( camera_model_transform_normal * vNormal );
+            vec3 vPosition_a = vPosition;
+            vec3 vNormal_a = vNormal;
+            if(animatefactor >= 0.0) {
+              vPosition_a = mix(vPosition, vPosition2, animatefactor);
+              vNormal_a = mix(vNormal, vNormal2, animatefactor);
+            }
+            N = normalize( camera_model_transform_normal * vNormal_a );
 
-            vec4 object_space_pos = vec4(vPosition, 1.0);
+            vec4 object_space_pos = vec4(vPosition_a, 1.0);
             gl_Position = projection_camera_model_transform * object_space_pos;
             fTexCoord = vTexCoord;
 
