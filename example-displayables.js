@@ -184,6 +184,7 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
         shapes_in_use.bad_tetrahedron = new Tetrahedron( false );      // For example we'll only create one "cube" blueprint in the GPU, but we'll re-use
         shapes_in_use.tetrahedron     = new Tetrahedron( true );      // it many times per call to display to get multiple cubes in the scene.
         shapes_in_use.windmill        = new Windmill( 10 );
+        shapes_in_use.model_fox       = new ModelFox();
         
         shapes_in_use.triangle_flat        = Triangle.prototype.auto_flat_shaded_version();
         shapes_in_use.strip_flat           = Square.prototype.auto_flat_shaded_version();
@@ -226,8 +227,11 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
         Start coding down here!!!!
         **********************************/                                     
 
-        model_transform = mult( model_transform, translation( 0, 5, 0 ) );
-        shapes_in_use.triangle       .draw( graphics_state, model_transform, purplePlastic );
+        // model_transform = mult( model_transform, translation( 0, 0, 0 ) );
+        // shapes_in_use.triangle       .draw( graphics_state, model_transform, purplePlastic );
+
+        model_transform = mult( mult( model_transform, translation( 0, 0, 0 ) ), scale(1/40, 1/40, 1/40));
+        shapes_in_use.model_fox       .draw( graphics_state, model_transform, purplePlastic );
 
         // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
         // shapes_in_use.strip          .draw( graphics_state, model_transform, greyPlastic );

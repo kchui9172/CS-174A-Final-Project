@@ -23,7 +23,7 @@ function Declare_Any_Class( name, methods, superclass = Object, scope = window )
 Declare_Any_Class( "Shape",
   {
     'construct': function( args )
-      { this.define_data_members( { positions: [], normals: [], texture_coords: [], indices: [], indexed: true, sent_to_GPU: false } );
+      { this.define_data_members( { positions: [], normals: [], texture_coords: [], colors: [], indices: [], indexed: true, sent_to_GPU: false, animated: false, animatefactor: -1, positions2: [], normals2: []} );
         this.populate.apply( this, arguments ); // Immediately fill in appropriate vertices via polymorphism, calling whichever sub-class's populate().
       },
     'insert_transformed_copy_into': function( recipient, args, points_transform = mat4() )
@@ -46,13 +46,24 @@ Declare_Any_Class( "Shape",
           switch(i) {
             case 0: gl.bufferData(gl.ARRAY_BUFFER, flatten(this.positions), gl.STATIC_DRAW); break;
             case 1: gl.bufferData(gl.ARRAY_BUFFER, flatten(this.normals), gl.STATIC_DRAW); break;
-            case 2: gl.bufferData(gl.ARRAY_BUFFER, flatten(this.texture_coords), gl.STATIC_DRAW); break;  }
+            case 2: gl.bufferData(gl.ARRAY_BUFFER, flatten(this.texture_coords), gl.STATIC_DRAW); break;
+            case 3: gl.bufferData(gl.ARRAY_BUFFER, flatten(this.colors), gl.STATIC_DRAW); break;  }
         }
         if( this.indexed )
         { gl.getExtension("OES_element_index_uint");
           this.index_buffer = gl.createBuffer();
           gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.index_buffer);
           gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(this.indices), gl.STATIC_DRAW);
+        }
+        if( this.animated ) {
+          for( var i = 4; i < 6; i++ )
+          { this.graphics_card_buffers.push( gl.createBuffer() );
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.graphics_card_buffers[i] );
+            switch(i) {
+              case 4: gl.bufferData(gl.ARRAY_BUFFER, flatten(this.positions2), gl.STATIC_DRAW); break;
+              case 5: gl.bufferData(gl.ARRAY_BUFFER, flatten(this.normals2), gl.STATIC_DRAW); break;
+            }
+          }
         }
         this.sent_to_GPU = true;
       },      
@@ -66,6 +77,16 @@ Declare_Any_Class( "Shape",
           if( textures_in_use[ material.texture_filename ] ) gl.bindTexture( gl.TEXTURE_2D, textures_in_use[ material.texture_filename ].id );
         }
         else  { gl.uniform1f ( g_addrs.USE_TEXTURE_loc, 0 );   g_addrs.shader_attributes[2].enabled = false; }
+
+        if( this.animated) {
+          g_addrs.shader_attributes[4].enabled = true;
+          g_addrs.shader_attributes[5].enabled = true;
+          gl.uniform1f ( g_addrs.animatefactor_loc, this.animatefactor );
+        } else {
+          g_addrs.shader_attributes[4].enabled = false;
+          g_addrs.shader_attributes[5].enabled = false;
+          gl.uniform1f ( g_addrs.animatefactor_loc, -1 );
+        }
 
         for( var i = 0, it = g_addrs.shader_attributes[0]; i < g_addrs.shader_attributes.length, it = g_addrs.shader_attributes[i]; i++ )
           if( it.enabled )
@@ -198,10 +219,12 @@ Declare_Any_Class( "Graphics_Addresses",  // Find out the memory addresses inter
         { 'construct': function(        index, size, type, enabled, normalized, stride, pointer )
           { this.define_data_members( { index, size, type, enabled, normalized, stride, pointer } ); } } )
 
-        this.shader_attributes = [ new Shader_Attribute( gl.getAttribLocation( program, "vPosition"), 3, gl.FLOAT, true,  false, 0, 0 ),  // Pointers to all shader
-                                   new Shader_Attribute( gl.getAttribLocation( program, "vNormal"  ), 3, gl.FLOAT, true,  false, 0, 0 ),  // attribute variables
-                                   new Shader_Attribute( gl.getAttribLocation( program, "vTexCoord"), 2, gl.FLOAT, false, false, 0, 0 ),
-                                   new Shader_Attribute( gl.getAttribLocation( program, "vColor"   ), 3, gl.FLOAT, false, false, 0, 0 ) ];
+        this.shader_attributes = [ new Shader_Attribute( gl.getAttribLocation( program, "vPosition" ), 3, gl.FLOAT, true,  false, 0, 0 ),  // Pointers to all shader
+                                   new Shader_Attribute( gl.getAttribLocation( program, "vNormal"   ), 3, gl.FLOAT, true,  false, 0, 0 ),  // attribute variables
+                                   new Shader_Attribute( gl.getAttribLocation( program, "vTexCoord" ), 2, gl.FLOAT, false, false, 0, 0 ),
+                                   new Shader_Attribute( gl.getAttribLocation( program, "vColor"    ), 3, gl.FLOAT, false, false, 0, 0 ),
+                                   new Shader_Attribute( gl.getAttribLocation( program, "vPosition2"), 3, gl.FLOAT, false, false, 0, 0 ),
+                                   new Shader_Attribute( gl.getAttribLocation( program, "vNormal2"  ), 3, gl.FLOAT, false, false, 0, 0 ) ];
 
         var num_uniforms = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
         for (var i = 0; i < num_uniforms; ++i)
