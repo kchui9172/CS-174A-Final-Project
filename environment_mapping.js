@@ -5,8 +5,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         shapes_in_use["face"] = new Square();
         shapes_in_use.model_fox       = new ModelFox();
         shapes_in_use.model_bear       = new ModelBear();
-        this.graphics_state.lights = [ new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000 ),
-                                       new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000 ) ];
+        this.graphics_state.lights = [ new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000)];
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
@@ -28,9 +27,15 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         
         var purplePlastic = new Material( Color( .9,.5,.9,1 ), .9, .4, .8, 40 );
 
+        //Set environment mapping
         for (var i = 0; i < 3; i++){
           for (var j = 0; j < 2; j++){
-            var faceImage = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures[(i*2)+j]);              
+            //if (i == 0 && j == 0){
+              var faceImage = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures[(i*2)+j]);       
+            //}else{
+            //  var faceImage = purplePlastic;
+            //}
+                     
             var square_transform = mult( rotation( i == 0 ? 90 : 0, vec3( 100, 0, 0 ) ), rotation( 180 * j - ( i == 1 ? 90 : 0 ), vec3( 0, 100, 0 ) ) );
             square_transform = mult( square_transform, translation(0, 0, 100) );
             //square_transform = mult( square_transform, translation(0, 0, 1) );
@@ -39,13 +44,14 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         }
         var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t) ];
 
-        model_transform = mult( mult( model_transform, translation( 10, 0, -30 ) ), scale(1/40, 1/40, 1/40));
+        //Draw animals
+        model_transform = mult( mult( model_transform, translation( 10, -12, -80 ) ), scale(1/90, 1/90, 1/90));
         shapes_in_use.model_fox.set_step( t * 8 );
         shapes_in_use.model_fox       .draw( this.graphics_state, model_transform, purplePlastic );
 
         model_transform = mat4();
-        model_transform = mult( mult( model_transform, translation( -10, 0, -30 ) ), scale(1/80, 1/80, 1/80));
-        shapes_in_use.model_bear.set_step( t * 2 );
+        model_transform = mult( mult( model_transform, translation( -90, -12, -30 ) ), scale(1/80, 1/80, 1/80));
+        shapes_in_use.model_bear.set_step( t * 1 );
         shapes_in_use.model_bear       .draw( this.graphics_state, model_transform, purplePlastic );
 
       }

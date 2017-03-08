@@ -58,19 +58,10 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
 
         // *** Mouse controls: ***
         this.mouse = { "from_center": vec2() };
-        // var mouse_position = function( e ) { return vec2( e.clientX - canvas.width/2, e.clientY - canvas.height/2 ); };   // Measure mouse steering, for rotating the flyaround camera.
-        // canvas.addEventListener( "mouseup",   ( function(self) { return function(e) { e = e || window.event;    self.mouse.anchor = undefined;              } } ) (this), false );
-        // canvas.addEventListener( "mousedown", ( function(self) { return function(e) { e = e || window.event;    self.mouse.anchor = mouse_position(e);      } } ) (this), false );
-        // canvas.addEventListener( "mousemove", ( function(self) { return function(e) { e = e || window.event;    self.mouse.from_center = mouse_position(e); } } ) (this), false );
-        // canvas.addEventListener( "mouseout",  ( function(self) { return function(e) { self.mouse.from_center = vec2(); }; } ) (this), false );    // Stop steering if the mouse leaves the canvas.
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       { controls.add( "Space", this, function() { this.thrust[1] = -1; } );     controls.add( "Space", this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
         controls.add( "z",     this, function() { this.thrust[1] =  1; } );     controls.add( "z",     this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
-        //controls.add( "w",     this, function() { this.thrust[2] =  1; } );     controls.add( "w",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
-        //controls.add( "a",     this, function() { this.thrust[0] =  1; } );     controls.add( "a",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
-        //controls.add( "s",     this, function() { this.thrust[2] = -1; } );     controls.add( "s",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
-        //controls.add( "d",     this, function() { this.thrust[0] = -1; } );     controls.add( "d",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
         controls.add( ",",     this, function() { this.graphics_state.camera_transform = mult( rotation( 6, 0, 0,  1 ), this.graphics_state.camera_transform ); } );
         controls.add( ".",     this, function() { this.graphics_state.camera_transform = mult( rotation( 6, 0, 0, -1 ), this.graphics_state.camera_transform ); } );
         controls.add( "r",     this, function() { this.graphics_state.camera_transform = mat4()                                                               ; } );
@@ -228,9 +219,6 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
         Start coding down here!!!!
         **********************************/                                     
 
-        // model_transform = mult( model_transform, translation( 0, 0, 0 ) );
-        // shapes_in_use.triangle       .draw( graphics_state, model_transform, purplePlastic );
-
         model_transform = mult( mult( model_transform, translation( 0, 0, 0 ) ), scale(1/40, 1/40, 1/40));
         shapes_in_use.model_fox.set_step( t );
         shapes_in_use.model_fox       .draw( graphics_state, model_transform, purplePlastic );
@@ -240,20 +228,5 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
         shapes_in_use.model_bear.set_step( t );
         shapes_in_use.model_bear       .draw( graphics_state, model_transform, purplePlastic );
 
-        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        // shapes_in_use.strip          .draw( graphics_state, model_transform, greyPlastic );
-
-        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        // shapes_in_use.tetrahedron    .draw( graphics_state, model_transform, purplePlastic );
-
-        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        // shapes_in_use.bad_tetrahedron.draw( graphics_state, model_transform, greyPlastic );
-
-        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        // shapes_in_use.windmill       .draw( graphics_state, mult( model_transform, rotation( .7*graphics_state.animation_time, .1, .8, .1 ) ), purplePlastic );        
-        
-        // shaders_in_use[ "Demo_Shader" ].activate();
-        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        // shapes_in_use.windmill       .draw( graphics_state, model_transform, placeHolder );
       }
   }, Animation );
