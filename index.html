@@ -16,7 +16,12 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="rome_model_loader.js"     ></script>
   <script type="text/javascript" src="animated-fox.js"          ></script>
   <script type="text/javascript" src="animated-bear.js"         ></script>
+  <script type="text/javascript" src="buffer-loader.js"          ></script>
+  <script type="text/javascript" src="sound.js"          ></script>
   <script type="text/javascript"> "use strict"  
+
+    var context;
+    var bufferLoader;
     window.onload = function init()           // ********************* OUR WHOLE PROGRAM'S ENTRY POINT ********************* 
       {	
         var main_canvas = new Canvas_Manager( "gl-canvas", Color( 0, 0, 0, 1 ) ),    // Make the master canvas manager.  Set your background color here too
@@ -42,9 +47,23 @@ index.html - The web page document containing the canvas (drawing surface), that
         //main_canvas.register_display_object( new Example_Animation( main_canvas ) );  // objects to their master "Canvas_Manager" object -- which OpenGL calls upon every time a
         main_canvas.register_display_object( new Example_Camera   ( main_canvas ) );  // draw / keyboard / mouse event happens.
 
-
         main_canvas.register_display_object( new Environment_Mapping        ( main_canvas ) );
         main_canvas.render();
+
+        // Sound preparation
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        context = new AudioContext();
+
+        bufferLoader = new BufferLoader(
+        context,
+        [
+          '8073.wav',
+        ],
+        finishedLoading
+        );
+
+        bufferLoader.load();
+        console.log("here");
       }
 
     window.requestAnimFrame = ( function()						// Use the correct browser's version of requestAnimationFrame() when queue-ing up re-display events. 
