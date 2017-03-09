@@ -8,6 +8,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         shapes_in_use.model_eagle       = new ModelEagle();
         shapes_in_use.model_horse       = new ModelHorse();
         shapes_in_use.model_lion       = new ModelLion();
+        shapes_in_use.model_parrot       = new ModelParrot();
         this.graphics_state.lights = [ new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000 ),
                                        new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000 ) ];
       },
@@ -65,5 +66,10 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         model_transform = mult( mult( model_transform, translation( -30, -12, -60 ) ), scale(1/60, 1/60, 1/60));
         shapes_in_use.model_lion.set_step( t * 4 );
         shapes_in_use.model_lion       .draw( this.graphics_state, model_transform, purplePlastic );
+
+        model_transform = mat4();
+        model_transform = mult( mult( model_transform, translation( -10, 40, -60 ) ), scale(1/10, 1/10, 1/10));
+        shapes_in_use.model_parrot.set_step( t * 4 );
+        shapes_in_use.model_parrot       .draw( this.graphics_state, model_transform, purplePlastic );
       }
   }, Animation );
