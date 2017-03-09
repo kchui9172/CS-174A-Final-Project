@@ -5,7 +5,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         shapes_in_use["face"] = new Square();
         shapes_in_use.model_fox       = new ModelFox();
         shapes_in_use.model_bear       = new ModelBear();
-        shapes_in_use["door"] = new Square1();
+        shapes_in_use["door"] = new Cube();
         this.graphics_state.lights = [ new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000)];
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
@@ -27,7 +27,9 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         var model_transform = mat4(); 
         shaders_in_use[ "Default" ].activate();
 
-        var faceTextures = ["negy.jpg","posy.jpg","posx.jpg","negx.jpg","posz.jpg","negz.jpg"];
+        var faceTextures1 = ["/pics/negy1.jpg","/pics/posy1.jpg","/pics/posx1.jpg","/pics/negx1.jpg","/pics/posz1.jpg","/pics/negz1.jpg"];
+        var faceTextures2 = ["/pics/negy2.jpg","/pics/posy2.jpg","/pics/posx2.jpg","/pics/negx2.jpg","/pics/posz2.jpg","/pics/negz2.jpg"];
+        var faceTextures3 = ["/pics/negy3.jpg","/pics/posy3.jpg","/pics/posx3.jpg","/pics/negx3.jpg","/pics/posz3.jpg","/pics/negz3.jpg"];
         
         var purplePlastic = new Material( Color( .9,.5,.9,1 ), .9, .4, .8, 40 );
         var standardMat = new Material (Color(1,0,0,1), .9,.4,.8,40);
@@ -36,10 +38,14 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         for (var i = 0; i < 3; i++){
           for (var j = 0; j < 2; j++){
             if (this.shared_scratchpad.worldNum == 2){
-              var faceImage = purplePlastic;
+              var faceImage = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures2[(i*2)+j]);
+            }
+            else if (this.shared_scratchpad.worldNum == 3){
+              var faceImage = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures3[(i*2)+j]);
+              //var faceImage = purplePlastic;
             }
             else{
-              var faceImage = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures[(i*2)+j]);                 
+              var faceImage = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures1[(i*2)+j]);                 
             }
     
                      
@@ -50,9 +56,11 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
           }
         }
 
+        var doorMaterial = new Material( Color (0,0,0,1), 1,0,0,0, "door.png");
+
         model_transform = mat4();
-        model_transform = mult( mult( model_transform, translation( -45, 0, -90 ) ), scale(10,10,10));
-        shapes_in_use.door.draw(this.graphics_state, model_transform, standardMat);
+        model_transform = mult( mult( model_transform, translation( -45, 0, -90 ) ), scale(10,20,.2));
+        shapes_in_use.door.draw(this.graphics_state, model_transform, doorMaterial);
 
         var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t) ];
 

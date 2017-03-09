@@ -150,9 +150,11 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
       { 
 
         //console.log("z", this.scratchPad.cameraPos[2]);
-        if (this.scratchPad.cameraPos[2] <= -90 && this.scratchPad.cameraPos[0] <= -40 && this.scratchPad.cameraPos[0] >= -50){
+        if (this.scratchPad.cameraPos[2] <= -80 && this.scratchPad.cameraPos[0] <= -40 && this.scratchPad.cameraPos[0] >= -50){
           console.log("changing worlds");
-          this.scratchPad.worldNum = 2;
+          //this.scratchPad.worldNum = 2;
+          this.scratchPad.worldNum = (this.scratchPad.worldNum % 3) + 1;
+          console.log(this.scratchPad.worldNum);
           this.scratchPad.cameraPos = [0,0,0,1];
           this.graphics_state.camera_transform = mat4();
         }
