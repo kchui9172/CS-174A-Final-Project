@@ -5,6 +5,9 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         shapes_in_use["face"] = new Square();
         shapes_in_use.model_fox       = new ModelFox();
         shapes_in_use.model_bear       = new ModelBear();
+        shapes_in_use.model_eagle       = new ModelEagle();
+        shapes_in_use.model_horse       = new ModelHorse();
+        shapes_in_use.model_lion       = new ModelLion();
         this.graphics_state.lights = [ new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000 ),
                                        new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000 ) ];
       },
@@ -44,9 +47,23 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         shapes_in_use.model_fox       .draw( this.graphics_state, model_transform, purplePlastic );
 
         model_transform = mat4();
-        model_transform = mult( mult( model_transform, translation( -10, 0, -30 ) ), scale(1/80, 1/80, 1/80));
+        model_transform = mult( mult( model_transform, translation( 20, 0, -30 ) ), scale(1/80, 1/80, 1/80));
         shapes_in_use.model_bear.set_step( t * 2 );
         shapes_in_use.model_bear       .draw( this.graphics_state, model_transform, purplePlastic );
 
+        model_transform = mat4();
+        model_transform = mult( mult( model_transform, translation( -10, 40, -80 ) ), scale(1/100, 1/100, 1/100));
+        shapes_in_use.model_eagle.set_step( t * 4 );
+        shapes_in_use.model_eagle       .draw( this.graphics_state, model_transform, purplePlastic );
+
+        model_transform = mat4();
+        model_transform = mult( mult( model_transform, translation( -10, -12, -40 ) ), scale(1/60, 1/60, 1/60));
+        shapes_in_use.model_horse.set_step( t * 4 );
+        shapes_in_use.model_horse       .draw( this.graphics_state, model_transform, purplePlastic );
+
+        model_transform = mat4();
+        model_transform = mult( mult( model_transform, translation( -30, -12, -60 ) ), scale(1/60, 1/60, 1/60));
+        shapes_in_use.model_lion.set_step( t * 4 );
+        shapes_in_use.model_lion       .draw( this.graphics_state, model_transform, purplePlastic );
       }
   }, Animation );
