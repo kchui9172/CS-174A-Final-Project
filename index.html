@@ -20,8 +20,8 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="sound.js"          ></script>
   <script type="text/javascript"> "use strict"  
 
-    var context;
-    var bufferLoader;
+    var soundContext;
+    var soundBuffer;
     window.onload = function init()           // ********************* OUR WHOLE PROGRAM'S ENTRY POINT ********************* 
       {	
         var main_canvas = new Canvas_Manager( "gl-canvas", Color( 0, 0, 0, 1 ) ),    // Make the master canvas manager.  Set your background color here too
@@ -52,18 +52,22 @@ index.html - The web page document containing the canvas (drawing surface), that
 
         // Sound preparation
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        context = new AudioContext();
+        soundContext = new AudioContext();
 
-        bufferLoader = new BufferLoader(
-        context,
+        soundBuffer = new BufferLoader(
+        soundContext,
         [
-          '8073.wav',
+          'Sounds/background.wav',
+          'Sounds/fox.wav'
+          'Sounds/lion.wav'
+          'Sounds/hawk.wav'
+          'Sounds/horse.wav'
+          'Sounds/bear.wav'
         ],
         finishedLoading
         );
 
-        bufferLoader.load();
-        console.log("here");
+        soundBuffer.load();
       }
 
     window.requestAnimFrame = ( function()						// Use the correct browser's version of requestAnimationFrame() when queue-ing up re-display events. 
