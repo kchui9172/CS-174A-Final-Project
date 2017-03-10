@@ -16,6 +16,27 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         //load door object
         shapes_in_use["door"] = new Cube();
         this.graphics_state.lights = [ new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000)];
+        scene_param = {
+          x_min: -100,
+          x_max: 100,
+          y_min: 0,
+          y_max: 100,
+          z_min: -100,
+          z_max: 100,
+          min_speed: 10,
+          max_speed: 100,
+        };
+        var scene_manager = new Scene_Manager(scene_param);
+        this.last_t = 0;
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse1', vec3(-10, -12, -40), 1/60, 100, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse2', vec3(10, -12, -40), 1/60, 100, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse3', vec3(10, -12, -20), 1/60, 100, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse4', vec3(-10, -12, -20), 1/60, 100, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse5', vec3(-10, -12, 20), 1/60, 100, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse6', vec3(10, -12, 20), 1/60, 100, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse7', vec3(10, -12, 40), 1/60, 100, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse8', vec3(-10, -12, 40), 1/60, 100, 4);
+        this.scene_manager = scene_manager;
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
@@ -69,16 +90,25 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         //Draw animals, different depending on world
         var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t) ];
 
-        if (this.shared_scratchpad.worldNum == 1){ //want: goat, horse, cow, and retriever
-          model_transform = mat4();
-          model_transform = mult( mult( model_transform, translation( -10, -12, -40 ) ), scale(1/60, 1/60, 1/60));
-          shapes_in_use.model_horse.set_step( t * 4 );
-          shapes_in_use.model_horse       .draw( this.graphics_state, model_transform, purplePlastic );
 
-          model_transform = mat4();
-          model_transform = mult( mult( model_transform, translation( -10, 40, -60 ) ), scale(1/10, 1/10, 1/10));
-          shapes_in_use.model_parrot.set_step( t * 4 );
-          shapes_in_use.model_parrot       .draw( this.graphics_state, model_transform, purplePlastic );
+        // if (this.shared_scratchpad.worldNum == 1){ //want: goat, horse, cow, and retriever
+        //   model_transform = mat4();
+        //   model_transform = mult( mult( model_transform, translation( -10, -12, -40 ) ), scale(1/60, 1/60, 1/60));
+        //   shapes_in_use.model_horse.set_step( t * 4 );
+        //   shapes_in_use.model_horse       .draw( this.graphics_state, model_transform, purplePlastic );
+
+        if (this.shared_scratchpad.worldNum == 1){
+          this.scene_manager.elaps_time( t - this.last_t );
+          var objs = this.scene_manager.get_shape_transforms();
+          for (obj of objs) {
+            obj.shape.set_step(obj.animation_step);
+            obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
+          }
+
+          // model_transform = mat4();
+          // model_transform = mult( mult( model_transform, translation( -10, 40, -60 ) ), scale(1/10, 1/10, 1/10));
+          // shapes_in_use.model_parrot.set_step( t * 4 );
+          // shapes_in_use.model_parrot       .draw( this.graphics_state, model_transform, purplePlastic );
         }
         else if (this.shared_scratchpad.worldNum == 2){ //want: elk, moose, bear, and fox
           model_transform = mat4();
@@ -102,6 +132,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
           shapes_in_use.model_lion.set_step( t * 4 );
           shapes_in_use.model_lion       .draw( this.graphics_state, model_transform, purplePlastic );
         }
+        this.last_t = t;
 
       }
   }, Animation );
