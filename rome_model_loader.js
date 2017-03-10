@@ -80,6 +80,7 @@ function load_rome_model(model, vil, morph, z_offset = 0, complexity = 1) {
     while(i < mf.length){
       faces.push(mf[i+1], mf[i+2], mf[i+3]);
       if(mf[i] == 10) i += 8;
+      else if(mf[i] == 74) i += 9;
       else if(mf[i] == 2) i += 5;
       else alert("face error");
     }

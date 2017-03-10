@@ -7,6 +7,11 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         shapes_in_use.model_bear       = new ModelBear();
         shapes_in_use["door"] = new Cube();
         this.graphics_state.lights = [ new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000)];
+
+        shapes_in_use.model_eagle       = new ModelEagle();
+        shapes_in_use.model_horse       = new ModelHorse();
+        shapes_in_use.model_lion       = new ModelLion();
+        shapes_in_use.model_parrot       = new ModelParrot();
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
@@ -67,12 +72,15 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
 
         if (this.shared_scratchpad.worldNum == 1){
           model_transform = mat4();
-          model_transform = mult( mult( model_transform, translation( 10, -12, -80 ) ), scale(1/90, 1/90, 1/90));
-          shapes_in_use.model_fox.set_step( t * 8 );
-          shapes_in_use.model_fox       .draw( this.graphics_state, model_transform, purplePlastic );
-        }
+          model_transform = mult( mult( model_transform, translation( -10, -12, -40 ) ), scale(1/60, 1/60, 1/60));
+          shapes_in_use.model_horse.set_step( t * 4 );
+          shapes_in_use.model_horse       .draw( this.graphics_state, model_transform, purplePlastic );
 
-        else{
+          model_transform = mat4();
+          model_transform = mult( mult( model_transform, translation( -10, 40, -60 ) ), scale(1/10, 1/10, 1/10));
+          shapes_in_use.model_parrot.set_step( t * 4 );
+          shapes_in_use.model_parrot       .draw( this.graphics_state, model_transform, purplePlastic );
+        }else if (this.shared_scratchpad.worldNum == 2){
           model_transform = mat4();
           model_transform = mult( mult( model_transform, translation( 10, -12, -80 ) ), scale(1/90, 1/90, 1/90));
           shapes_in_use.model_fox.set_step( t * 8 );
@@ -82,8 +90,17 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
           model_transform = mult( mult( model_transform, translation( -90, -12, -30 ) ), scale(1/80, 1/80, 1/80));
           shapes_in_use.model_bear.set_step( t * 1 );
           shapes_in_use.model_bear       .draw( this.graphics_state, model_transform, purplePlastic );
-        }
+        }else{
+          model_transform = mat4();
+          model_transform = mult( mult( model_transform, translation( -10, 40, -80 ) ), scale(1/100, 1/100, 1/100));
+          shapes_in_use.model_eagle.set_step( t * 4 );
+          shapes_in_use.model_eagle       .draw( this.graphics_state, model_transform, purplePlastic );
 
+          model_transform = mat4();
+          model_transform = mult( mult( model_transform, translation( -30, -12, -60 ) ), scale(1/60, 1/60, 1/60));
+          shapes_in_use.model_lion.set_step( t * 4 );
+          shapes_in_use.model_lion       .draw( this.graphics_state, model_transform, purplePlastic );
+        }
 
       }
   }, Animation );
