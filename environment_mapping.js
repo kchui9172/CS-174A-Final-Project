@@ -25,14 +25,14 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         };
         var scene_manager = new Scene_Manager(scene_param);
         this.last_t = 0;
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse1', vec3(-10, -12, -40), 1/60, 100, 4);
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse2', vec3(10, -12, -40), 1/60, 100, 4);
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse3', vec3(10, -12, -20), 1/60, 100, 4);
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse4', vec3(-10, -12, -20), 1/60, 100, 4);
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse5', vec3(-10, -12, 20), 1/60, 100, 4);
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse6', vec3(10, -12, 20), 1/60, 100, 4);
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse7', vec3(10, -12, 40), 1/60, 100, 4);
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse8', vec3(-10, -12, 40), 1/60, 100, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse1', vec3(-10, -12, -40), 1/60, 50, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse2', vec3(10, -12, -40), 1/60, 50, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse3', vec3(10, -12, -20), 1/60, 50, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse4', vec3(-10, -12, -20), 1/60, 50, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse5', vec3(-10, -12, 20), 1/60, 50, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse6', vec3(10, -12, 20), 1/60, 50, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse7', vec3(10, -12, 40), 1/60, 50, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse8', vec3(-10, -12, 40), 1/60, 50, 4);
         this.scene_manager = scene_manager;
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
@@ -95,6 +95,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         if (this.shared_scratchpad.worldNum == 1){
           this.scene_manager.elaps_time( t - this.last_t );
           var objs = this.scene_manager.get_shape_transforms();
+          var obj_positions = this.scene_manager.get_shape_positions();
           for (obj of objs) {
             obj.shape.set_step(obj.animation_step);
             obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
