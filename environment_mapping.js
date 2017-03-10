@@ -32,7 +32,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         var faceTextures3 = ["/pics/negy3.jpg","/pics/posy3.jpg","/pics/posx3.jpg","/pics/negx3.jpg","/pics/posz3.jpg","/pics/negz3.jpg"];
         
         var purplePlastic = new Material( Color( .9,.5,.9,1 ), .9, .4, .8, 40 );
-        var standardMat = new Material (Color(1,0,0,1), .9,.4,.8,40);
 
         //Set environment mapping
         for (var i = 0; i < 3; i++){
@@ -42,7 +41,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
             }
             else if (this.shared_scratchpad.worldNum == 3){
               var faceImage = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures3[(i*2)+j]);
-              //var faceImage = purplePlastic;
             }
             else{
               var faceImage = new Material( Color( 0,0,0,1), 1, 0, 0, 0, faceTextures1[(i*2)+j]);                 
@@ -58,6 +56,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
 
         var doorMaterial = new Material( Color (0,0,0,1), 1,0,0,0, "door.png");
 
+        //draw door
         model_transform = mat4();
         model_transform = mult( mult( model_transform, translation( -45, 0, -90 ) ), scale(10,20,.2));
         shapes_in_use.door.draw(this.graphics_state, model_transform, doorMaterial);
@@ -65,16 +64,25 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t) ];
 
         //Draw animals
-        model_transform = mat4();
-        model_transform = mult( mult( model_transform, translation( 10, -12, -80 ) ), scale(1/90, 1/90, 1/90));
-        shapes_in_use.model_fox.set_step( t * 8 );
-        shapes_in_use.model_fox       .draw( this.graphics_state, model_transform, purplePlastic );
 
-        model_transform = mat4();
-        model_transform = mult( mult( model_transform, translation( -90, -12, -30 ) ), scale(1/80, 1/80, 1/80));
-        shapes_in_use.model_bear.set_step( t * 1 );
-        shapes_in_use.model_bear       .draw( this.graphics_state, model_transform, purplePlastic );
+        if (this.shared_scratchpad.worldNum == 1){
+          model_transform = mat4();
+          model_transform = mult( mult( model_transform, translation( 10, -12, -80 ) ), scale(1/90, 1/90, 1/90));
+          shapes_in_use.model_fox.set_step( t * 8 );
+          shapes_in_use.model_fox       .draw( this.graphics_state, model_transform, purplePlastic );
+        }
 
+        else{
+          model_transform = mat4();
+          model_transform = mult( mult( model_transform, translation( 10, -12, -80 ) ), scale(1/90, 1/90, 1/90));
+          shapes_in_use.model_fox.set_step( t * 8 );
+          shapes_in_use.model_fox       .draw( this.graphics_state, model_transform, purplePlastic );
+
+          model_transform = mat4();
+          model_transform = mult( mult( model_transform, translation( -90, -12, -30 ) ), scale(1/80, 1/80, 1/80));
+          shapes_in_use.model_bear.set_step( t * 1 );
+          shapes_in_use.model_bear       .draw( this.graphics_state, model_transform, purplePlastic );
+        }
 
 
       }
