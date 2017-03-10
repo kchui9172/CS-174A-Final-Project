@@ -20,8 +20,11 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
           y_max: 100,
           z_min: -100,
           z_max: 100,
-          min_speed: 10,
-          max_speed: 100,
+          min_speed: 1,
+          max_speed: 5,
+          repulsion_const: 80,
+          wall_weight: 200,
+          time_factor: 10 
         };
         var scene_manager = new Scene_Manager(scene_param);
         this.last_t = 0;
@@ -30,9 +33,10 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse3', vec3(10, -12, -20), 1/60, 50, 4);
         scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse4', vec3(-10, -12, -20), 1/60, 50, 4);
         scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse5', vec3(-10, -12, 20), 1/60, 50, 4);
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse6', vec3(10, -12, 20), 1/60, 50, 4);
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse7', vec3(10, -12, 40), 1/60, 50, 4);
-        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse8', vec3(-10, -12, 40), 1/60, 50, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse6', vec3(10, -12, 20), 1/100, 20, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse7', vec3(10, -12, 40), 1/100, 20, 4);
+        scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse8', vec3(-10, -12, 40), 1/100, 20, 4);
+        scene_manager.register_shape(shapes_in_use.model_parrot, 'parrot', 'parrot1', vec3(-10, 40, -60), 1/10, 10, 4, true);
         this.scene_manager = scene_manager;
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
@@ -54,9 +58,9 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         var model_transform = mat4(); 
         shaders_in_use[ "Default" ].activate();
 
-        var faceTextures1 = ["/pics/negy1.jpg","/pics/posy1.jpg","/pics/posx1.jpg","/pics/negx1.jpg","/pics/posz1.jpg","/pics/negz1.jpg"];
-        var faceTextures2 = ["/pics/negy2.jpg","/pics/posy2.jpg","/pics/posx2.jpg","/pics/negx2.jpg","/pics/posz2.jpg","/pics/negz2.jpg"];
-        var faceTextures3 = ["/pics/negy3.jpg","/pics/posy3.jpg","/pics/posx3.jpg","/pics/negx3.jpg","/pics/posz3.jpg","/pics/negz3.jpg"];
+        var faceTextures1 = ["pics/negy1.jpg","pics/posy1.jpg","pics/posx1.jpg","pics/negx1.jpg","pics/posz1.jpg","pics/negz1.jpg"];
+        var faceTextures2 = ["pics/negy2.jpg","pics/posy2.jpg","pics/posx2.jpg","pics/negx2.jpg","pics/posz2.jpg","pics/negz2.jpg"];
+        var faceTextures3 = ["pics/negy3.jpg","pics/posy3.jpg","pics/posx3.jpg","pics/negx3.jpg","pics/posz3.jpg","pics/negz3.jpg"];
         
         var purplePlastic = new Material( Color( .9,.5,.9,1 ), .9, .4, .8, 40 );
 
@@ -100,11 +104,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
             obj.shape.set_step(obj.animation_step);
             obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
           }
-
-          model_transform = mat4();
-          model_transform = mult( mult( model_transform, translation( -10, 40, -60 ) ), scale(1/10, 1/10, 1/10));
-          shapes_in_use.model_parrot.set_step( t * 4 );
-          shapes_in_use.model_parrot       .draw( this.graphics_state, model_transform, purplePlastic );
         }else if (this.shared_scratchpad.worldNum == 2){
           model_transform = mat4();
           model_transform = mult( mult( model_transform, translation( 10, -12, -80 ) ), scale(1/90, 1/90, 1/90));
