@@ -54,32 +54,27 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
         context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0, 0), perspective(90, canvas.width/canvas.height, .1, 1000), 0 );
         //context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0, 0), perspective(45, canvas.width/canvas.height, .1, 1000), 0 );
         //this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 5, 0 ), looking: false } );
-        this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 0, 0 ), looking: false } );
+        this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 0, 0 ), looking: false, scratchPad: context.shared_scratchpad } );
+
+        console.log("camera pos:", this.scratchPad.cameraPos);
 
         // *** Mouse controls: ***
         this.mouse = { "from_center": vec2() };
-        // var mouse_position = function( e ) { return vec2( e.clientX - canvas.width/2, e.clientY - canvas.height/2 ); };   // Measure mouse steering, for rotating the flyaround camera.
-        // canvas.addEventListener( "mouseup",   ( function(self) { return function(e) { e = e || window.event;    self.mouse.anchor = undefined;              } } ) (this), false );
-        // canvas.addEventListener( "mousedown", ( function(self) { return function(e) { e = e || window.event;    self.mouse.anchor = mouse_position(e);      } } ) (this), false );
-        // canvas.addEventListener( "mousemove", ( function(self) { return function(e) { e = e || window.event;    self.mouse.from_center = mouse_position(e); } } ) (this), false );
-        // canvas.addEventListener( "mouseout",  ( function(self) { return function(e) { self.mouse.from_center = vec2(); }; } ) (this), false );    // Stop steering if the mouse leaves the canvas.
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
-      { controls.add( "Space", this, function() { this.thrust[1] = -1; } );     controls.add( "Space", this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
+      {
+        controls.add( "Space", this, function() { this.thrust[1] = -1; } );     controls.add( "Space", this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
         controls.add( "z",     this, function() { this.thrust[1] =  1; } );     controls.add( "z",     this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
-        //controls.add( "w",     this, function() { this.thrust[2] =  1; } );     controls.add( "w",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
-        //controls.add( "a",     this, function() { this.thrust[0] =  1; } );     controls.add( "a",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
-        //controls.add( "s",     this, function() { this.thrust[2] = -1; } );     controls.add( "s",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
-        //controls.add( "d",     this, function() { this.thrust[0] = -1; } );     controls.add( "d",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
         controls.add( ",",     this, function() { this.graphics_state.camera_transform = mult( rotation( 6, 0, 0,  1 ), this.graphics_state.camera_transform ); } );
         controls.add( ".",     this, function() { this.graphics_state.camera_transform = mult( rotation( 6, 0, 0, -1 ), this.graphics_state.camera_transform ); } );
-        controls.add( "r",     this, function() { this.graphics_state.camera_transform = mat4()                                                               ; } );
+        controls.add( "r",     this, function() { this.graphics_state.camera_transform = mat4(); this.cameraPos = [0,0,0,1]; } );
 
         controls.add( "w",     this, 
           function() { 
             var C_inv = inverse(this.graphics_state.camera_transform);
             var pos = mult_vec(C_inv, vec4(0,0,0,1));
-            console.log("posw:",pos);
+            //console.log("posw:",pos);
+            this.scratchPad.cameraPos  = pos;
             if (pos[2] <= -90){
               console.log("can't leave cube");
               this.thrust[2] =  0;
@@ -93,7 +88,8 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
           function() { 
             var C_inv = inverse(this.graphics_state.camera_transform);
             var pos = mult_vec(C_inv, vec4(0,0,0,1));
-            console.log("posa:",pos);
+            //console.log("posa:",pos);
+            this.scratchPad.cameraPos  = pos;
             if (pos[0] <= -80){
               console.log("can't leave cube");
               this.thrust[0] =  0;
@@ -108,7 +104,8 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
           function() { 
             var C_inv = inverse(this.graphics_state.camera_transform);
             var pos = mult_vec(C_inv, vec4(0,0,0,1));
-            console.log("poss:",pos);
+            //console.log("poss:",pos);
+            this.scratchPad.cameraPos  = pos;
             if (pos[2] >= 90){
               console.log("can't leave cube");
               this.thrust[2] = 0;
@@ -122,7 +119,8 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
           function() {
             var C_inv = inverse(this.graphics_state.camera_transform);
             var pos = mult_vec(C_inv, vec4(0,0,0,1));
-            console.log("posd:",pos);
+            //console.log("posd:",pos);
+            this.scratchPad.cameraPos  = pos;
             if (pos[0] >= 80){
               console.log("can't leave cube");
               this.thrust[0] =  0;
@@ -139,6 +137,7 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
         controls.add( "right",     this, function() { console.log("right"); this.graphics_state.camera_transform = mult( rotation( 1, 0, 1, 0 ), this.graphics_state.camera_transform ); } );
         controls.add( "up",     this, function() { console.log("up"); this.graphics_state.camera_transform = mult( rotation( 1, -1, 0, 0 ), this.graphics_state.camera_transform ); } );
         controls.add( "down",     this, function() { console.log("down"); this.graphics_state.camera_transform = mult( rotation( 1, 1, 0, 0 ), this.graphics_state.camera_transform ); } );
+
       },
     'update_strings': function( user_interface_string_manager )       // Strings that this displayable object (Animation) contributes to the UI:
       { var C_inv = inverse( this.graphics_state.camera_transform ), pos = mult_vec( C_inv, vec4( 0, 0, 0, 1 ) ),
@@ -149,6 +148,16 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
       },
     'display': function( time )
       { 
+
+        //console.log("z", this.scratchPad.cameraPos[2]);
+        if (this.scratchPad.cameraPos[2] <= -80 && this.scratchPad.cameraPos[0] <= -40 && this.scratchPad.cameraPos[0] >= -50){
+          console.log("changing worlds");
+          //this.scratchPad.worldNum = 2;
+          this.scratchPad.worldNum = (this.scratchPad.worldNum % 3) + 1;
+          console.log(this.scratchPad.worldNum);
+          this.scratchPad.cameraPos = [0,0,0,1];
+          this.graphics_state.camera_transform = mat4();
+        }
         var leeway = 70,  degrees_per_frame = .0004 * this.graphics_state.animation_delta_time,
                           meters_per_frame  =   .01 * this.graphics_state.animation_delta_time;
         // Third-person camera mode: Is a mouse drag occurring?
@@ -227,9 +236,6 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
         Start coding down here!!!!
         **********************************/                                     
 
-        // model_transform = mult( model_transform, translation( 0, 0, 0 ) );
-        // shapes_in_use.triangle       .draw( graphics_state, model_transform, purplePlastic );
-
         model_transform = mult( mult( model_transform, translation( 0, 0, 0 ) ), scale(1/40, 1/40, 1/40));
         shapes_in_use.model_fox.set_step( t );
         shapes_in_use.model_fox       .draw( graphics_state, model_transform, purplePlastic );
@@ -239,20 +245,5 @@ Declare_Any_Class( "Example_Animation",  // An example of a displayable object t
         shapes_in_use.model_bear.set_step( t );
         shapes_in_use.model_bear       .draw( graphics_state, model_transform, purplePlastic );
 
-        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        // shapes_in_use.strip          .draw( graphics_state, model_transform, greyPlastic );
-
-        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        // shapes_in_use.tetrahedron    .draw( graphics_state, model_transform, purplePlastic );
-
-        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        // shapes_in_use.bad_tetrahedron.draw( graphics_state, model_transform, greyPlastic );
-
-        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        // shapes_in_use.windmill       .draw( graphics_state, mult( model_transform, rotation( .7*graphics_state.animation_time, .1, .8, .1 ) ), purplePlastic );        
-        
-        // shaders_in_use[ "Demo_Shader" ].activate();
-        // model_transform = mult( model_transform, translation( 0, -2, 0 ) );
-        // shapes_in_use.windmill       .draw( graphics_state, model_transform, placeHolder );
       }
   }, Animation );

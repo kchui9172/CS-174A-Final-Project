@@ -46,7 +46,7 @@ function soundAnimialMap(animial) {
 }
 
 // Process the sound for the given animial and time
-function processSound(animial, time) {
+function processSound(animial, time, cam, model_transform) {
 	var animial_index = soundAnimialMap(animial);
 	var animial_distance = calcDistance(cam, model_transform, animial_index);
 	if (animial_distance < sound_play_distance) {

@@ -21,6 +21,8 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="animated-eagle.js"         ></script>
   <script type="text/javascript" src="animated-horse.js"         ></script>
   <script type="text/javascript" src="animated-lion.js"         ></script>
+  <script type="text/javascript" src="animated-parrot.js"         ></script>
+  <script type="text/javascript" src="scene_manager.js"         ></script>
   <script type="text/javascript"> "use strict"  
 
     var soundContext;
@@ -32,25 +34,42 @@ index.html - The web page document containing the canvas (drawing surface), that
             
         shaders_in_use[ "Default"     ] = new Phong_or_Gouraud_Shader( g_state );    // Put all our shader programs in the GPU.
                                                                                   // IMPORTANT: -- You have to include all your new images in here:
-        texture_filenames_to_load.push( "text.png" );                             // Put all our texture images in the GPU.
+        //texture_filenames_to_load.push( "text.png" );                             // Put all our texture images in the GPU.
 
 
         //PUSH ENVIRONMENT MAPPING TEXTURES
-        texture_filenames_to_load.push("negx.jpg");
-        texture_filenames_to_load.push("negy.jpg");
-        texture_filenames_to_load.push("negz.jpg");
-        texture_filenames_to_load.push("posx.jpg");
-        texture_filenames_to_load.push("posy.jpg");
-        texture_filenames_to_load.push("posz.jpg");
+        texture_filenames_to_load.push("/pics/negx1.jpg");
+        texture_filenames_to_load.push("/pics/negy1.jpg");
+        texture_filenames_to_load.push("/pics/negz1.jpg");
+        texture_filenames_to_load.push("/pics/posx1.jpg");
+        texture_filenames_to_load.push("/pics/posy1.jpg");
+        texture_filenames_to_load.push("/pics/posz1.jpg");
+
+
+        texture_filenames_to_load.push("/pics/negx2.jpg");
+        texture_filenames_to_load.push("/pics/negy2.jpg");
+        texture_filenames_to_load.push("/pics/negz2.jpg");
+        texture_filenames_to_load.push("/pics/posx2.jpg");
+        texture_filenames_to_load.push("/pics/posy2.jpg");
+        texture_filenames_to_load.push("/pics/posz2.jpg");
+
+        texture_filenames_to_load.push("/pics/negx3.jpg");
+        texture_filenames_to_load.push("/pics/negy3.jpg");
+        texture_filenames_to_load.push("/pics/negz3.jpg");
+        texture_filenames_to_load.push("/pics/posx3.jpg");
+        texture_filenames_to_load.push("/pics/posy3.jpg");
+        texture_filenames_to_load.push("/pics/posz3.jpg");
+
+
+        texture_filenames_to_load.push("door.png");
 
         for( var i = 0; i < texture_filenames_to_load.length; i++ ) 
           textures_in_use[ texture_filenames_to_load[i] ] = ( new Texture( texture_filenames_to_load[i], false ) );
         
-        main_canvas.register_display_object( new Debug_Screen     ( main_canvas ) );  // We instantiate some of our custom "Animation" subclasses and register these displayable
-        //main_canvas.register_display_object( new Example_Animation( main_canvas ) );  // objects to their master "Canvas_Manager" object -- which OpenGL calls upon every time a
-        main_canvas.register_display_object( new Example_Camera   ( main_canvas ) );  // draw / keyboard / mouse event happens.
+        //main_canvas.register_display_object( new Debug_Screen     ( main_canvas ) );  // We instantiate some of our custom "Animation" subclasses and register these displayable
 
-        main_canvas.register_display_object( new Environment_Mapping        ( main_canvas ) );
+        main_canvas.register_display_object( new Example_Camera   ( main_canvas ) );  // draw / keyboard / mouse event happens.
+        main_canvas.register_display_object( new Environment_Mapping ( main_canvas ) );
         main_canvas.render();
 
         // Sound preparation
@@ -66,6 +85,7 @@ index.html - The web page document containing the canvas (drawing surface), that
           'Sounds/eagle.wav',
           'Sounds/horse.wav',
           'Sounds/bear.wav'
+          'Sounds/parrot.wav'
         ],
         playSound                            // play the background sound
         );
@@ -75,7 +95,7 @@ index.html - The web page document containing the canvas (drawing surface), that
 
       var sound_play_distance = 10;   // The distance in unit within the animial to have the sound played
       var play_period = 5000;         // The time to replay the sound
-      var num_sounds = 6;             // Number of sounds in the list
+      var num_sounds_class = 7;             // Number of sounds in the list
       var if_play[num_sounds];        // If the corresponding sound is currently being played
       var played_time[num_sounds];    // How long the corresponding sound is being played since the last time within distance
 
