@@ -54,23 +54,34 @@ index.html - The web page document containing the canvas (drawing surface), that
         main_canvas.render();
 
         // Sound preparation
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;    // Declare the sound context
         soundContext = new AudioContext();
 
-        soundBuffer = new BufferLoader(
+        soundBuffer = new BufferLoader(         // Create a buffer to load all sounds
         soundContext,
         [
           'Sounds/background.wav',
           'Sounds/fox.wav',
           'Sounds/lion.wav',
-          'Sounds/hawk.wav',
+          'Sounds/eagle.wav',
           'Sounds/horse.wav',
           'Sounds/bear.wav'
         ],
-        finishedLoading
+        playSound                            // play the background sound
         );
 
         soundBuffer.load();
+      }
+
+      var sound_play_distance = 10;   // The distance in unit within the animial to have the sound played
+      var play_period = 5000;         // The time to replay the sound
+      var num_sounds = 6;             // Number of sounds in the list
+      var if_play[num_sounds];        // If the corresponding sound is currently being played
+      var played_time[num_sounds];    // How long the corresponding sound is being played since the last time within distance
+
+      for (var i = 0; i < num_sounds; i++) {     // Initialize the sound play and play time arrays
+        if_play[i] = false;
+        played_time[i] = 0;
       }
 
     window.requestAnimFrame = ( function()						// Use the correct browser's version of requestAnimationFrame() when queue-ing up re-display events. 

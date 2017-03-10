@@ -134,7 +134,6 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
         controls.add( "d",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
 
 
-
         //Added control to rotate camera direction
         controls.add( "left",     this, function() { console.log("left"); this.graphics_state.camera_transform = mult( rotation( 1, 0, -1, 0 ), this.graphics_state.camera_transform ); } );
         controls.add( "right",     this, function() { console.log("right"); this.graphics_state.camera_transform = mult( rotation( 1, 0, 1, 0 ), this.graphics_state.camera_transform ); } );

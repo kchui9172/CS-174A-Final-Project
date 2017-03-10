@@ -42,28 +42,36 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         }
         var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t) ];
 
+        var C_inv = inverse(this.graphics_state.camera_transform);
+        var cam = mult_vec(C_inv, vec4(0,0,0,1));
+
         model_transform = mult( mult( model_transform, translation( 10, 0, -30 ) ), scale(1/40, 1/40, 1/40));
         shapes_in_use.model_fox.set_step( t * 8 );
         shapes_in_use.model_fox       .draw( this.graphics_state, model_transform, purplePlastic );
+        processSound("fox", t);
 
         model_transform = mat4();
         model_transform = mult( mult( model_transform, translation( 20, 0, -30 ) ), scale(1/80, 1/80, 1/80));
         shapes_in_use.model_bear.set_step( t * 2 );
         shapes_in_use.model_bear       .draw( this.graphics_state, model_transform, purplePlastic );
+        processSound("bear", t);
 
         model_transform = mat4();
         model_transform = mult( mult( model_transform, translation( -10, 40, -80 ) ), scale(1/100, 1/100, 1/100));
         shapes_in_use.model_eagle.set_step( t * 4 );
         shapes_in_use.model_eagle       .draw( this.graphics_state, model_transform, purplePlastic );
+        processSound("eagle", t);
 
         model_transform = mat4();
         model_transform = mult( mult( model_transform, translation( -10, -12, -40 ) ), scale(1/60, 1/60, 1/60));
         shapes_in_use.model_horse.set_step( t * 4 );
         shapes_in_use.model_horse       .draw( this.graphics_state, model_transform, purplePlastic );
+        processSound("horse", t);
 
         model_transform = mat4();
         model_transform = mult( mult( model_transform, translation( -30, -12, -60 ) ), scale(1/60, 1/60, 1/60));
         shapes_in_use.model_lion.set_step( t * 4 );
         shapes_in_use.model_lion       .draw( this.graphics_state, model_transform, purplePlastic );
+        processSound("lion", t);
       }
   }, Animation );
