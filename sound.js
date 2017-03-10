@@ -9,7 +9,7 @@ function playSound(bufferList, i) {
 
 
 // Only play the animial sound if the distance is within 10 unit
-function calcDistance(cam, animial_pos, i) {
+function calcDistance(cam, animial_pos) {
   var pos = mult_vec(animial_pos, vec4(0,0,0,1));
 
   var dist_vec = vec2(cam[0] - pos[0], cam[3], pos[3]);
@@ -46,21 +46,21 @@ function soundAnimialMap(animial) {
 }
 
 // Process the sound for the given animial and time
-function processSound(animial, time, cam, model_transform) {
-	var animial_index = soundAnimialMap(animial);
-	var animial_distance = calcDistance(cam, model_transform, animial_index);
-	if (animial_distance < sound_play_distance) {
-		if_play[animial_index] = false;
-		played_time[animial_index] = 0;
+function processSound(model_class, model_id, time, cam, model_transform, sound_manager) {
+	var class_index = soundAnimialMap(model_class);
+	var model_distance = calcDistance(cam, model_transform);
+	if (model_distance < sound_manager.sound_play_distance) {
+		sound_manager.if_play[model_id] = false;
+		sound_manager.played_time[model_id] = 0;
 	} else {
-		if (if_play[animial_index]){
-			if ((time - played_time[animial_index]) > play_period) {
-				playSound(soundBuffer.bufferList, animial_index);
-				played_time[animial_index] = time;
+		if (sound_manager.if_play[model_id]){
+			if ((time - sound_manager.played_time[model_id]) > sound_manager.play_period) {
+				playSound(soundBuffer.bufferList, class_index);
+				sound_manager.played_time[class_index] = time;
 			} else {
-				playSound(soundBuffer.bufferList, animial_index);
-				if_play[animial_index] = true;
-				played_time[animial_index] = time;
+				playSound(soundBuffer.bufferList, class_index);
+				sound_manager.if_play[model_id] = true;
+				sound_manager.played_time[model_id] = time;
 			}
 		}
 	}

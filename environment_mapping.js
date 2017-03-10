@@ -34,6 +34,8 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse7', vec3(10, -12, 40), 1/60, 50, 4);
         scene_manager.register_shape(shapes_in_use.model_horse, 'horse', 'horse8', vec3(-10, -12, 40), 1/60, 50, 4);
         this.scene_manager = scene_manager;
+        this.sound_manager = new Sound_Manager(scene_manager.get_shape_positions());
+
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
@@ -99,44 +101,43 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         if (this.shared_scratchpad.worldNum == 1){
           this.scene_manager.elaps_time( t - this.last_t );
           var objs = this.scene_manager.get_shape_transforms();
-          var obj_positions = this.scene_manager.get_shape_positions();
           for (obj of objs) {
             obj.shape.set_step(obj.animation_step);
             obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
-            processSound("horse", t, cam, obj.animation_step);
+            processSound(obj.type, obj.id, t, cam, obj.animation_step, this.Sound_Manager);
           }
 
           model_transform = mat4();
           model_transform = mult( mult( model_transform, translation( -10, 40, -60 ) ), scale(1/10, 1/10, 1/10));
           shapes_in_use.model_parrot.set_step( t * 4 );
           shapes_in_use.model_parrot       .draw( this.graphics_state, model_transform, purplePlastic );
-          processSound("parrot",t, cam, model_transform);
+          processSound("parrot", t, cam, model_transform, this.Sound_Manager);
 
         }else if (this.shared_scratchpad.worldNum == 2){
           model_transform = mat4();
           model_transform = mult( mult( model_transform, translation( 10, -12, -80 ) ), scale(1/90, 1/90, 1/90));
           shapes_in_use.model_fox.set_step( t * 8 );
           shapes_in_use.model_fox       .draw( this.graphics_state, model_transform, purplePlastic );
-          processSound("fox", t, cam, model_transform);
+          processSound("fox", t, cam, model_transform, this.Sound_Manager);
 
           model_transform = mat4();
           model_transform = mult( mult( model_transform, translation( -90, -12, -30 ) ), scale(1/80, 1/80, 1/80));
           shapes_in_use.model_bear.set_step( t * 1 );
           shapes_in_use.model_bear       .draw( this.graphics_state, model_transform, purplePlastic );
-          processSound("bear", t, cam, model_transform);
+          processSound("bear", t, cam, model_transform, this.Sound_Manager);
 
         }else{
           model_transform = mat4();
           model_transform = mult( mult( model_transform, translation( -10, 40, -80 ) ), scale(1/100, 1/100, 1/100));
           shapes_in_use.model_eagle.set_step( t * 4 );
           shapes_in_use.model_eagle       .draw( this.graphics_state, model_transform, purplePlastic );
-          processSound("eagle", t, cam, model_transform);
+          processSound("eagle", t, cam, model_transform, this.Sound_Manager);
 
           model_transform = mat4();
           model_transform = mult( mult( model_transform, translation( -30, -12, -60 ) ), scale(1/60, 1/60, 1/60));
           shapes_in_use.model_lion.set_step( t * 4 );
           shapes_in_use.model_lion       .draw( this.graphics_state, model_transform, purplePlastic );
-          processSound("lion", t, cam, model_transform);
+          processSound("lion", t, cam, model_transform, this.Sound_Manager);
         }
         this.last_t = t;
       }
