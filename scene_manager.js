@@ -11,8 +11,8 @@ Declare_Any_Class( "Scene_Manager", {
       max_speed: params.max_speed,
       objects: [],
       blockers: [],
-      repulsion_const: 50,
-      wall_weight: 1,
+      repulsion_const: 80,
+      wall_weight: 200,
       time_factor: 10,
     });
     if (params.repulsion_const) {
@@ -25,10 +25,11 @@ Declare_Any_Class( "Scene_Manager", {
       this.time_factor = param.time_factor;
     }
   },
-  'register_shape': function(shape, id ,loc, scale, weight, animation_factor, y_axis_enabled = false ) {
+  'register_shape': function(shape, type, id ,loc, scale, weight, animation_factor, y_axis_enabled = false ) {
     var velocity = scale_vec( this.min_speed, normalize( vec3( Math.random(), Math.random(), Math.random() ) ) );
     this.objects.push({
-      id: id, 
+      type: type,
+      id: id,
       position: loc,
       velocity: velocity,
       accel: vec3(0,0,0),
@@ -45,10 +46,10 @@ Declare_Any_Class( "Scene_Manager", {
       this.blockers = blockers;
     }
   },
-  'get_shape_position': function() {
+  'get_shape_positions': function() {
     var result = [];
-    for( obj of objects ) {
-      result.push({id: obj.id, position: obj.position});
+    for( obj of this.objects ) {
+      result.push({type: obj.type, id: obj.id, position: obj.position});
     }
     return result;
   },
