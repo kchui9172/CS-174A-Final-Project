@@ -55,7 +55,7 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
         this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 0, 0 ), looking: false, scratchPad: context.shared_scratchpad } );
 
         // *** Mouse controls: ***
-        this.mouse = { "from_center": vec2() };
+        // this.mouse = { "from_center": vec2() };
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
@@ -67,15 +67,6 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
             }else{
               this.thrust[1] = 0;
             }
-            // var C_inv = inverse(this.graphics_state.camera_transform);
-            // var pos = mult_vec(C_inv, vec4(0,0,0,1));
-            // this.scratchPad.cameraPos  = pos;
-            // if (pos[1] >= 70){
-            //   console.log("can't leave cube");
-            //   this.thrust[1] =  0;
-            // }else{
-            //     this.thrust[1] =  -1; 
-            // }
           } );     
 
         controls.add( "Space", this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
@@ -86,41 +77,20 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
             if (this.check_bounds(-2)){
               this.thrust[1] = 1;
             }else{
-              this.thrust[0] = 0;
+              this.thrust[1] = 0;
             }
-            // var C_inv = inverse(this.graphics_state.camera_transform);
-            // var pos = mult_vec(C_inv, vec4(0,0,0,1));
-            // this.scratchPad.cameraPos  = pos;
-            // if (pos[1] <= 0){
-            //   console.log("can't leave cube");
-            //   this.thrust[1] =  0;
-            // }else{
-            //     this.thrust[1] =  1; 
-            // }
           } );     
 
         controls.add( "z",     this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
-        // controls.add( ",",     this, function() { this.graphics_state.camera_transform = mult( rotation( 6, 0, 0,  1 ), this.graphics_state.camera_transform ); } );
-        // controls.add( ".",     this, function() { this.graphics_state.camera_transform = mult( rotation( 6, 0, 0, -1 ), this.graphics_state.camera_transform ); } );
         controls.add( "r",     this, function() { this.graphics_state.camera_transform = mat4(); this.cameraPos = [0,0,0,1];} );
 
         controls.add( "w",     this, 
           function() { 
-            if (this.check_bounds(3)){
+            if (this.check_bounds(-3)){
               this.thrust[2] = 1;
             }else{
               this.thrust[2] = 0;
             }
-            // var C_inv = inverse(this.graphics_state.camera_transform);
-            // var pos = mult_vec(C_inv, vec4(0,0,0,1));
-            // //console.log("posw:",pos);
-            // this.scratchPad.cameraPos  = pos;
-            // if (pos[2] <= -90){
-            //   console.log("can't leave cube");
-            //   this.thrust[2] =  0;
-            // }else{
-            //     this.thrust[2] =  1; 
-            // }
           } );     
         controls.add( "w",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
 
@@ -131,37 +101,17 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
             }else{
               this.thrust[0] = 0;
             }
-            // var C_inv = inverse(this.graphics_state.camera_transform);
-            // var pos = mult_vec(C_inv, vec4(0,0,0,1));
-            // //console.log("posa:",pos);
-            // this.scratchPad.cameraPos  = pos;
-            // if (pos[0] <= -80){
-            //   console.log("can't leave cube");
-            //   this.thrust[0] =  0;
-            // }else{
-            //     this.thrust[0] =  1; 
-            // }
           } );     
 
         controls.add( "a",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
 
         controls.add( "s",     this, 
           function() { 
-            if (this.check_bounds(-3)){
+            if (this.check_bounds(3)){
               this.thrust[2] = -1;
             }else{
               this.thrust[2] = 0;
             }
-            // var C_inv = inverse(this.graphics_state.camera_transform);
-            // var pos = mult_vec(C_inv, vec4(0,0,0,1));
-            // //console.log("poss:",pos);
-            // this.scratchPad.cameraPos  = pos;
-            // if (pos[2] >= 90){
-            //   console.log("can't leave cube");
-            //   this.thrust[2] = 0;
-            // }else{
-            //     this.thrust[2] = -1;  
-            // }
           } );    
         controls.add( "s",     this, function() { this.thrust[2] =  0; }, {'type':'keyup'} );
 
@@ -172,16 +122,6 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
             }else{
               this.thrust[0] = 0;
             }
-            // var C_inv = inverse(this.graphics_state.camera_transform);
-            // var pos = mult_vec(C_inv, vec4(0,0,0,1));
-            // //console.log("posd:",pos);
-            // this.scratchPad.cameraPos  = pos;
-            // if (pos[0] >= 80){
-            //   console.log("can't leave cube");
-            //   this.thrust[0] =  0;
-            // }else{
-            //   this.thrust[0] = -1; 
-            // } 
           } );     
 
         controls.add( "d",     this, function() { this.thrust[0] =  0; }, {'type':'keyup'} );
@@ -202,50 +142,15 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
       var pos = mult_vec(C_inv, vec4(0,0,0,1));
       this.scratchPad.cameraPos = pos;
 
-      if (dir == 1){
-        pos[0] += 1;
+
+      if (dir < 0){
+        var move = -1;
+      }else{
+        var move = 1;
       }
-      if (dir == -1){
-        pos[0] -= 1;
-      }
-      if (dir == 2){
-        pos[1] += 1;
-      }
-      if (dir == -2){
-        pos[1] -= 1;
-      }
-      if (dir == 3){
-        pos[2] -= 1;
-      }
-      if (dir == -3){
-        pos[2] += 1;
-      }
+      pos[Math.abs(dir) - 1] += move;
       // //boundary conditions
       console.log(pos);
-      // if (pos[0] > 80 && dir != 1){
-      //   //console.log("can't leave cube");
-      //   return true;
-      // }
-      // if (pos[0] < -80 && dir != -1){
-      //   //console.log("can't leave cube");
-      //   return true;
-      // }
-      // if (pos[1] < 0 && dir != -2){
-      //   //console.log("can't leave cube");
-      //   return true;
-      // }
-      // if (pos[1] > 70 && dir != 2){
-      //   // console.log("can't leave cube");
-      //   return true;
-      // }
-      // if (pos[2] < -90 && dir != 3){
-      //   //console.log("can't leave cube");
-      //   return true;
-      // }
-      // if (pos[2] > 90 && dir != -3){
-      //   //console.log("can't leave cube");
-      //   return true;
-      // }
 
       if (pos[0] > 80 || pos[0] < -80 || pos[1] < 0 || pos[1] > 70 || pos[2] < -90 || pos[2] > 90){
         console.log("can't leave cube");
@@ -274,8 +179,9 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
           this.scratchPad.cameraPos = [0,0,0,1];
           this.graphics_state.camera_transform = mat4();
         }
-        var leeway = 70,  degrees_per_frame = .0004 * this.graphics_state.animation_delta_time,
-                          meters_per_frame  =   .01 * this.graphics_state.animation_delta_time;
+        // var leeway = 70,  degrees_per_frame = .0004 * this.graphics_state.animation_delta_time,
+        //                   meters_per_frame  =   .01 * this.graphics_state.animation_delta_time;
+        var meters_per_frame  =   .01 * this.graphics_state.animation_delta_time;
         // // Third-person camera mode: Is a mouse drag occurring?
         // if( this.mouse.anchor )
         // {
@@ -290,11 +196,11 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
         // var offset_plus  = [ this.mouse.from_center[0] + leeway, this.mouse.from_center[1] + leeway ];
         // var offset_minus = [ this.mouse.from_center[0] - leeway, this.mouse.from_center[1] - leeway ];
 
-        for( var i = 0; this.looking && i < 2; i++ )      // Steer according to "mouse_from_center" vector, but don't start increasing until outside a leeway window from the center.
-        {
-          var velocity = ( ( offset_minus[i] > 0 && offset_minus[i] ) || ( offset_plus[i] < 0 && offset_plus[i] ) ) * degrees_per_frame;  // Use movement's quantity unless the &&'s zero it out
-          this.graphics_state.camera_transform = mult( rotation( velocity, i, 1-i, 0 ), this.graphics_state.camera_transform );     // On X step, rotate around Y axis, and vice versa.
-        }     // Now apply translation movement of the camera, in the newest local coordinate frame
+        // for( var i = 0; this.looking && i < 2; i++ )      // Steer according to "mouse_from_center" vector, but don't start increasing until outside a leeway window from the center.
+        // {
+        //   var velocity = ( ( offset_minus[i] > 0 && offset_minus[i] ) || ( offset_plus[i] < 0 && offset_plus[i] ) ) * degrees_per_frame;  // Use movement's quantity unless the &&'s zero it out
+        //   this.graphics_state.camera_transform = mult( rotation( velocity, i, 1-i, 0 ), this.graphics_state.camera_transform );     // On X step, rotate around Y axis, and vice versa.
+        // }     // Now apply translation movement of the camera, in the newest local coordinate frame
         this.graphics_state.camera_transform = mult( translation( scale_vec( meters_per_frame, this.thrust ) ), this.graphics_state.camera_transform );
       }
   }, Animation );
