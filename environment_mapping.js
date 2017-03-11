@@ -45,12 +45,13 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         this.scene_managers.push(scene_manager3);
 
         this.sound_managers = [];
-        this.sound_manager1 = new Sound_Manager(scene_manager1.get_shape_positions());
-        this.sound_manager2 = new Sound_Manager(scene_manager2.get_shape_positions());
-        this.sound_manager3 = new Sound_Manager(scene_manager3.get_shape_positions());
+        var sound_manager1 = new Sound_Manager(scene_manager1.get_shape_positions());
+        var sound_manager2 = new Sound_Manager(scene_manager2.get_shape_positions());
+        var sound_manager3 = new Sound_Manager(scene_manager3.get_shape_positions());
         this.sound_managers.push(sound_manager1);
         this.sound_managers.push(sound_manager2);
         this.sound_managers.push(sound_manager3);
+
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
@@ -66,8 +67,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
       },
     'display': function(time)
       {
-
-        console.log("meow:", this.shared_scratchpad.cameraPos);
         var model_transform = mat4(); 
         shaders_in_use[ "Default" ].activate();
 
@@ -120,8 +119,9 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
           obj.shape.set_step(obj.animation_step);
           obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
         }
-        processSound(obj.type, obj.id, t, cam, obj.transform, this.Sound_Manager[scene]);
-
+        processSound(obj.type, obj.id, t, cam, obj.transform, this.sound_managers[scene], this.shared_scratchpad.soundBuffer, this.shared_scratchpad.soundContext);
         this.last_t = t;
+
+        this.shared_scratchpad.soundBuffer.onload(this.shared_scratchpad.soundContext, this.shared_scratchpad.soundBuffer, 0);
       }
   }, Animation );
