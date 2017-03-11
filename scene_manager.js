@@ -11,24 +11,25 @@ Declare_Any_Class( "Scene_Manager", {
       max_speed: params.max_speed,
       objects: [],
       blockers: [],
-      repulsion_const: 50,
-      wall_weight: 1,
+      repulsion_const: 80,
+      wall_weight: 200,
       time_factor: 10,
     });
     if (params.repulsion_const) {
-      this.repulsion_const = param.repulsion_const;
+      this.repulsion_const = params.repulsion_const;
     }
     if (params.wall_weight) {
-      this.wall_weight = param.wall_weight;
+      this.wall_weight = params.wall_weight;
     }
     if (params.time_factor) {
-      this.time_factor = param.time_factor;
+      this.time_factor = params.time_factor;
     }
   },
-  'register_shape': function(shape, id ,loc, scale, weight, animation_factor, y_axis_enabled = false ) {
+  'register_shape': function(shape, type, id ,loc, scale, weight, animation_factor, y_axis_enabled = false ) {
     var velocity = scale_vec( this.min_speed, normalize( vec3( Math.random(), Math.random(), Math.random() ) ) );
     this.objects.push({
-      id: id, 
+      type: type,
+      id: id,
       position: loc,
       velocity: velocity,
       accel: vec3(0,0,0),
@@ -45,10 +46,10 @@ Declare_Any_Class( "Scene_Manager", {
       this.blockers = blockers;
     }
   },
-  'get_shape_position': function() {
+  'get_shape_positions': function() {
     var result = [];
-    for( obj of objects ) {
-      result.push({id: obj.id, position: obj.position});
+    for( obj of this.objects ) {
+      result.push({type: obj.type, id: obj.id, position: obj.position});
     }
     return result;
   },
@@ -56,6 +57,7 @@ Declare_Any_Class( "Scene_Manager", {
     var result = [];
     for( obj of this.objects ) {
       result.push({
+        type: obj.type,
         id: obj.id,
         shape: obj.shape,
         transform: this.transform(obj),
@@ -117,10 +119,10 @@ Declare_Any_Class( "Scene_Manager", {
     }
     var scaler_v = length(obj.velocity);
     if (this.min_speed && scaler_v < this.min_speed) {
-      this.velocity = scale_vec( this.min_speed, normalize( obj.velocity ) );
+      obj.velocity = scale_vec( this.min_speed, normalize( obj.velocity ) );
     }
     if (this.max_speed && scaler_v > this.max_speed) {
-      this.velocity = scale_vec( this.max_speed, normalize( obj.velocity ) );
+      obj.velocity = scale_vec( this.max_speed, normalize( obj.velocity ) );
     }
   },
   'calc_location': function(obj, time_delta) {
