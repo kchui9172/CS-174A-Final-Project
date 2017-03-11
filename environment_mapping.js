@@ -51,7 +51,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
       },
     'display': function(time)
       {
-        console.log("meow:", this.shared_scratchpad.cameraPos);
+        //console.log("meow:", this.shared_scratchpad.cameraPos);
         var model_transform = mat4(); 
         shaders_in_use[ "Default" ].activate();
 

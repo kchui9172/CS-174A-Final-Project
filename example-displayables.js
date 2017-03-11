@@ -142,68 +142,29 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
     'check_bounds' : function(dir){
       console.log("checking bounds");
 
-      /*
-      Steps for calculating pos relative to boundaries:
-      1. calculate current position of camera
-      2. calculate direction to be moved (thrust vector rotated based on camera view)
-      3.if current position + rotated direction to be moved falls inside boundary, true
-      4. else, false 
+      //calculate current position of camera
+      var C_inv1 = inverse( this.graphics_state.camera_transform );
+      var pos1 = mult_vec( C_inv1, vec4( 0, 0, 0, 1 ) );
+      console.log("cur pos:", pos1);
 
-      or 
-      calculate current camera transform + thrust vector 
-      then translate into camera position
-      check if in bounds 
-      */
+      //create potential thrust vector
+      var newThrust = vec3();
+      if (dir < 0){
+        var move = 1;
+      }else{
+        var move = -1;
+      }
+      newThrust[Math.abs(dir) - 1 ] = move;
+      console.log("new thrust:", newThrust);
 
-      //Step 1: get current position of camera
-
-
-      // var C_inv1 = inverse(this.graphics_state.camera_transform);
-      // var currentPos = mult_vec(C_inv1, vec4(0,0,0,1));
-      // console.log("current pos:", currentPos);
-
-      // var newThrust = vec3();
-
-      // if (dir < 0 ){
-      //   var move = -1;
-      // }else{
-      //   var move = 1;
-      // }
-
-      // newThrust[Math.abs(dir) - 1] = move;
-      // //newThrust = mult(this.rotationMatrix, newThrust);
-      // //mult( translation( scale_vec( meters_per_frame, this.thrust ) ), this.graphics_state.camera_transform );
-      // var newPos = mult( translation(scale_vec(1.0,newThrust)), this.graphics_state.camera_transform);
-      // console.log("newPos:",newPos);
-
-      // var C_inv = inverse(newPos);
-      // var pos = mult_vec(C_inv, vec4(0,0,0,1));
-      // console.log("new pos:",pos);
-      // this.scratchPad.cameraPos = pos;
-
-      // if (pos[0] > 80 || pos[0] < -80 || pos[1] < 0 || pos[1] > 70 || pos[2] < -90 || pos[2] > 90){
-      //   console.log("can't leave cube");
-      //   return false;
-      // }
-      // else{
-      //   return true;
-      // }
-
-
-
-      var C_inv = inverse(this.graphics_state.camera_transform);
+      //calculate new position with potential thrust vector
+      var x = mult(translation(scale_vec(1.0,newThrust)), this.graphics_state.camera_transform);
+      var C_inv = inverse(x);
       var pos = mult_vec(C_inv, vec4(0,0,0,1));
       this.scratchPad.cameraPos = pos;
+      console.log("pos:" , pos);
 
-      if (dir < 0){
-        var move = -1;
-      }else{
-        var move = 1;
-      }
-      pos[Math.abs(dir) - 1] += move;
-      // //boundary conditions
-      console.log(pos);
-
+      //if new position is out of range, don't move (return false)
       if (pos[0] > 80 || pos[0] < -80 || pos[1] < 0 || pos[1] > 70 || pos[2] < -90 || pos[2] > 90){
         console.log("can't leave cube");
         return false;
