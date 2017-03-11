@@ -9,20 +9,30 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="example-shapes.js"        ></script>
   <script type="text/javascript" src="example-shaders.js"       ></script>
   <script type="text/javascript" src="surfaces-of-revolution.js"></script>
-  <script type="text/javascript" src="subdivision-sphere.js"    ></script>
-  <script type="text/javascript" src="surfaces-tester.js"       ></script>
-  <script type="text/javascript" src="bee-scene.js"             ></script>
   <script type="text/javascript" src="environment_mapping.js"             ></script>
   <script type="text/javascript" src="rome_model_loader.js"     ></script>
-  <script type="text/javascript" src="animated-fox.js"          ></script>
-  <script type="text/javascript" src="animated-bear.js"         ></script>
+  <script type="text/javascript" src="models/model-base.js"          ></script>
+  <script type="text/javascript" src="models/animated-fox.js"          ></script>
+  <script type="text/javascript" src="models/animated-bear.js"         ></script>
   <script type="text/javascript" src="buffer-loader.js"          ></script>
   <script type="text/javascript" src="sound.js"          ></script>
+<<<<<<< HEAD
   <script type="text/javascript" src="animated-eagle.js"         ></script>
   <script type="text/javascript" src="animated-horse.js"         ></script>
   <script type="text/javascript" src="animated-lion.js"         ></script>
   <script type="text/javascript" src="animated-parrot.js"         ></script>
   <script type="text/javascript" src="sound_manager.js"         ></script>
+=======
+  <script type="text/javascript" src="models/animated-eagle.js"         ></script>
+  <script type="text/javascript" src="models/animated-horse.js"         ></script>
+  <script type="text/javascript" src="models/animated-lion.js"         ></script>
+  <script type="text/javascript" src="models/animated-parrot.js"         ></script>
+  <script type="text/javascript" src="models/animated-cow.js"         ></script>
+  <script type="text/javascript" src="models/animated-goat.js"         ></script>
+  <script type="text/javascript" src="models/animated-wolf.js"         ></script>
+  <script type="text/javascript" src="models/animated-deer.js"         ></script>
+  <script type="text/javascript" src="models/animated-raven.js"         ></script>
+>>>>>>> upstream/master
   <script type="text/javascript" src="scene_manager.js"         ></script>
   <script type="text/javascript"> "use strict"  
 
@@ -33,8 +43,7 @@ index.html - The web page document containing the canvas (drawing surface), that
             
         shaders_in_use[ "Default"     ] = new Phong_or_Gouraud_Shader( g_state );    // Put all our shader programs in the GPU.
                                                                                   // IMPORTANT: -- You have to include all your new images in here:
-        //texture_filenames_to_load.push( "text.png" );                             // Put all our texture images in the GPU.
-
+        // Put all texture images in the GPU.
 
         //PUSH ENVIRONMENT MAPPING TEXTURES
         texture_filenames_to_load.push("pics/negx1.jpg");
