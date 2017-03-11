@@ -51,7 +51,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
       },
     'display': function(time)
       {
-        //console.log("meow:", this.shared_scratchpad.cameraPos);
         var model_transform = mat4(); 
         shaders_in_use[ "Default" ].activate();
 
@@ -90,13 +89,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         //Draw animals, different depending on world
         var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t) ];
 
-
-        // if (this.shared_scratchpad.worldNum == 1){ //want: goat, horse, cow, and retriever
-        //   model_transform = mat4();
-        //   model_transform = mult( mult( model_transform, translation( -10, -12, -40 ) ), scale(1/60, 1/60, 1/60));
-        //   shapes_in_use.model_horse.set_step( t * 4 );
-        //   shapes_in_use.model_horse       .draw( this.graphics_state, model_transform, purplePlastic );
-
         if (this.shared_scratchpad.worldNum == 1){
           this.scene_manager.elaps_time( t - this.last_t );
           var objs = this.scene_manager.get_shape_transforms();
@@ -105,10 +97,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
             obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
           }
 
-          // model_transform = mat4();
-          // model_transform = mult( mult( model_transform, translation( -10, 40, -60 ) ), scale(1/10, 1/10, 1/10));
-          // shapes_in_use.model_parrot.set_step( t * 4 );
-          // shapes_in_use.model_parrot       .draw( this.graphics_state, model_transform, purplePlastic );
         }
         else if (this.shared_scratchpad.worldNum == 2){ //want: elk, moose, bear, and fox
           model_transform = mat4();
