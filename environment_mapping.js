@@ -55,7 +55,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         var model_transform = mat4(); 
         shaders_in_use[ "Default" ].activate();
 
-        var faceTextures1 = ["/pics/negy1.jpg","/pics/posy1.jpg","/pics/posx1.jpg","/pics/negx1.jpg","/pics/posz1.jpg","/pics/negz1.jpg"];
+        var faceTextures1 = ["pics/negy1.jpg","pics/posy1.jpg","pics/posx1.jpg","pics/negx1.jpg","pics/posz1.jpg","pics/negz1.jpg"];
         var faceTextures2 = ["/pics/negy2.jpg","/pics/posy2.jpg","/pics/posx2.jpg","/pics/negx2.jpg","/pics/posz2.jpg","/pics/negz2.jpg"];
         var faceTextures3 = ["/pics/negy3.jpg","/pics/posy3.jpg","/pics/posx3.jpg","/pics/negx3.jpg","/pics/posz3.jpg","/pics/negz3.jpg"];
         
