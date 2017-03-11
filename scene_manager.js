@@ -41,7 +41,7 @@ Declare_Any_Class( "Scene_Manager", {
       animation_step: 0,
     });
   },
-  'set_blocker': function(blockers) {
+  'set_blockers': function(blockers) {
     if( blockers ) {
       this.blockers = blockers;
     }
