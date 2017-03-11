@@ -67,6 +67,15 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         this.scene_managers.push(scene_manager1);
         this.scene_managers.push(scene_manager2);
         this.scene_managers.push(scene_manager3);
+
+        this.sound_managers = [];
+        var sound_manager1 = new Sound_Manager(scene_manager1.get_shape_positions());
+        var sound_manager2 = new Sound_Manager(scene_manager2.get_shape_positions());
+        var sound_manager3 = new Sound_Manager(scene_manager3.get_shape_positions());
+        this.sound_managers.push(sound_manager1);
+        this.sound_managers.push(sound_manager2);
+        this.sound_managers.push(sound_manager3);
+
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
@@ -108,6 +117,12 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
             shapes_in_use.face.draw(this.graphics_state, square_transform, faceImage);               
           }
         }
+
+        // Camera position extraction
+        var C_inv = inverse(this.graphics_state.camera_transform);
+        var cam = mult_vec(C_inv, vec4(0,0,0,1));
+
+        var doorMaterial = new Material( Color (0,0,0,1), 1,0,0,0, "door.png");
 
         //draw door
         var doorMaterial = new Material( Color (0,0,0,1), 1,0,0,0, "door.png");
@@ -151,6 +166,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         //   shapes_in_use.model_lion       .draw( this.graphics_state, model_transform, purplePlastic );
 
         //Draw animals
+
         var scene = this.shared_scratchpad.worldNum - 1;
         this.scene_managers[scene].elaps_time( t - this.last_t );
         var objs = this.scene_managers[scene].get_shape_transforms();
@@ -158,7 +174,9 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
           obj.shape.set_step(obj.animation_step);
           obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
         }
-
+        processSound(obj.type, obj.id, t, cam, obj.transform, this.sound_managers[scene], this.shared_scratchpad.soundBuffer, this.shared_scratchpad.soundContext);
         this.last_t = t;
+
+        this.shared_scratchpad.soundBuffer.onload(this.shared_scratchpad.soundContext, this.shared_scratchpad.soundBuffer, 0);
       }
   }, Animation );

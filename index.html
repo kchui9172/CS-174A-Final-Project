@@ -16,6 +16,13 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="models/animated-bear.js"         ></script>
   <script type="text/javascript" src="buffer-loader.js"          ></script>
   <script type="text/javascript" src="sound.js"          ></script>
+<<<<<<< HEAD
+  <script type="text/javascript" src="animated-eagle.js"         ></script>
+  <script type="text/javascript" src="animated-horse.js"         ></script>
+  <script type="text/javascript" src="animated-lion.js"         ></script>
+  <script type="text/javascript" src="animated-parrot.js"         ></script>
+  <script type="text/javascript" src="sound_manager.js"         ></script>
+=======
   <script type="text/javascript" src="models/animated-eagle.js"         ></script>
   <script type="text/javascript" src="models/animated-horse.js"         ></script>
   <script type="text/javascript" src="models/animated-lion.js"         ></script>
@@ -25,11 +32,10 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="models/animated-wolf.js"         ></script>
   <script type="text/javascript" src="models/animated-deer.js"         ></script>
   <script type="text/javascript" src="models/animated-raven.js"         ></script>
+>>>>>>> upstream/master
   <script type="text/javascript" src="scene_manager.js"         ></script>
   <script type="text/javascript"> "use strict"  
 
-    var soundContext;
-    var soundBuffer;
     window.onload = function init()           // ********************* OUR WHOLE PROGRAM'S ENTRY POINT ********************* 
       {	
         var main_canvas = new Canvas_Manager( "gl-canvas", Color( 0, 0, 0, 1 ) ),    // Make the master canvas manager.  Set your background color here too
@@ -68,30 +74,37 @@ index.html - The web page document containing the canvas (drawing surface), that
         for( var i = 0; i < texture_filenames_to_load.length; i++ ) 
           textures_in_use[ texture_filenames_to_load[i] ] = ( new Texture( texture_filenames_to_load[i], false ) );
         
+        // Sound preparation
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;    // Declare the sound context
+        main_canvas.shared_scratchpad.soundContext = new AudioContext();
+
+        main_canvas.shared_scratchpad.soundBuffer = new BufferLoader(         // Create a buffer to load all sounds
+        main_canvas.shared_scratchpad.soundContext,
+        [
+          'Sounds/background.wav',
+          'Sounds/farm.wav',
+          'Sounds/forest.wav',
+          'Sounds/city.wav',
+          'Sounds/wolf.wav',
+          'Sounds/cow.wav',
+          'Sounds/goat.wav',
+          'Sounds/fox.wav',
+          'Sounds/lion.wav',
+          'Sounds/eagle.wav',
+          'Sounds/horse.wav',
+          'Sounds/bear.wav',
+          'Sounds/parrot.wav'
+        ],
+        playSound                            // play the background sound
+        );
+
+        main_canvas.shared_scratchpad.soundBuffer.load();
+
         //main_canvas.register_display_object( new Debug_Screen     ( main_canvas ) );  // We instantiate some of our custom "Animation" subclasses and register these displayable
 
         main_canvas.register_display_object( new Example_Camera   ( main_canvas ) );  // draw / keyboard / mouse event happens.
         main_canvas.register_display_object( new Environment_Mapping ( main_canvas ) );
         main_canvas.render();
-
-        // Sound preparation
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        soundContext = new AudioContext();
-
-        soundBuffer = new BufferLoader(
-        soundContext,
-        [
-          'Sounds/background.wav',
-          'Sounds/fox.wav',
-          'Sounds/lion.wav',
-          'Sounds/hawk.wav',
-          'Sounds/horse.wav',
-          'Sounds/bear.wav'
-        ],
-        finishedLoading
-        );
-
-        soundBuffer.load();
       }
 
     window.requestAnimFrame = ( function()						// Use the correct browser's version of requestAnimationFrame() when queue-ing up re-display events. 
