@@ -12,6 +12,9 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         shapes_in_use.model_horse       = new ModelHorse();
         shapes_in_use.model_lion       = new ModelLion();
         shapes_in_use.model_parrot       = new ModelParrot();
+        shapes_in_use.model_cow       = new ModelCow();
+        shapes_in_use.model_goat       = new ModelGoat();
+        shapes_in_use.model_wolf       = new ModelWolf();
 
         scene_param = {
           x_min: -100,
@@ -31,6 +34,9 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         var scene_manager3 = new Scene_Manager(scene_param);
         this.last_t = 0;
         scene_manager1.register_shape(shapes_in_use.model_horse, 'horse', 'horse1', vec3(-10, -12, -40), 1/60, 50, 4);
+        scene_manager1.register_shape(shapes_in_use.model_cow, 'cow', 'cow1', vec3(10, -12, -40), 1/10, 50, 4);
+        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat1', vec3(20, -10, -20), 1/8, 30, 5);
+        scene_manager1.register_shape(shapes_in_use.model_wolf, 'wolf', 'wolf1', vec3(0, -10, 0), 1/8, 30, 5);
         scene_manager2.register_shape(shapes_in_use.model_horse, 'horse', 'horse2', vec3(10, -12, -40), 1/60, 50, 4);
         scene_manager3.register_shape(shapes_in_use.model_horse, 'horse', 'horse3', vec3(10, -12, -20), 1/60, 50, 4);
         scene_manager1.register_shape(shapes_in_use.model_horse, 'horse', 'horse4', vec3(-10, -12, -20), 1/60, 50, 4);
