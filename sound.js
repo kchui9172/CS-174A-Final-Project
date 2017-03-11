@@ -5,7 +5,6 @@ function playSound(soundContext, bufferList, i) {
   source1.buffer = bufferList[i];
   source1.connect(soundContext.destination);
   source1.start(0);
-  //console.log(soundContext.destination);
 }
 
 
@@ -56,10 +55,10 @@ function processSound(model_class, model_id, time, cam, model_transform, sound_m
 	} else {
 		if (sound_manager.if_play[model_id]){
 			if ((time - sound_manager.played_time[model_id]) > sound_manager.play_period) {
-				soundBuffer.onload(soundContext, soundBuffer.bufferList, class_index);
+				playSound(soundContext, soundBuffer.bufferList, class_index);
 				sound_manager.played_time[class_index] = time;
 			} else {
-				soundBuffer.onload(soundContext, soundBuffer.bufferList, class_index);
+				playSound(soundContext, soundBuffer.bufferList, class_index);
 				sound_manager.if_play[model_id] = true;
 				sound_manager.played_time[model_id] = time;
 			}

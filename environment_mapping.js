@@ -173,10 +173,10 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         for (obj of objs) {
           obj.shape.set_step(obj.animation_step);
           obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
+          processSound(obj.type, obj.id, t, cam, obj.transform, this.sound_managers[scene], this.shared_scratchpad.soundBuffer, this.shared_scratchpad.soundContext);
         }
-        processSound(obj.type, obj.id, t, cam, obj.transform, this.sound_managers[scene], this.shared_scratchpad.soundBuffer, this.shared_scratchpad.soundContext);
         this.last_t = t;
 
-        this.shared_scratchpad.soundBuffer.onload(this.shared_scratchpad.soundContext, this.shared_scratchpad.soundBuffer, 0);
+        playSound(this.shared_scratchpad.soundContext, this.shared_scratchpad.soundBuffer.bufferList, 0);
       }
   }, Animation );
