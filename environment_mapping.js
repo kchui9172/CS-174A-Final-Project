@@ -4,7 +4,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         this.shared_scratchpad    = context.shared_scratchpad;
 
         //Load animal models
-
         shapes_in_use["face"] = new Square();
         shapes_in_use["door"] = new Cube();
         this.graphics_state.lights = [ new Light( vec4( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), 100000000)];
@@ -41,7 +40,9 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         var scene_manager1 = new Scene_Manager(scene_param);
         var scene_manager2 = new Scene_Manager(scene_param);
         var scene_manager3 = new Scene_Manager(scene_param);
+
         this.last_t = 0;
+
         scene_manager1.register_shape(shapes_in_use.model_horse, 'horse', 'horse1', vec3(-10, 0, -40), 1/60, 50, 4);
         scene_manager1.register_shape(shapes_in_use.model_horse, 'horse', 'horse2', vec3(-10, 0, -20), 1/60, 50, 4);
         scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat1', vec3(20, 0, -20), 1/10, 30, 5);
@@ -70,15 +71,17 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         scene_manager3.register_shape(shapes_in_use.model_deer, 'deer', 'deer4', vec3(40, 0, 0), 1/15, 50, 5);
         scene_manager3.register_shape(shapes_in_use.model_fox, 'fox', 'fox1', vec3(10, 0, 80), 1/90, 20, 4);
         scene_manager3.register_shape(shapes_in_use.model_fox, 'fox', 'fox2', vec3(-10, 0, 80), 1/90, 20, 4);
-      
-
+        
+        // Initialize all scenes
         this.scene_managers = [];
         this.scene_managers.push(scene_manager1);
         this.scene_managers.push(scene_manager2);
         this.scene_managers.push(scene_manager3);
 
+        // Initialize sound mamager
         this.sound_manager = new Sound_Manager();
 
+        // Track the movement between scenes so that background sounds can be switched
         this.last_scene = 0;
 
       },
@@ -141,18 +144,21 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         for (obj of objs) {
           obj.shape.set_step(obj.animation_step);
           obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
+          // For each model object in the current scene, update sound class count
           processSound(obj.type, cam, obj.transform, this.sound_manager);
         }
-
-        adjustGain(this.sound_manager, this.shared_scratchpad);
         this.last_t = t;
 
+        // According to the count of models of each class, play appropriate sounds
+        adjustGain(this.sound_manager, this.shared_scratchpad, t);
+
+        // Keep track of the scene movement, and update backgound sound
         if (this.last_scene != scene) {
             this.last_scene = scene;
-            this.shared_scratchpad.soundBuffer.class_sound_gain[0] = 0;
-            this.shared_scratchpad.soundBuffer.class_sound_gain[1] = 0;
-            this.shared_scratchpad.soundBuffer.class_sound_gain[2] = 0;
-            this.shared_scratchpad.soundBuffer.class_sound_gain[scene] = 1;
+            this.shared_scratchpad.soundBuffer.class_sound_gain[0].gain.value = 0;
+            this.shared_scratchpad.soundBuffer.class_sound_gain[1].gain.value = 0;
+            this.shared_scratchpad.soundBuffer.class_sound_gain[2].gain.value = 0;
+            this.shared_scratchpad.soundBuffer.class_sound_gain[scene].gain.value = this.sound_manager.class_sound_gain[scene];
         }
         
       }

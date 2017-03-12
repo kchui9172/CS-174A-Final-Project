@@ -1,8 +1,9 @@
+// The sound class manager to store sound mapping and useful information of sound buffers
 Declare_Any_Class( "Sound_Manager", {
   'construct': function() {
-    this.sound_play_distance = 10;   // The distance in unit within the animial to have the sound played
+    this.sound_play_distance = 20;   // The distance in unit within the animal to have the sound played
 
-    // This needs to be updated according to the 
+    // This needs to be updated according to the index.html when loading sound buffer
     this.class_index_map = {};
     this.class_index_map['farm'] = 0;
     this.class_index_map['forest'] = 1;
@@ -20,9 +21,26 @@ Declare_Any_Class( "Sound_Manager", {
 
     this.num_sound_class = 13;             // Number of sounds class in the list
 
-    this.class_sound_count = [];
+    this.class_sound_count = [];           // The array of counts of number of models of each class within sound play distance to camera
 
-    for (var i = 0; i < this.num_sound_class; i++) {     // Initialize the sound play and play time arrays
+    // Generate a corresponding valume gain of each sound to normalize them when played
+    this.class_sound_gain = [];
+    this.class_sound_gain.push(0.4);  // scene1
+    this.class_sound_gain.push(1);    // scene2
+    this.class_sound_gain.push(0.6);  // scene3
+    this.class_sound_gain.push(1);    // wolf
+    this.class_sound_gain.push(0.8);  // goat
+    this.class_sound_gain.push(1);    // fox
+    this.class_sound_gain.push(1);    // lion
+    this.class_sound_gain.push(0.5);  // eagle
+    this.class_sound_gain.push(0.2);  // horse
+    this.class_sound_gain.push(0.8);  // bear
+    this.class_sound_gain.push(0.4);  // parrot 
+    this.class_sound_gain.push(0.8);  // deer
+    this.class_sound_gain.push(1);  // raven
+
+
+    for (var i = 0; i < this.num_sound_class; i++) {     // Initialize the sound counts array
       this.class_sound_count.push(0);
     }
 
