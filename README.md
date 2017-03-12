@@ -54,5 +54,7 @@ Each model has several animation key frames. Every displayed frame we load 2 key
 
 # Reference
 [1]https://en.wikipedia.org/wiki/Newton's_law_of_universal_gravitation
+
 [2]https://github.com/dataarts/3-dreams-of-black/tree/master/deploy/asset_viewer/files/models/animals
+
 [3]https://www.ibiblio.org/e-notes/webgl/models.htm 
