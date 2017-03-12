@@ -121,9 +121,20 @@ index.html - The web page document containing the canvas (drawing surface), that
   .instructions, .cameraLocation{
     color:white;
   }
-  .warning{
-    color:red;
-  }
+  .warningLoc {
+    width: 200px;
+    height:100px;
+/*    border: 1px solid Black;*/
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    font-size: 150%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left:-70px;
+    margin-top:-50px;   
+}
 </style>
 
 </head>
@@ -145,11 +156,14 @@ index.html - The web page document containing the canvas (drawing surface), that
       </p>
     </div>
 
+    <div class= "warningLoc">
+      <p id ="warning"></p>
+    </div>
+
     <div class="cameraLocation">
       <h3> Camera Position </h3>
         <li><p id ="cameraPos"></p></li>
       </p>
-      <p id ="warning"></p>
     </div>
 </body>
 </html>
