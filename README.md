@@ -43,7 +43,7 @@ The collision avoidance engine is adapted from Netwon's law of universal gravita
 - location += velocity * time_delta * time_factor
 - velocity += acceleration * time_delta * time_factor
 - acceleration = force / weight
-- force = sum ( force_by_other_objects, force_by_other_lockers, force_by_walls )
+- force = sum ( force_by_other_objects, force_by_other_blockers, force_by_walls )
 - force_by_object = repulsion_const * weight_of_object / |distance_delta|^2
 - force_by_wall = repulsion_const * wall_weight / distance_to_wall^2
 
