@@ -4,9 +4,11 @@ function playSound(soundContext, bufferList, i) {
   var source = soundContext.createBufferSource();
   source.buffer = bufferList[i];
   source.loop = true;
-  source.connect(soundContext.destination);
+  var gainNode = context.createGain();
+  source.connect(gainNode);
+  gainNode.connect(soundContext.destination);
   source.start(0);
-  return source;
+  return gainNode;
 }
 
 
@@ -20,46 +22,28 @@ function calcDistance(cam, animial_pos) {
   return dist_len;
 }
 
-// Map between given animial and its sound index
-function soundAnimialMap(animial) {
-  var i;
-
-  if (animial == "background") {
-  	i = 0;
-  } else if (animial == "fox") {
-  	i = 1;
-  } 
-  else if (animial == "lion") {
-  	i = 2;
-  } 
-  else if (animial == "ealge") {
-  	i = 3;
-  } 
-  else if (animial == "horse") {
-  	i = 4;
-  } 
-  else if (animial == "bear") {
-  	i = 5;
-  } else {
-  	i = -1;
+function playAllSound(scratchpad) {
+  for(var i = 1; i < scratchpad.soundBuffer.bufferList.length; i++ ) {
+    scratchpad.sound_manager.class_sound_gain[i] = playSound(scratchpad.soundContext, scratchpad.soundBuffer.bufferList, i);
+    scratchpad.sound_manager.class_sound_gain[i].gain.value = 0;
   }
-
-  return i;
+  scratchpad.sound_manager.class_sound_gain[0] = scratchpad.soundBuffer.initial_background;
 }
+
 
 // Process the sound for the given animial and time
 function processSound(model_class, model_id, cam, model_transform, sound_manager, soundBuffer, soundContext) {
-	var class_index = soundAnimialMap(model_class);
 	var model_distance = calcDistance(cam, model_transform);
-	if (model_distance < sound_manager.sound_play_distance) {
+	if (model_distance > sound_manager.sound_play_distance) {
 		sound_manager.if_play[model_id] = false;
     if (sound_manager.source[model_id] != null){
+      console.log(sound_manager.source[model_id]);
       sound_manager.source[model_id].stop();
     }
 	} else {
-		if (sound_manager.if_play[model_id]){
-			sound_manager.source[model_id] = playSound(soundContext, soundBuffer.bufferList, class_index);
-			sound_manager.if_play[model_id] = true;
-		}
+    var class_index = soundAnimialMap(model_class);
+    console.log(class_index);
+		sound_manager.source[model_id] = playSound(soundContext, soundBuffer.bufferList, class_index);
+		sound_manager.if_play[model_id] = true;
 	}
 }

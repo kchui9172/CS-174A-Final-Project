@@ -27,6 +27,7 @@ BufferLoader.prototype.loadBuffer = function(url, index) {
         loader.bufferList[index] = buffer;
         if (++loader.loadCount == loader.urlList.length) {
           loader.initial_background = loader.onload(loader.context, loader.bufferList, 0);
+          loader.initial_background.gain.value = 1;
         }
       },
       function(error) {

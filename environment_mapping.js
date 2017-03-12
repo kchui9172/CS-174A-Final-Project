@@ -77,16 +77,11 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         this.scene_managers.push(scene_manager2);
         this.scene_managers.push(scene_manager3);
 
-        this.sound_managers = [];
-        var sound_manager1 = new Sound_Manager(scene_manager1.get_shape_positions());
-        var sound_manager2 = new Sound_Manager(scene_manager2.get_shape_positions());
-        var sound_manager3 = new Sound_Manager(scene_manager3.get_shape_positions());
-        this.sound_managers.push(sound_manager1);
-        this.sound_managers.push(sound_manager2);
-        this.sound_managers.push(sound_manager3);
+        var sound_manager = new Sound_Manager();
 
         this.last_scene = 0;
-        this.last_background_sound = null;
+
+        playAllSound(this.shared_scratchpad);
 
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
@@ -144,7 +139,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
 
 
         //Draw animals, different depending on world
-        var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t) ];
+        var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t)];
 
         //Draw animals
 
@@ -156,7 +151,7 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         for (obj of objs) {
           obj.shape.set_step(obj.animation_step);
           obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
-          processSound(obj.type, obj.id, cam, obj.transform, this.sound_managers[scene], this.shared_scratchpad.soundBuffer, this.shared_scratchpad.soundContext);
+          processSound(obj.type, cam, obj.transform, this.sound_manager, this.shared_scratchpad.soundContext);
         }
         this.last_t = t;
 
