@@ -9,12 +9,20 @@ The primary idea of our project was to simulate a virtual walk-around of a 3D wo
 Environment mapping was implemented using the cube mapping technique introduced in lecture. Six images were rendered and mapped to the inside of the cube in which the camera was located. When switching between worlds, different images were mapped depending on the worldNum variable stored in the Canvas_Manager's shared scratchpad. 
 
 # Sound
+- The sound is been played for all scenes and all animals classes. 
+- Each scene has a unique background music and each animial class has its corresponding sound from that type of animial.
+- The sound for each type of animal class is been played when there is at least one animal model of that class is within a pre-defined distance relative to the current camera position. The control distance is defined in sound_manager.js.
+- All sounds are loaded whe program initilizes in index.html. 
+- All sounds are been updated during the display function in environment_mapping along with models updates. 
+- The mechanism to control sound is having all sounds been played and looping forever. The gain node is used to disable and enable the sound to be audiable. This speeds up the processing of sound buffers to catch up with scene updates.
+- The gain volume of each sound is manually normilzed and the playing gain values of each sound is stored in an array in the sound manager class.
+- souce files are : sound_buffer_loader.js[ref1], sound_utilities.js, sound_mamager.js.
 
 
 # Collision Avoidance Engine
 Source Code: `scene_manager.js`
 
-The collision avoidance engine is adapted from Netwon's law of universal gravitation [ref1] but with direction reversed. So each objects will apply an repulsion force to other objects in the scene and change each other's direction. Each face of the container cube also apply force to objects in the scene when they approach the cube boundry. Each object in the scene is assigned a weight(mass), an initial location and a random initial velocity. Addidional properties like scale and animation_factor helps adjust model to the world coordinate and apply proper animation. The model transformation matrix is calculated using object's velocity and position. Position, velocity and acceleration are updated every frame.
+The collision avoidance engine is adapted from Netwon's law of universal gravitation [ref2] but with direction reversed. So each objects will apply an repulsion force to other objects in the scene and change each other's direction. Each face of the container cube also apply force to objects in the scene when they approach the cube boundry. Each object in the scene is assigned a weight(mass), an initial location and a random initial velocity. Addidional properties like scale and animation_factor helps adjust model to the world coordinate and apply proper animation. The model transformation matrix is calculated using object's velocity and position. Position, velocity and acceleration are updated every frame.
 
 ### Scene_Manager Properties
 - x_min, x_max, y_min, y_max, z_min, z_max: scaler, define boundry of the scene
@@ -48,13 +56,19 @@ The collision avoidance engine is adapted from Netwon's law of universal gravita
 - force_by_wall = repulsion_const * wall_weight / distance_to_wall^2
 
 # Models and Animation
-Animal models and animation (everything in models folder except `model_base.js`) come from ROME project "3 Dreams of Black" [ref2]. Model loader (`rome_model_loader.js`) comes from www.ibiblio.org [ref3] with minor adjustments. Neither the models nor the loader supports texture.
+Animal models and animation (everything in models folder except `model_base.js`) come from ROME project "3 Dreams of Black" [ref3]. Model loader (`rome_model_loader.js`) comes from www.ibiblio.org [ref4] with minor adjustments. Neither the models nor the loader supports texture.
 
 Each model has several animation key frames. Every displayed frame we load 2 key frames to GLSL and apply a morphing factor between two key frames. Morphing factor is calculated with animation_step and total number of key frames.
 
 # Reference
-[1]https://en.wikipedia.org/wiki/Newton's_law_of_universal_gravitation
 
-[2]https://github.com/dataarts/3-dreams-of-black/tree/master/deploy/asset_viewer/files/models/animals
+[1]https://www.html5rocks.com/en/tutorials/webaudio/intro/
 
-[3]https://www.ibiblio.org/e-notes/webgl/models.htm 
+[2]https://en.wikipedia.org/wiki/Newton's_law_of_universal_gravitation
+
+[3]https://github.com/dataarts/3-dreams-of-black/tree/master/deploy/asset_viewer/files/models/animals
+
+[4]https://www.ibiblio.org/e-notes/webgl/models.htm 
+
+
+

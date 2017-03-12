@@ -3,28 +3,28 @@
 <!DOCTYPE html>
 <html>
 <head>  <meta charset="UTF-8"/>
-  <script type="text/javascript" src="MV.js"                    ></script> 
-  <script type="text/javascript" src="tinywebgl-ucla.js"        ></script>
-  <script type="text/javascript" src="example-displayables.js"  ></script>
-  <script type="text/javascript" src="example-shapes.js"        ></script>
-  <script type="text/javascript" src="example-shaders.js"       ></script>
-  <script type="text/javascript" src="environment_mapping.js"             ></script>
-  <script type="text/javascript" src="rome_model_loader.js"     ></script>
+  <script type="text/javascript" src="MV.js"                         ></script> 
+  <script type="text/javascript" src="tinywebgl-ucla.js"             ></script>
+  <script type="text/javascript" src="displayables.js"               ></script>
+  <script type="text/javascript" src="shapes.js"                     ></script>
+  <script type="text/javascript" src="shaders.js"                    ></script>
+  <script type="text/javascript" src="environment_mapping.js"        ></script>
+  <script type="text/javascript" src="rome_model_loader.js"          ></script>
   <script type="text/javascript" src="models/model-base.js"          ></script>
-  <script type="text/javascript" src="models/animated-fox.js"          ></script>
-  <script type="text/javascript" src="models/animated-bear.js"         ></script>
-  <script type="text/javascript" src="models/animated-eagle.js"         ></script>
-  <script type="text/javascript" src="models/animated-horse.js"         ></script>
-  <script type="text/javascript" src="models/animated-lion.js"         ></script>
-  <script type="text/javascript" src="models/animated-parrot.js"         ></script>
-  <script type="text/javascript" src="models/animated-goat.js"         ></script>
-  <script type="text/javascript" src="models/animated-wolf.js"         ></script>
-  <script type="text/javascript" src="models/animated-deer.js"         ></script>
-  <script type="text/javascript" src="models/animated-raven.js"         ></script>
-  <script type="text/javascript" src="scene_manager.js"         ></script>
-  <script type="text/javascript" src="buffer-loader.js"          ></script>
-  <script type="text/javascript" src="sound.js"          ></script>
-  <script type="text/javascript" src="sound_manager.js"         ></script>
+  <script type="text/javascript" src="models/animated-fox.js"        ></script>
+  <script type="text/javascript" src="models/animated-bear.js"       ></script>
+  <script type="text/javascript" src="models/animated-eagle.js"      ></script>
+  <script type="text/javascript" src="models/animated-horse.js"      ></script>
+  <script type="text/javascript" src="models/animated-lion.js"       ></script>
+  <script type="text/javascript" src="models/animated-parrot.js"     ></script>
+  <script type="text/javascript" src="models/animated-goat.js"       ></script>
+  <script type="text/javascript" src="models/animated-wolf.js"       ></script>
+  <script type="text/javascript" src="models/animated-deer.js"       ></script>
+  <script type="text/javascript" src="models/animated-raven.js"      ></script>
+  <script type="text/javascript" src="scene_manager.js"              ></script>
+  <script type="text/javascript" src="sound_buffer_loader.js"        ></script>
+  <script type="text/javascript" src="sound_utilities.js"            ></script>
+  <script type="text/javascript" src="sound_manager.js"              ></script>
   <script type="text/javascript"> "use strict"  
 
     window.onload = function init()           // ********************* OUR WHOLE PROGRAM'S ENTRY POINT ********************* 
@@ -67,10 +67,11 @@
         window.AudioContext = window.AudioContext || window.webkitAudioContext;    // Declare the sound context
         main_canvas.shared_scratchpad.soundContext = new AudioContext();
 
-        main_canvas.shared_scratchpad.soundBuffer = new BufferLoader(         // Create a buffer to load all sounds
+        // Create a bufferloader class and sound context class within the shared_scratechpad 
+        main_canvas.shared_scratchpad.soundBuffer = new BufferLoader(     
         main_canvas.shared_scratchpad.soundContext,
         [
-          'Sounds/farm.wav',
+          'Sounds/farm.mp3',
           'Sounds/forest.wav',
           'Sounds/city.wav',
           'Sounds/wolf.wav',
@@ -84,9 +85,10 @@
           'Sounds/deer.wav',
           'Sounds/raven.wav'
         ],
-        playSound                            // play the background sound
+        playSound                  
         );
 
+        // To load the sounds immidiately when starting the program
         main_canvas.shared_scratchpad.soundBuffer.load();
 
         main_canvas.register_display_object( new Example_Camera   ( main_canvas ) );  // draw / keyboard / mouse event happens.
@@ -105,6 +107,10 @@
     background-color: black;
   }
   h1{
+    color: white;
+    text-align: center;
+  }
+  h3{
     color: white;
     text-align: center;
   }
@@ -141,15 +147,15 @@
 
 <body>
     <h1> Zootopia </h1>
-
+    <h3> By Kristen Chui, Libin Bai, Mushi Zhou <br/> CS174 Winter 2017 UCLA </h3> 
     <div class = "instructions">
       <p>
-        <h3>How to Navigate</h3>
+        <h2>How to Navigate</h2>
         <ul>
-        <li> w a s d: fly camera aroudn scene in plane along ground
-        <li> space and z: float up and down respectively
-        <li> r : reset camera and vantage point back to origin
-        <li> arrow keys: adjust angle of camera
+        <li> W A S D: fly camera aroudn scene in plane along ground
+        <li> SPACE and Z: float up and down respectively
+        <li> R : reset camera and vantage point back to origin
+        <li> Arrow keys: adjust angle of camera
         <li>To move into the next world, move to the door. Your camera position must be between x = [-50,-40] y = [0,7] z = [-90,-80]. 
       </p>
     </div>
