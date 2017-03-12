@@ -21,7 +21,6 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="models/animated-horse.js"         ></script>
   <script type="text/javascript" src="models/animated-lion.js"         ></script>
   <script type="text/javascript" src="models/animated-parrot.js"         ></script>
-  <script type="text/javascript" src="models/animated-cow.js"         ></script>
   <script type="text/javascript" src="models/animated-goat.js"         ></script>
   <script type="text/javascript" src="models/animated-wolf.js"         ></script>
   <script type="text/javascript" src="models/animated-deer.js"         ></script>
@@ -93,10 +92,8 @@ index.html - The web page document containing the canvas (drawing surface), that
 
         main_canvas.shared_scratchpad.soundBuffer.load();
 
-        //main_canvas.register_display_object( new Debug_Screen     ( main_canvas ) );  // We instantiate some of our custom "Animation" subclasses and register these displayable
-
         main_canvas.register_display_object( new Example_Camera   ( main_canvas ) );  // draw / keyboard / mouse event happens.
-        main_canvas.register_display_object( new Environment_Mapping ( main_canvas ) );
+        main_canvas.register_display_object( new Environment_Mapping ( main_canvas ) ); //load models and environment mapping
         main_canvas.render();
       }
 
@@ -105,24 +102,54 @@ index.html - The web page document containing the canvas (drawing surface), that
         function( callback, element) { window.setTimeout(callback, 1000/60);  };
       })();
   </script>
+
+  <style>
+  body{
+    background-color: black;
+  }
+  h1{
+    color: white;
+    text-align: center;
+  }
+  canvas{
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  .instructions, .cameraLocation{
+    color:white;
+  }
+  .warning{
+    color:red;
+  }
+</style>
+
 </head>
 
 <body>
-<canvas id="gl-canvas" width="800" height="600"></canvas><p>
-<a href="#" onclick='document.getElementById( "instructions" ).style = "display:block"; this.style = "display:none";'> Click for instructions </a><div id="instructions" style = "display:none">
-Controlling this Graphics Object: 
-<ul><li>Animation is paused when this program starts, so first you should press ALT+a to play or pause animation. <li>
-    Press t to un-hide the heads-up-display text.  **If this doesn't do anything** then you are running your files without correctly hosting them.  You need to 
-    run cd path/to/these/files, then python -m http.server, then visit the URL localhost:8000. <li>
-    Clicking and dragging spins the scene around while the camera stays still.  If you'd like to spin around some other focal point, 
-    you can set one by flying the camera right up to a desired point and then pressing o.<li>
-		Fly the camera around the scene to adjust your vantage point using the keys w a s d to move in the plane that's along the ground, 
-		and the keys space and z to float up and down.  At any time press r to reset the camera and vantage point back to the origin. <li>
-		The f key unfreezes the camera's rotation setting so you can aim it around while flying or sitting still.  Move the mouse around away from the 
-		center of the window to steer, and press f again to stop this and to freeze the steering again.  Any roll rotation is controlled separately with the comma and period keys. <li> 
-    The keys ALT+n and ALT+g switch shading behaviors.  ALT+n directly shows you normal vectors on shapes by interpreting X,Y,Z vectors
-    as R,G,B colors.  ALT+g toggles Gouraud shading vs Smooth Phong shading with textures.<li>
-		Press up and down to cycle through a live feed of important strings and values of the program -- the code for each Displayable object includes a function where it can provide these. <li>
-		Have fun.
-</div></p></body>
+    <h1> CS 174A Final Project: Team 7 </h1>
+    <canvas id="gl-canvas" width="1000" height="600"></canvas>
+
+    <div class = "instructions">
+      <p>
+        <h3>How to Navigate</h3>
+        <ul>
+        <li> w a s d: fly camera aroudn scene in plane along ground
+        <li> spcae and z: float up and down respectively
+        <li> r : reset camera and vantage point back to origin
+        <li> arrow keys: adjust angle of camera
+        <li>To move into the next world, move to the door. Your camera position must be between x = [-50,-40] y = [0,7] z = [-90,-80]. 
+        <li>The t key displays the camera's position.
+      </p>
+    </div>
+
+    <div class="cameraLocation">
+      <h3> Camera Position </h3>
+        <li><p id ="cameraPos"></p></li>
+      </p>
+      <p id ="warning"></p>
+    </div>
+</body>
 </html>

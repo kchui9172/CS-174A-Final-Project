@@ -88,8 +88,8 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
-        controls.add( "ALT+g", this, function() { this.shared_scratchpad.graphics_state.gouraud       ^= 1; } );   // Make the keyboard toggle some
-        controls.add( "ALT+n", this, function() { this.shared_scratchpad.graphics_state.color_normals ^= 1; } );   // GPU flags on and off.
+        //controls.add( "ALT+g", this, function() { this.shared_scratchpad.graphics_state.gouraud       ^= 1; } );   // Make the keyboard toggle some
+        //controls.add( "ALT+n", this, function() { this.shared_scratchpad.graphics_state.color_normals ^= 1; } );   // GPU flags on and off.
         controls.add( "ALT+a", this, function() { this.shared_scratchpad.animate                      ^= 1; } );
       },
     'update_strings': function( user_interface_string_manager )       // Strings that this displayable object (Animation) contributes to the UI:
@@ -142,37 +142,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
 
         //Draw animals, different depending on world
         var t = this.graphics_state.animation_time/1000, light_orbit = [ Math.cos(t), Math.sin(t) ];
-
-        // if (this.shared_scratchpad.worldNum == 1){
-        //   this.scene_manager.elaps_time( t - this.last_t );
-        //   var objs = this.scene_manager.get_shape_transforms();
-        //   for (obj of objs) {
-        //     obj.shape.set_step(obj.animation_step);
-        //     obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
-        //   }
-
-        // }
-        // else if (this.shared_scratchpad.worldNum == 2){ //want: elk, moose, bear, and fox
-        //   model_transform = mat4();
-        //   model_transform = mult( mult( model_transform, translation( 10, -12, -80 ) ), scale(1/90, 1/90, 1/90));
-        //   shapes_in_use.model_fox.set_step( t * 8 );
-        //   shapes_in_use.model_fox       .draw( this.graphics_state, model_transform, purplePlastic );
-
-        //   model_transform = mat4();
-        //   model_transform = mult( mult( model_transform, translation( -90, -12, -30 ) ), scale(1/80, 1/80, 1/80));
-        //   shapes_in_use.model_bear.set_step( t * 1 );
-        //   shapes_in_use.model_bear       .draw( this.graphics_state, model_transform, purplePlastic );
-        // }
-        // else{ //want: eagle, owl, raven
-        //   model_transform = mat4();
-        //   model_transform = mult( mult( model_transform, translation( -10, 40, -80 ) ), scale(1/100, 1/100, 1/100));
-        //   shapes_in_use.model_eagle.set_step( t * 4 );
-        //   shapes_in_use.model_eagle       .draw( this.graphics_state, model_transform, purplePlastic );
-
-        //   model_transform = mat4();
-        //   model_transform = mult( mult( model_transform, translation( -30, -12, -60 ) ), scale(1/60, 1/60, 1/60));
-        //   shapes_in_use.model_lion.set_step( t * 4 );
-        //   shapes_in_use.model_lion       .draw( this.graphics_state, model_transform, purplePlastic );
 
         //Draw animals
 
