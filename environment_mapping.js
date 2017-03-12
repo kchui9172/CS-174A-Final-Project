@@ -44,16 +44,16 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         this.last_t = 0;
         scene_manager1.register_shape(shapes_in_use.model_horse, 'horse', 'horse1', vec3(-10, -12, -40), 1/60, 50, 4);
         scene_manager1.register_shape(shapes_in_use.model_horse, 'horse', 'horse2', vec3(-10, -12, -20), 1/60, 50, 4);
-        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat1', vec3(20, -10, -20), 1/10, 30, 5);
-        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat2', vec3(20, -10, -40), 1/10, 30, 5);
-        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat3', vec3(-40, -10, 30), 1/10, 30, 5);
+        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat1', vec3(20, -15, -20), 1/10, 30, 5);
+        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat2', vec3(20, -15, -40), 1/10, 30, 5);
+        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat3', vec3(-40, -15, 30), 1/10, 30, 5);
         scene_manager1.register_shape(shapes_in_use.model_raven, 'raven', 'raven1', vec3(-20, 40, -40), 1/8, 30, 5, true);
         scene_manager1.register_shape(shapes_in_use.model_raven, 'raven', 'raven2', vec3(-10, 40, -40), 1/8, 30, 5, true);
         scene_manager1.register_shape(shapes_in_use.model_raven, 'raven', 'raven3', vec3(-30, 40, 40), 1/8, 30, 5, true);
         scene_manager1.register_shape(shapes_in_use.model_raven, 'raven', 'raven4', vec3(10, 40, -20), 1/8, 30, 5, true);
         scene_manager1.register_shape(shapes_in_use.model_raven, 'raven', 'raven5', vec3(-10, 40, -10), 1/8, 30, 5, true);
 
-        scene_manager2.register_shape(shapes_in_use.model_bear, 'bear', 'bear1', vec3(40, -12, 30), 1/60, 50, 1);
+        scene_manager2.register_shape(shapes_in_use.model_bear, 'bear', 'bear1', vec3(40, -14, 30), 1/60, 50, 1);
         scene_manager2.register_shape(shapes_in_use.model_lion, 'lion', 'lion1', vec3(30, -12, 60), 1/70, 40, 4);
         scene_manager2.register_shape(shapes_in_use.model_lion, 'lion', 'lion2', vec3(-30, -12, -60), 1/70, 40, 4);
         scene_manager2.register_shape(shapes_in_use.model_parrot, 'parrot', 'parrot1', vec3(-10, 40, -60), 1/10, 10, 4, true);
