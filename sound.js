@@ -1,10 +1,12 @@
 // Play the sound of the corresponding animial
 function playSound(soundContext, bufferList, i) {
 
-  var source1 = soundContext.createBufferSource();
-  source1.buffer = bufferList[i];
-  source1.connect(soundContext.destination);
-  source1.start(0);
+  var source = soundContext.createBufferSource();
+  source.buffer = bufferList[i];
+  source.loop = true;
+  source.connect(soundContext.destination);
+  source.start(0);
+  return source;
 }
 
 
@@ -46,22 +48,18 @@ function soundAnimialMap(animial) {
 }
 
 // Process the sound for the given animial and time
-function processSound(model_class, model_id, time, cam, model_transform, sound_manager, soundBuffer, soundContext) {
+function processSound(model_class, model_id, cam, model_transform, sound_manager, soundBuffer, soundContext) {
 	var class_index = soundAnimialMap(model_class);
 	var model_distance = calcDistance(cam, model_transform);
 	if (model_distance < sound_manager.sound_play_distance) {
 		sound_manager.if_play[model_id] = false;
-		sound_manager.played_time[model_id] = 0;
+    if (sound_manager.source[model_id] != null){
+      sound_manager.source[model_id].stop();
+    }
 	} else {
 		if (sound_manager.if_play[model_id]){
-			if ((time - sound_manager.played_time[model_id]) > sound_manager.play_period) {
-				playSound(soundContext, soundBuffer.bufferList, class_index);
-				sound_manager.played_time[class_index] = time;
-			} else {
-				playSound(soundContext, soundBuffer.bufferList, class_index);
-				sound_manager.if_play[model_id] = true;
-				sound_manager.played_time[model_id] = time;
-			}
+			sound_manager.source[model_id] = playSound(soundContext, soundBuffer.bufferList, class_index);
+			sound_manager.if_play[model_id] = true;
 		}
 	}
 }
