@@ -12,7 +12,7 @@ Environment mapping was implemented using the cube mapping technique introduced 
 
 
 # Collision Avoidance Engine
-Source Code: scene_manager.js
+Source Code: `scene_manager.js`
 
 The collision avoidance engine is adapted from Netwon's law of universal gravitation [ref1] but with direction reversed. So each objects will apply an repulsion force to other objects in the scene and change each other's direction. Each face of the container cube also apply force to objects in the scene when they approach the cube boundry. Each object in the scene is assigned a weight(mass), an initial location and a random initial velocity. Addidional properties like scale and animation_factor helps adjust model to the world coordinate and apply proper animation. The model transformation matrix is calculated using object's velocity and position. Position, velocity and acceleration are updated every frame.
 
@@ -48,7 +48,7 @@ The collision avoidance engine is adapted from Netwon's law of universal gravita
 - force_by_wall = repulsion_const * wall_weight / distance_to_wall^2
 
 # Models and Animation
-Animal models and animation (everything in models folder except model_base.js) come from ROME project "3 Dreams of Black" [ref2]. Model loader (rome_model_loader.js) comes from www.ibiblio.org [ref3] with minor adjustments. Neither the models nor the loader supports texture.
+Animal models and animation (everything in models folder except `model_base.js`) come from ROME project "3 Dreams of Black" [ref2]. Model loader (`rome_model_loader.js`) comes from www.ibiblio.org [ref3] with minor adjustments. Neither the models nor the loader supports texture.
 
 Each model has several animation key frames. Every displayed frame we load 2 key frames to GLSL and apply a morphing factor between two key frames. Morphing factor is calculated with animation_step and total number of key frames.
 
