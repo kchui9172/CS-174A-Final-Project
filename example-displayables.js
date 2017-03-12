@@ -39,7 +39,7 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
           } );     
 
         controls.add( "z",     this, function() { this.thrust[1] =  0; }, {'type':'keyup'} );
-        controls.add( "r",     this, function() { this.graphics_state.camera_transform = mat4(); this.cameraPos = [0,0,0,1];} );
+        controls.add( "r",     this, function() { this.graphics_state.camera_transform = mat4(); this.cameraPos = [0,0,0,1]; document.getElementById("warning").innerHTML = "";} );
 
         controls.add( "w",     this, 
           function() { 
@@ -121,15 +121,25 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
       //if new position is out of range, don't move (return false)
       if (pos[0] > 80 || pos[0] < -80 || pos[1] < 0 || pos[1] > 70 || pos[2] < -90 || pos[2] > 90){
         console.log("can't leave cube");
+        document.getElementById("warning").innerHTML = "Can't move in that direction or else will leave world!";
         return false;
       }
       else{
+        document.getElementById("warning").innerHTML = "";
         return true;
       }
     },
     'update_strings': function( user_interface_string_manager )       // Strings that this displayable object (Animation) contributes to the UI:
       { var C_inv = inverse( this.graphics_state.camera_transform ), pos = mult_vec( C_inv, vec4( 0, 0, 0, 1 ) ),
                                                                   z_axis = mult_vec( C_inv, vec4( 0, 0, 1, 0 ) );                                                                 
+        //Display camera position in index.html
+        var displayedPos = vec4();
+        displayedPos[0] = Math.round(pos[0] * 100) / 100;
+        displayedPos[1] = Math.round(pos[1] * 100) / 100;
+        displayedPos[2] = Math.round(pos[2] * 100) / 100;
+        displayedPos[3] = 1;
+        document.getElementById("cameraPos").innerHTML = displayedPos;
+
         user_interface_string_manager.string_map["origin" ] = "Center of rotation: " + this.origin[0].toFixed(0) + ", " + this.origin[1].toFixed(0) + ", " + this.origin[2].toFixed(0);                                                       
         user_interface_string_manager.string_map["cam_pos"] = "Cam Position: " + pos[0].toFixed(2) + ", " + pos[1].toFixed(2) + ", " + pos[2].toFixed(2);    // The below is affected by left hand rule:
         user_interface_string_manager.string_map["facing" ] = "Facing: "       + ( ( z_axis[0] > 0 ? "West " : "East ") + ( z_axis[1] > 0 ? "Down " : "Up " ) + ( z_axis[2] > 0 ? "North" : "South" ) );
