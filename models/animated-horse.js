@@ -2,6 +2,9 @@ Declare_Any_Class( "ModelHorse", {
   'getVil': function() {
     return 1970;
   },
+  'getYOffset': function() {
+    return -720;
+  },
   'getZOffset': function() {
     return -900;
   },

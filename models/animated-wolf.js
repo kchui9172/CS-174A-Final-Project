@@ -2,6 +2,9 @@ Declare_Any_Class( "ModelWolf", {
   'getVil': function() {
     return 1970;
   },
+  'getYOffset': function() {
+    return -100;
+  },
   'getModel': function() {
     return {
     "morphTargets": [

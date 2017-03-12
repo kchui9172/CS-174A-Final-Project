@@ -42,34 +42,34 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         var scene_manager2 = new Scene_Manager(scene_param);
         var scene_manager3 = new Scene_Manager(scene_param);
         this.last_t = 0;
-        scene_manager1.register_shape(shapes_in_use.model_horse, 'horse', 'horse1', vec3(-10, -12, -40), 1/60, 50, 4);
-        scene_manager1.register_shape(shapes_in_use.model_horse, 'horse', 'horse2', vec3(-10, -12, -20), 1/60, 50, 4);
-        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat1', vec3(20, -15, -20), 1/10, 30, 5);
-        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat2', vec3(20, -15, -40), 1/10, 30, 5);
-        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat3', vec3(-40, -15, 30), 1/10, 30, 5);
+        scene_manager1.register_shape(shapes_in_use.model_horse, 'horse', 'horse1', vec3(-10, 0, -40), 1/60, 50, 4);
+        scene_manager1.register_shape(shapes_in_use.model_horse, 'horse', 'horse2', vec3(-10, 0, -20), 1/60, 50, 4);
+        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat1', vec3(20, 0, -20), 1/10, 30, 5);
+        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat2', vec3(20, 0, -40), 1/10, 30, 5);
+        scene_manager1.register_shape(shapes_in_use.model_goat, 'goat', 'goat3', vec3(-40, 0, 30), 1/10, 30, 5);
         scene_manager1.register_shape(shapes_in_use.model_raven, 'raven', 'raven1', vec3(-20, 40, -40), 1/8, 30, 5, true);
         scene_manager1.register_shape(shapes_in_use.model_raven, 'raven', 'raven2', vec3(-10, 40, -40), 1/8, 30, 5, true);
         scene_manager1.register_shape(shapes_in_use.model_raven, 'raven', 'raven3', vec3(-30, 40, 40), 1/8, 30, 5, true);
         scene_manager1.register_shape(shapes_in_use.model_raven, 'raven', 'raven4', vec3(10, 40, -20), 1/8, 30, 5, true);
         scene_manager1.register_shape(shapes_in_use.model_raven, 'raven', 'raven5', vec3(-10, 40, -10), 1/8, 30, 5, true);
 
-        scene_manager2.register_shape(shapes_in_use.model_bear, 'bear', 'bear1', vec3(40, -14, 30), 1/60, 50, 1);
-        scene_manager2.register_shape(shapes_in_use.model_lion, 'lion', 'lion1', vec3(30, -12, 60), 1/70, 40, 4);
-        scene_manager2.register_shape(shapes_in_use.model_lion, 'lion', 'lion2', vec3(-30, -12, -60), 1/70, 40, 4);
+        scene_manager2.register_shape(shapes_in_use.model_bear, 'bear', 'bear1', vec3(40, 0, 30), 1/60, 50, 1);
+        scene_manager2.register_shape(shapes_in_use.model_lion, 'lion', 'lion1', vec3(30, 0, 60), 1/70, 40, 4);
+        scene_manager2.register_shape(shapes_in_use.model_lion, 'lion', 'lion2', vec3(-30, 0, -60), 1/70, 40, 4);
         scene_manager2.register_shape(shapes_in_use.model_parrot, 'parrot', 'parrot1', vec3(-10, 40, -60), 1/10, 10, 4, true);
         scene_manager2.register_shape(shapes_in_use.model_parrot, 'parrot', 'parrot2', vec3(40, 40, 50), 1/10, 10, 4, true);
         scene_manager2.register_shape(shapes_in_use.model_parrot, 'parrot', 'parrot3', vec3(0, 40, 10), 1/10, 10, 4, true);
-        scene_manager2.register_shape(shapes_in_use.model_wolf, 'wolf', 'wolf1', vec3(20, -10, -40), 1/10, 30, 5);
-        scene_manager2.register_shape(shapes_in_use.model_wolf, 'wolf', 'wolf2', vec3(-20, -10, 10), 1/10, 30, 5);
+        scene_manager2.register_shape(shapes_in_use.model_wolf, 'wolf', 'wolf1', vec3(20, 0, -40), 1/10, 30, 5);
+        scene_manager2.register_shape(shapes_in_use.model_wolf, 'wolf', 'wolf2', vec3(-20, 0, 10), 1/10, 30, 5);
 
         scene_manager3.register_shape(shapes_in_use.model_eagle, 'eagle', 'eagle1', vec3(-20, 40, -40), 1/100, 30, 4, true);
         scene_manager3.register_shape(shapes_in_use.model_eagle, 'eagle', 'eagle2', vec3(20, 40, -10), 1/100, 30, 4, true);
-        scene_manager3.register_shape(shapes_in_use.model_deer, 'deer', 'deer1', vec3(0, -12, 0), 1/15, 50, 5);
-        scene_manager3.register_shape(shapes_in_use.model_deer, 'deer', 'deer2', vec3(-30, -12, -10), 1/15, 50, 5);
-        scene_manager3.register_shape(shapes_in_use.model_deer, 'deer', 'deer3', vec3(10, -12, 10), 1/15, 50, 5);
-        scene_manager3.register_shape(shapes_in_use.model_deer, 'deer', 'deer4', vec3(40, -12, 0), 1/15, 50, 5);
-        scene_manager3.register_shape(shapes_in_use.model_fox, 'fox', 'fox1', vec3(10, -12, 80), 1/90, 20, 4);
-        scene_manager3.register_shape(shapes_in_use.model_fox, 'fox', 'fox2', vec3(-10, -12, 80), 1/90, 20, 4);
+        scene_manager3.register_shape(shapes_in_use.model_deer, 'deer', 'deer1', vec3(0, 0, 0), 1/15, 50, 5);
+        scene_manager3.register_shape(shapes_in_use.model_deer, 'deer', 'deer2', vec3(-30, 0, -10), 1/15, 50, 5);
+        scene_manager3.register_shape(shapes_in_use.model_deer, 'deer', 'deer3', vec3(10, 0, 10), 1/15, 50, 5);
+        scene_manager3.register_shape(shapes_in_use.model_deer, 'deer', 'deer4', vec3(40, 0, 0), 1/15, 50, 5);
+        scene_manager3.register_shape(shapes_in_use.model_fox, 'fox', 'fox1', vec3(10, 0, 80), 1/90, 20, 4);
+        scene_manager3.register_shape(shapes_in_use.model_fox, 'fox', 'fox2', vec3(-10, 0, 80), 1/90, 20, 4);
       
 
         this.scene_managers = [];

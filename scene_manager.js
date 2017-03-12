@@ -100,11 +100,13 @@ Declare_Any_Class( "Scene_Manager", {
         - 1 / Math.pow( ( this.x_max - thisObj.position[0] ), 2 ) 
         );
     result_force = add( result_force, scale_vec( force_x, vec3( 1, 0, 0 ) ) );
-    var force_y = this.repulsion_const * this.wall_weight 
-      * ( 1 / Math.pow( ( thisObj.position[1] - this.y_min ), 2 ) 
-        - 1 / Math.pow( ( this.y_max - thisObj.position[1] ), 2 ) 
-        );
-    result_force = add( result_force, scale_vec( force_y, vec3( 0, 1, 0 ) ) );
+    if( obj.y_axis_enabled ) {
+      var force_y = this.repulsion_const * this.wall_weight 
+        * ( 1 / Math.pow( ( thisObj.position[1] - this.y_min ), 2 ) 
+          - 1 / Math.pow( ( this.y_max - thisObj.position[1] ), 2 ) 
+          );
+      result_force = add( result_force, scale_vec( force_y, vec3( 0, 1, 0 ) ) );
+    }
     var force_z = this.repulsion_const * this.wall_weight 
       * ( 1 / Math.pow( ( thisObj.position[2] - this.z_min ), 2 ) 
         - 1 / Math.pow( ( this.z_max - thisObj.position[2] ), 2 ) 
@@ -113,6 +115,9 @@ Declare_Any_Class( "Scene_Manager", {
     thisObj.accel = scale_vec( 1/thisObj.weight, result_force ); 
   },
   'calc_velocity': function(obj, time_delta) {
+    if (!obj.accel[0] || !obj.accel[1] || !obj.accel[2]) {
+      return;
+    }
     obj.velocity = add( obj.velocity, scale_vec( time_delta * this.time_factor, obj.accel ) );
     if( ! obj.y_axis_enabled ) {
       obj.velocity[1] = 0;
