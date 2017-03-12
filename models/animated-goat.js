@@ -2,6 +2,9 @@ Declare_Any_Class( "ModelGoat", {
   'getVil': function() {
     return 1400;
   },
+  'getYOffset': function() {
+    return -150;
+  },
   'getModel': function() {
     return {
     "morphTargets": [

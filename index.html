@@ -1,5 +1,5 @@
-<!-- UCLA's Graphics Example Code (Javascript and C++ translations available), by Garett Ridge for CS174a.
-index.html - The web page document containing the canvas (drawing surface), that launches your javascript files, and hides the vertex and fragment shader programs in some strings. //-->
+<!-- Modified based on Garett Ridge's example code for CS 174a --> 
+
 <!DOCTYPE html>
 <html>
 <head>  <meta charset="UTF-8"/>
@@ -8,15 +8,11 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="example-displayables.js"  ></script>
   <script type="text/javascript" src="example-shapes.js"        ></script>
   <script type="text/javascript" src="example-shaders.js"       ></script>
-  <script type="text/javascript" src="surfaces-of-revolution.js"></script>
   <script type="text/javascript" src="environment_mapping.js"             ></script>
   <script type="text/javascript" src="rome_model_loader.js"     ></script>
   <script type="text/javascript" src="models/model-base.js"          ></script>
   <script type="text/javascript" src="models/animated-fox.js"          ></script>
   <script type="text/javascript" src="models/animated-bear.js"         ></script>
-  <script type="text/javascript" src="buffer-loader.js"          ></script>
-  <script type="text/javascript" src="sound.js"          ></script>
-  <script type="text/javascript" src="sound_manager.js"         ></script>
   <script type="text/javascript" src="models/animated-eagle.js"         ></script>
   <script type="text/javascript" src="models/animated-horse.js"         ></script>
   <script type="text/javascript" src="models/animated-lion.js"         ></script>
@@ -26,6 +22,9 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="models/animated-deer.js"         ></script>
   <script type="text/javascript" src="models/animated-raven.js"         ></script>
   <script type="text/javascript" src="scene_manager.js"         ></script>
+  <script type="text/javascript" src="buffer-loader.js"          ></script>
+  <script type="text/javascript" src="sound.js"          ></script>
+  <script type="text/javascript" src="sound_manager.js"         ></script>
   <script type="text/javascript"> "use strict"  
 
     window.onload = function init()           // ********************* OUR WHOLE PROGRAM'S ENTRY POINT ********************* 
@@ -33,9 +32,7 @@ index.html - The web page document containing the canvas (drawing surface), that
         var main_canvas = new Canvas_Manager( "gl-canvas", Color( 0, 0, 0, 1 ) ),    // Make the master canvas manager.  Set your background color here too
         g_state = main_canvas.shared_scratchpad.graphics_state;
             
-        shaders_in_use[ "Default"     ] = new Phong_or_Gouraud_Shader( g_state );    // Put all our shader programs in the GPU.
-                                                                                  // IMPORTANT: -- You have to include all your new images in here:
-        // Put all texture images in the GPU.
+        shaders_in_use[ "Default"] = new Phong_or_Gouraud_Shader( g_state );    // Put all our shader programs in the GPU.
 
         //PUSH ENVIRONMENT MAPPING TEXTURES
         texture_filenames_to_load.push("pics/negx1.jpg");
@@ -60,8 +57,8 @@ index.html - The web page document containing the canvas (drawing surface), that
         texture_filenames_to_load.push("pics/posy3.jpg");
         texture_filenames_to_load.push("pics/posz3.jpg");
 
-
-        texture_filenames_to_load.push("door.png");
+        //Load door texture
+        texture_filenames_to_load.push("pics/door.png");
 
         for( var i = 0; i < texture_filenames_to_load.length; i++ ) 
           textures_in_use[ texture_filenames_to_load[i] ] = ( new Texture( texture_filenames_to_load[i], false ) );
@@ -118,13 +115,16 @@ index.html - The web page document containing the canvas (drawing surface), that
     margin-right: auto;
     display: block;
   }
-  .instructions, .cameraLocation{
+  .instructions{
     color:white;
+  }
+  .cameraLocation{
+    color:white;
+    text-align: center;
   }
   .warningLoc {
     width: 200px;
     height:100px;
-/*    border: 1px solid Black;*/
     text-align: center;
     color: red;
     font-weight: bold;
@@ -133,28 +133,28 @@ index.html - The web page document containing the canvas (drawing surface), that
     top: 50%;
     left: 50%;
     margin-left:-70px;
-    margin-top:-50px;   
+    margin-top:-70px;   
 }
 </style>
 
 </head>
 
 <body>
-    <h1> CS 174A Final Project: Team 7 </h1>
-    <canvas id="gl-canvas" width="1000" height="600"></canvas>
+    <h1> Zootopia </h1>
 
     <div class = "instructions">
       <p>
         <h3>How to Navigate</h3>
         <ul>
         <li> w a s d: fly camera aroudn scene in plane along ground
-        <li> spcae and z: float up and down respectively
+        <li> space and z: float up and down respectively
         <li> r : reset camera and vantage point back to origin
         <li> arrow keys: adjust angle of camera
         <li>To move into the next world, move to the door. Your camera position must be between x = [-50,-40] y = [0,7] z = [-90,-80]. 
-        <li>The t key displays the camera's position.
       </p>
     </div>
+
+    <canvas id="gl-canvas" width="1000" height="600"></canvas>
 
     <div class= "warningLoc">
       <p id ="warning"></p>
@@ -162,7 +162,7 @@ index.html - The web page document containing the canvas (drawing surface), that
 
     <div class="cameraLocation">
       <h3> Camera Position </h3>
-        <li><p id ="cameraPos"></p></li>
+        <p id ="cameraPos"></p>
       </p>
     </div>
 </body>

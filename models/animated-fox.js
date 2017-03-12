@@ -2,6 +2,9 @@ Declare_Any_Class( "ModelFox", {
   'getVil': function() {
     return 1970;
   },
+  'getYOffset': function() {
+    return -1080;
+  },
   'getZOffset': function() {
     return -200;
   },

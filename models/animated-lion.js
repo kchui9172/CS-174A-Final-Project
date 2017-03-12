@@ -2,6 +2,9 @@ Declare_Any_Class( "ModelLion", {
   'getVil': function() {
     return 1970;
   },
+  'getYOffset': function() {
+    return -840;
+  },
   'getZOffset': function() {
     return -500;
   },
