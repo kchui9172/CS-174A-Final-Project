@@ -11,18 +11,20 @@ Declare_Any_Class( "ModelBase", {
     var cols = model_loaded.col1;
     var fi = model_loaded.fi;
 
+    var yOff = this.getYOffset();
+
     for (var i = 0; i < morph - 1; i++) {
       for (var j = 0; j < vil * 3; j+=3) {
-        this.positions.push(vec3(p1[i][j], p1[i][j+1], p1[i][j+2]));
-        this.positions2.push(vec3(p1[i+1][j], p1[i+1][j+1], p1[i+1][j+2]));
+        this.positions.push(vec3(p1[i][j], p1[i][j+1] + yOff, p1[i][j+2]));
+        this.positions2.push(vec3(p1[i+1][j], p1[i+1][j+1] + yOff, p1[i+1][j+2]));
         this.normals.push(vec3(norms[i][j], norms[i][j+1], norms[i][j+2]));
         this.normals2.push(vec3(norms[i+1][j], norms[i+1][j+1], norms[i+1][j+2]));
         this.colors.push(vec4(cols[j], cols[j+1], cols[j+2], 1));
       }
     }
     for (var j = 0; j < vil * 3; j+=3) {
-      this.positions.push(vec3(p1[morph - 1][j], p1[morph - 1][j+1], p1[morph - 1][j+2]));
-      this.positions2.push(vec3(p1[0][j], p1[0][j+1], p1[0][j+2]));
+      this.positions.push(vec3(p1[morph - 1][j], p1[morph - 1][j+1] + yOff, p1[morph - 1][j+2]));
+      this.positions2.push(vec3(p1[0][j], p1[0][j+1] + yOff, p1[0][j+2]));
       this.normals.push(vec3(norms[morph - 1][j], norms[morph - 1][j+1], norms[morph - 1][j+2]));
       this.normals2.push(vec3(norms[0][j], norms[0][j+1], norms[0][j+2]));
       this.colors.push(vec4(cols[j], cols[j+1], cols[j+2], 1));
@@ -61,6 +63,9 @@ Declare_Any_Class( "ModelBase", {
     return 0;
   },
   'getZOffset': function() {
+    return 0;
+  },
+  'getYOffset': function() {
     return 0;
   },
   'getModel': function() {

@@ -2,6 +2,9 @@ Declare_Any_Class( "ModelDeer", {
   'getVil': function() {
     return 1970;
   },
+  'getYOffset': function() {
+    return -180;
+  },
   'getModel': function() {
     return {
     "morphTargets": [
