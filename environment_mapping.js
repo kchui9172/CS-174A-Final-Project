@@ -77,11 +77,9 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         this.scene_managers.push(scene_manager2);
         this.scene_managers.push(scene_manager3);
 
-        var sound_manager = new Sound_Manager();
+        this.sound_manager = new Sound_Manager();
 
         this.last_scene = 0;
-
-        playAllSound(this.shared_scratchpad);
 
       },
     'update_strings': function( user_interface_string_manager )       // Strings that this displayable object (Animation) contributes to the UI:
@@ -143,19 +141,18 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         for (obj of objs) {
           obj.shape.set_step(obj.animation_step);
           obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
-          processSound(obj.type, cam, obj.transform, this.sound_manager, this.shared_scratchpad.soundContext);
+          processSound(obj.type, cam, obj.transform, this.sound_manager);
         }
+
+        adjustGain(this.sound_manager, this.shared_scratchpad);
         this.last_t = t;
 
         if (this.last_scene != scene) {
             this.last_scene = scene;
-            if (this.last_background_sound != null) {
-                this.last_background_sound.stop();    
-            } else {
-                this.shared_scratchpad.soundBuffer.initial_background.stop();
-            }
-
-            this.last_background_sound = playSound(this.shared_scratchpad.soundContext, this.shared_scratchpad.soundBuffer.bufferList, scene);
+            this.shared_scratchpad.soundBuffer.class_sound_gain[0] = 0;
+            this.shared_scratchpad.soundBuffer.class_sound_gain[1] = 0;
+            this.shared_scratchpad.soundBuffer.class_sound_gain[2] = 0;
+            this.shared_scratchpad.soundBuffer.class_sound_gain[scene] = 1;
         }
         
       }

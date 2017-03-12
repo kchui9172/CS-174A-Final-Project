@@ -18,12 +18,12 @@ Declare_Any_Class( "Sound_Manager", {
     this.class_index_map['deer'] = 11;
     this.class_index_map['raven'] = 12;
 
-    this.num_sounds_class = 13;             // Number of sounds class in the list
+    this.num_sound_class = 13;             // Number of sounds class in the list
 
-    this.class_sound_gain[num_sounds_class];
+    this.class_sound_count = [];
 
-    for (var i = 0; i < num_sounds_class; i++) {     // Initialize the sound play and play time arrays
-      this.class_sound_gain[i] = null;
+    for (var i = 0; i < this.num_sound_class; i++) {     // Initialize the sound play and play time arrays
+      this.class_sound_count.push(0);
     }
 
   },

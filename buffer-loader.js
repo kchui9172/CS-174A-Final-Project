@@ -4,7 +4,7 @@ function BufferLoader(context, urlList, callback) {
   this.onload = callback;
   this.bufferList = new Array();
   this.loadCount = 0;
-  this.initial_background = null;
+  this.class_sound_gain = [];
 }
 
 BufferLoader.prototype.loadBuffer = function(url, index) {
@@ -26,8 +26,11 @@ BufferLoader.prototype.loadBuffer = function(url, index) {
         }
         loader.bufferList[index] = buffer;
         if (++loader.loadCount == loader.urlList.length) {
-          loader.initial_background = loader.onload(loader.context, loader.bufferList, 0);
-          loader.initial_background.gain.value = 1;
+          for (var i = 0; i < loader.loadCount; i++) {
+            loader.class_sound_gain.push(loader.onload(loader.context, loader.bufferList, i));
+            loader.class_sound_gain[i].gain.value = 0;
+          }
+          loader.class_sound_gain[0].gain.value = 1;
         }
       },
       function(error) {
