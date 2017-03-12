@@ -85,6 +85,9 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         this.sound_managers.push(sound_manager2);
         this.sound_managers.push(sound_manager3);
 
+        this.last_scene = 0;
+        this.last_background_sound = null;
+
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
@@ -153,10 +156,20 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         for (obj of objs) {
           obj.shape.set_step(obj.animation_step);
           obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
-          processSound(obj.type, obj.id, t, cam, obj.transform, this.sound_managers[scene], this.shared_scratchpad.soundBuffer, this.shared_scratchpad.soundContext);
+          processSound(obj.type, obj.id, cam, obj.transform, this.sound_managers[scene], this.shared_scratchpad.soundBuffer, this.shared_scratchpad.soundContext);
         }
         this.last_t = t;
 
-        playSound(this.shared_scratchpad.soundContext, this.shared_scratchpad.soundBuffer.bufferList, 0);
+        if (this.last_scene != scene) {
+            this.last_scene = scene;
+            if (this.last_background_sound != null) {
+                this.last_background_sound.stop();    
+            } else {
+                this.shared_scratchpad.soundBuffer.initial_background.stop();
+            }
+
+            this.last_background_sound = playSound(this.shared_scratchpad.soundContext, this.shared_scratchpad.soundBuffer.bufferList, scene);
+        }
+        
       }
   }, Animation );

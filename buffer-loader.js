@@ -4,6 +4,7 @@ function BufferLoader(context, urlList, callback) {
   this.onload = callback;
   this.bufferList = new Array();
   this.loadCount = 0;
+  this.initial_background = null;
 }
 
 BufferLoader.prototype.loadBuffer = function(url, index) {
@@ -25,7 +26,7 @@ BufferLoader.prototype.loadBuffer = function(url, index) {
         }
         loader.bufferList[index] = buffer;
         if (++loader.loadCount == loader.urlList.length) {
-          loader.onload(loader.context, loader.bufferList, 1);
+          loader.initial_background = loader.onload(loader.context, loader.bufferList, 0);
         }
       },
       function(error) {
