@@ -8,9 +8,6 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
       { // 1st parameter below is our starting camera matrix.  2nd is the projection:  The matrix that determines how depth is treated.  It projects 3D points onto a plane.
         context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0, 0), perspective(90, canvas.width/canvas.height, .1, 1000), 0 );
         this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 0, 0 ), looking: false, scratchPad: context.shared_scratchpad, rotationMatrix: mat4() } );
-
-        console.log("camera transform:",this.graphics_state.camera_transform);
-        console.log("rotation matrix:", this.rotationMatrix);
       },
     'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
       {
@@ -89,7 +86,6 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
         controls.add( "down",     this, function() { console.log("down"); this.graphics_state.camera_transform = mult( rotation( 1, 1, 0, 0 ), this.graphics_state.camera_transform ); this.rotationMatrix = mult(rotation(1,1,0,0), this.rotationMatrix);} );
 
       },
-      //left = -1, right = 1, up = 2, down = -2, in = 3, out= -3
 
     'check_bounds' : function(dir){
       console.log("checking bounds");

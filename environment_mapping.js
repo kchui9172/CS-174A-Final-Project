@@ -128,10 +128,8 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         var C_inv = inverse(this.graphics_state.camera_transform);
         var cam = mult_vec(C_inv, vec4(0,0,0,1));
 
-        var doorMaterial = new Material( Color (0,0,0,1), 1,0,0,0, "door.png");
-
         //draw door
-        var doorMaterial = new Material( Color (0,0,0,1), 1,0,0,0, "door.png");
+        var doorMaterial = new Material( Color (0,0,0,1), 1,0,0,0, "pics/door.png");
         model_transform = mat4();
         model_transform = mult( mult( model_transform, translation( -45, 0, -90 ) ), scale(10,20,.2));
         shapes_in_use.door.draw(this.graphics_state, model_transform, doorMaterial);
