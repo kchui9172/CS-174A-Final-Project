@@ -177,15 +177,17 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         //Draw animals
 
         var scene = this.shared_scratchpad.worldNum - 1;
+        var cam_blocker = {position: vec3(cam[0], cam[1], cam[2]), weight: 50};
+        this.scene_managers[scene].set_blockers([cam_blocker]);
         this.scene_managers[scene].elaps_time( t - this.last_t );
         var objs = this.scene_managers[scene].get_shape_transforms();
         for (obj of objs) {
           obj.shape.set_step(obj.animation_step);
           obj.shape.draw( this.graphics_state, obj.transform, purplePlastic );
+          processSound(obj.type, obj.id, t, cam, obj.transform, this.sound_managers[scene], this.shared_scratchpad.soundBuffer, this.shared_scratchpad.soundContext);
         }
-        processSound(obj.type, obj.id, t, cam, obj.transform, this.sound_managers[scene], this.shared_scratchpad.soundBuffer, this.shared_scratchpad.soundContext);
         this.last_t = t;
 
-        this.shared_scratchpad.soundBuffer.onload(this.shared_scratchpad.soundContext, this.shared_scratchpad.soundBuffer, 0);
+        playSound(this.shared_scratchpad.soundContext, this.shared_scratchpad.soundBuffer.bufferList, 0);
       }
   }, Animation );
