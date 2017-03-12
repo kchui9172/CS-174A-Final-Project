@@ -9,8 +9,6 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
         context.shared_scratchpad.graphics_state = new Graphics_State( translation(0, 0, 0), perspective(90, canvas.width/canvas.height, .1, 1000), 0 );
         this.define_data_members( { graphics_state: context.shared_scratchpad.graphics_state, thrust: vec3(), origin: vec3( 0, 0, 0 ), looking: false, scratchPad: context.shared_scratchpad, rotationMatrix: mat4() } );
 
-        // *** Mouse controls: ***
-        // this.mouse = { "from_center": vec2() };
         console.log("camera transform:",this.graphics_state.camera_transform);
         console.log("rotation matrix:", this.rotationMatrix);
       },
@@ -119,7 +117,7 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
       console.log("pos:" , pos);
 
       //if new position is out of range, don't move (return false)
-      if (pos[0] > 80 || pos[0] < -80 || pos[1] < 0 || pos[1] > 70 || pos[2] < -90 || pos[2] > 90){
+      if (pos[0] > 70 || pos[0] < -70 || pos[1] < 0 || pos[1] > 70 || pos[2] < -89 || pos[2] > 90){
         console.log("can't leave cube");
         document.getElementById("warning").innerHTML = "Can't move in that direction or else will leave world!";
         return false;
@@ -147,9 +145,7 @@ Declare_Any_Class( "Example_Camera",     // An example of a displayable object t
     'display': function( time )
       { 
         if (this.scratchPad.cameraPos[2] <= -80 && this.scratchPad.cameraPos[0] <= -40 && this.scratchPad.cameraPos[0] >= -50 && this.scratchPad.cameraPos[1] <= 7 && this.scratchPad.cameraPos[1] >= 0){
-          console.log("changing worlds");
           this.scratchPad.worldNum = (this.scratchPad.worldNum % 3) + 1;
-          console.log(this.scratchPad.worldNum);
           this.scratchPad.cameraPos = [0,0,0,1];
           this.graphics_state.camera_transform = mat4();
         }

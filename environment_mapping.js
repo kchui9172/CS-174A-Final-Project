@@ -89,12 +89,6 @@ Declare_Any_Class( "Environment_Mapping",  // An example of a displayable object
         this.last_background_sound = null;
 
       },
-    'init_keys': function( controls )   // init_keys():  Define any extra keyboard shortcuts here
-      {
-        //controls.add( "ALT+g", this, function() { this.shared_scratchpad.graphics_state.gouraud       ^= 1; } );   // Make the keyboard toggle some
-        //controls.add( "ALT+n", this, function() { this.shared_scratchpad.graphics_state.color_normals ^= 1; } );   // GPU flags on and off.
-        controls.add( "ALT+a", this, function() { this.shared_scratchpad.animate                      ^= 1; } );
-      },
     'update_strings': function( user_interface_string_manager )       // Strings that this displayable object (Animation) contributes to the UI:
       {
         user_interface_string_manager.string_map["time"]    = "Animation Time: " + Math.round( this.shared_scratchpad.graphics_state.animation_time )/1000 + "s";

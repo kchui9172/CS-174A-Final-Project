@@ -8,7 +8,7 @@ index.html - The web page document containing the canvas (drawing surface), that
   <script type="text/javascript" src="example-displayables.js"  ></script>
   <script type="text/javascript" src="example-shapes.js"        ></script>
   <script type="text/javascript" src="example-shaders.js"       ></script>
-  <script type="text/javascript" src="surfaces-of-revolution.js"></script>
+  <!--<script type="text/javascript" src="surfaces-of-revolution.js"></script>-->
   <script type="text/javascript" src="environment_mapping.js"             ></script>
   <script type="text/javascript" src="rome_model_loader.js"     ></script>
   <script type="text/javascript" src="models/model-base.js"          ></script>
@@ -85,8 +85,8 @@ index.html - The web page document containing the canvas (drawing surface), that
           'Sounds/eagle.wav',
           'Sounds/horse.wav',
           'Sounds/bear.wav',
-          'Sounds/parrot.wav',
-          'Sounds/start.wav'
+          'Sounds/parrot.wav'
+          //'Sounds/start.wav'
         ],
         playSound                            // play the background sound
         );
@@ -119,13 +119,16 @@ index.html - The web page document containing the canvas (drawing surface), that
     margin-right: auto;
     display: block;
   }
-  .instructions, .cameraLocation{
+  .instructions{
     color:white;
+  }
+  .cameraLocation{
+    color:white;
+    text-align: center;
   }
   .warningLoc {
     width: 200px;
     height:100px;
-/*    border: 1px solid Black;*/
     text-align: center;
     color: red;
     font-weight: bold;
@@ -134,7 +137,7 @@ index.html - The web page document containing the canvas (drawing surface), that
     top: 50%;
     left: 50%;
     margin-left:-70px;
-    margin-top:-50px;   
+    margin-top:-70px;   
 }
 </style>
 
@@ -142,7 +145,6 @@ index.html - The web page document containing the canvas (drawing surface), that
 
 <body>
     <h1> CS 174A Final Project: Team 7 </h1>
-    <canvas id="gl-canvas" width="1000" height="600"></canvas>
 
     <div class = "instructions">
       <p>
@@ -153,9 +155,10 @@ index.html - The web page document containing the canvas (drawing surface), that
         <li> r : reset camera and vantage point back to origin
         <li> arrow keys: adjust angle of camera
         <li>To move into the next world, move to the door. Your camera position must be between x = [-50,-40] y = [0,7] z = [-90,-80]. 
-        <li>The t key displays the camera's position.
       </p>
     </div>
+
+    <canvas id="gl-canvas" width="1000" height="600"></canvas>
 
     <div class= "warningLoc">
       <p id ="warning"></p>
