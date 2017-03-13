@@ -2,7 +2,7 @@
 
 CS 174a Final Project: Team 7
 Authors:  Kristen Chui - kwchui@g.ucla.edu
-          Libin Bai
+          Libin Bai - billybai1104@gmail.com
           Mushi Zhou - zmushi@ucla.edu
 
 # Introduction
