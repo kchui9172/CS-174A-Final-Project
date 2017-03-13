@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>  <meta charset="UTF-8"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="MV.js"                         ></script> 
   <script type="text/javascript" src="tinywebgl-ucla.js"             ></script>
   <script type="text/javascript" src="displayables.js"               ></script>
@@ -26,6 +29,7 @@
   <script type="text/javascript" src="sound_utilities.js"            ></script>
   <script type="text/javascript" src="sound_manager.js"              ></script>
   <script type="text/javascript"> "use strict"  
+
 
     window.onload = function init()           // ********************* OUR WHOLE PROGRAM'S ENTRY POINT ********************* 
       {	
@@ -102,63 +106,112 @@
       })();
   </script>
 
+  <!-- CSS Style for page --> 
   <style>
-  body{
-    background-color: black;
-  }
-  h1{
-    color: white;
-    text-align: center;
-  }
-  h3{
-    color: white;
-    text-align: center;
-  }
-  canvas{
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-  }
-  .instructions{
-    color:white;
-  }
-  .cameraLocation{
-    color:white;
-    text-align: center;
-  }
-  .warningLoc {
-    width: 200px;
-    height:100px;
-    text-align: center;
-    color: red;
-    font-weight: bold;
-    font-size: 150%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left:-70px;
-    margin-top:-70px;   
-}
-</style>
+    body{
+      background-color: black;
+    }
+    h1,h3,h4{
+      color: white;
+      text-align: center;
+    }
+
+    canvas{
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+    .cameraLocation{
+      color:white;
+      text-align: center;
+    }
+    .warningLoc {
+      width: 200px;
+      height:100px;
+      text-align: center;
+      color: red;
+      font-weight: bold;
+      font-size: 150%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left:-70px;
+      margin-top:-70px;   
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+  </style>
 
 </head>
 
 <body>
     <h1> Zootopia </h1>
-    <h3> By Kristen Chui, Libin Bai, Mushi Zhou <br/> CS174 Winter 2017 UCLA </h3> 
-    <div class = "instructions">
-      <p>
-        <h2>How to Navigate</h2>
-        <ul>
-        <li> W A S D: fly camera aroudn scene in plane along ground
-        <li> SPACE and Z: float up and down respectively
-        <li> R : reset camera and vantage point back to origin
-        <li> Arrow keys: adjust angle of camera
-        <li>To move into the next world, move to the door. Your camera position must be between x = [-50,-40] y = [0,7] z = [-90,-80]. 
-      </p>
+    <h4> By Kristen Chui, Libin Bai, Mushi Zhou <br/> CS174 Winter 2017 UCLA </h4> 
+
+    <!-- Trigger/Open The Modal -->
+    <div id="button">
+        <button type="button" class="btn btn-info" id="instructionButton" style="display:block;margin: 0 auto;">Instructions</button>
     </div>
+
+    <!-- The Modal -->
+    <div id="instructionModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+         <p>
+          <h2>How to Navigate</h2>
+          <ul>
+          <li> W A S D: fly camera aroudn scene in plane along ground
+          <li> SPACE and Z: float up and down respectively
+          <li> R : reset camera and vantage point back to origin
+          <li> Arrow keys: adjust angle of camera
+          <li>To move into the next world, move to the door. Your camera position must be between x = [-50,-40] y = [0,7] z = [-90,-80]. 
+        </p>
+      </div>
+
+    </div>
+    <br/>
 
     <canvas id="gl-canvas" width="1000" height="600"></canvas>
 
@@ -169,7 +222,37 @@
     <div class="cameraLocation">
       <h3> Camera Position </h3>
         <p id ="cameraPos"></p>
-      </p>
     </div>
+
+  <!-- Code to open modal with navigation instructions -->
+  <script>
+    // Get the modal
+    var modal = document.getElementById('instructionModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("instructionButton");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+  </script>
+
 </body>
+
 </html>

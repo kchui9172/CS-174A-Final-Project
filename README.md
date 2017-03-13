@@ -1,9 +1,9 @@
 # Zootopia
 
 CS 174a Final Project: Team 7
-Authors:  Kristen Chui
+Authors:  Kristen Chui - kwchui@g.ucla.edu
           Libin Bai
-          Mushi Zhou  zmushi@ucla.edu
+          Mushi Zhou - zmushi@ucla.edu
 
 # Introduction
 The primary idea of our project was to simulate a virtual walk-around of a 3D world filled with animals complete with features such as environment mapping, sound, collision avoidance, modeling and animation. These topics will be discussed in further detail below. The user takes on the viewpoint of the camera and can manipulate the viewing position using w,a,s,d and the arrow keys to observe the surroundings. Moving through the door will transport the user into a new environment with different animals and sounds.
